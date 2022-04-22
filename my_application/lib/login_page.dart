@@ -4,6 +4,9 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dash/dashboard.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key, this.title}) : super(key: key);
+
+  final String? title;
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -19,21 +22,17 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('CPMS Login'),
-        centerTitle: true,
-      ),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Form(
           key: formKey,
           child: Column(children: [
-            Text('Welcome',
+            const Text('Welcome',
                 style: TextStyle(
                     color: Colors.purple,
                     fontSize: 25,
                     fontWeight: FontWeight.bold)),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             TextFormField(
@@ -44,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
                 return null;
               },
               controller: usernameCntrlr, //detects the controller
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   icon: Icon(
                     Icons.person,
                     color: Colors.blue,
@@ -54,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.purple,
                   )),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             TextFormField(
@@ -71,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
               //enabled: false,
               //obscuringCharacter: '#',
               // keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   icon: Icon(
                     Icons.lock,
                     color: Colors.green,
@@ -81,7 +80,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.purple,
                   )),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             RaisedButton(
@@ -102,14 +101,16 @@ class _LoginPageState extends State<LoginPage> {
                   } else {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Dashboard()),
+                      MaterialPageRoute(builder: (context) => Dashboard(formKey)),
                     );
                   }
                 } else {
-                  print("Form is not proper");
+                  Alert(context: context,
+                            title: "Login Failed",
+                            desc: "invalid Attempt.").show();
                 }
               },
-              child: Text(
+              child: const Text(
                 'Submit',
                 style: TextStyle(color: Colors.white),
               ),

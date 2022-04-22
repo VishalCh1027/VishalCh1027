@@ -6,9 +6,11 @@ import '../navigator/Projects.dart';
 import '../navigator/Attendance.dart';
 
 class MainDrawer extends StatelessWidget {
+  const MainDrawer(Key? key) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Drawer(
+    return Drawer( 
       child: Column(
         children: <Widget>[
           Container(

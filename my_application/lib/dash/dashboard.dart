@@ -4,11 +4,12 @@ import './main_drawer.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class Dashboard extends StatelessWidget {
+  const Dashboard(Key? key) : super(key: key);
   Material myprojects(IconData icon, String heading, int color) {
     return Material(
       color: Colors.white,
       elevation: 14.0,
-      shadowColor: Color(0x802196F3),
+      shadowColor: const Color(0x802196F3),
       borderRadius: BorderRadius.circular(24.0),
       child: Center(
           child: Padding(
@@ -25,7 +26,7 @@ class Dashboard extends StatelessWidget {
                     child: Text(
                       heading,
                       style: TextStyle(
-                        color: new Color(color),
+                        color: Color(color),
                         fontSize: 20.0,
                       ),
                     ),
@@ -43,14 +44,14 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome to Dashboard'),
+        title: const Text('Welcome to Dashboard'),
       ),
-      drawer: MainDrawer(),
+      drawer: MainDrawer(key),
       body: StaggeredGridView.count(
         crossAxisCount: 2,
         crossAxisSpacing: 12.0,
         mainAxisSpacing: 12.0,
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         children: <Widget>[
           myprojects(Icons.notification_add, "Sai", 0xffed622b),
           myprojects(Icons.notification_add, "Sai", 0xffed622b),

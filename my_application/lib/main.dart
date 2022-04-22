@@ -3,8 +3,8 @@ import 'login_page.dart';
 //import 'dashboard.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     title: 'Login app',
-    home: LoginPage(),
+    home:  LoginPage(),
   ));
 }

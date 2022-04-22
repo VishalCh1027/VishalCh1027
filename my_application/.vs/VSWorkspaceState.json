@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\android",
+    "\\ios",
+    "\\lib",
+    "\\test",
+    "\\web",
+    "\\windows",
+    "\\windows\\flutter",
+    "\\windows\\runner"
+  ],
+  "PreviewInSolutionExplorer": false
+}
