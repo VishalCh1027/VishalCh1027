@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_application/login_page.dart';
 import 'package:my_application/navigator/Profile_Details.dart';
 import 'package:my_application/navigator/Projects.dart';
 import '../navigator/Profile_Details.dart';
@@ -23,24 +24,24 @@ class MainDrawer extends StatelessWidget {
                 Container(
                   width: 100,
                   height: 100,
-                  margin: EdgeInsets.only(
+                  margin: const EdgeInsets.only(
                     top: 30,
                     bottom: 10,
                   ),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
                         image: NetworkImage(''), fit: BoxFit.fill),
                   ),
                 ),
-                Text(
+                const Text(
                   'Saikiran Kasturi',
                   style: TextStyle(
                     fontSize: 22,
                     color: Colors.white,
                   ),
                 ),
-                Text(
+                const Text(
                   'saikiran.kasturi1@gmail.com',
                   style: TextStyle(
                     color: Colors.white,
@@ -50,8 +51,8 @@ class MainDrawer extends StatelessWidget {
             )),
           ),
           ListTile(
-            leading: Icon(Icons.person),
-            title: Text(
+            leading: const Icon(Icons.person),
+            title: const Text(
               'Profile',
               style: TextStyle(
                 fontSize: 18,
@@ -63,8 +64,8 @@ class MainDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.person),
-            title: Text(
+            leading: const Icon(Icons.person),
+            title: const Text(
               'Attendance',
               style: TextStyle(
                 fontSize: 18,
@@ -76,8 +77,8 @@ class MainDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.person),
-            title: Text(
+            leading: const Icon(Icons.person),
+            title: const Text(
               'Project',
               style: TextStyle(
                 fontSize: 18,
@@ -89,14 +90,17 @@ class MainDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.arrow_back),
-            title: Text(
+            leading: const Icon(Icons.arrow_back),
+            title: const Text(
               'Logout',
               style: TextStyle(
                 fontSize: 18,
               ),
             ),
-            onTap: null,
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: ((context) => LoginPage(key: key))));
+            },
           ),
         ],
       ),
