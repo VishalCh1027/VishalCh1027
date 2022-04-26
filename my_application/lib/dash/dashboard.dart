@@ -4,7 +4,7 @@ import './main_drawer.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class Dashboard extends StatelessWidget {
-  const Dashboard(Key? key) : super(key: key);
+  var projects = ["new ","Test project","Mumbai","ABC"];
   Material myprojects(IconData icon, String heading, int color) {
     return Material(
       color: Colors.white,
@@ -46,7 +46,7 @@ class Dashboard extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Welcome to Dashboard'),
       ),
-      drawer: MainDrawer(key),
+      drawer: MainDrawer(key,projects),
       body: StaggeredGridView.count(
         crossAxisCount: 2,
         crossAxisSpacing: 12.0,

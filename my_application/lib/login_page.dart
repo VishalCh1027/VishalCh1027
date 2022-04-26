@@ -4,7 +4,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'dash/dashboard.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key, this.title}) : super(key: key);
+  const LoginPage({Key? key, this.title}) ;
 
   final String? title;
   @override
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                   } else {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Dashboard(formKey)),
+                      MaterialPageRoute(builder: (context) => Dashboard()),
                     );
                   }
                 } else {
