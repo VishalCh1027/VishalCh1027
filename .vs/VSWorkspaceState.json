@@ -1,9 +1,14 @@
 {
   "ExpandedNodes": [
     "",
-    "\\my_application",
-    "\\my_application\\lib"
+    "\\android",
+    "\\ios",
+    "\\lib",
+    "\\test",
+    "\\web",
+    "\\windows",
+    "\\windows\\flutter",
+    "\\windows\\runner"
   ],
-  "SelectedNode": "\\my_application\\lib\\login_page.dart",
   "PreviewInSolutionExplorer": false
 }

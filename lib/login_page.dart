@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_application/dash/dashboard.dart';
+import 'package:my_application/ui/screens/dashboard.dart';
+import 'package:my_application/ui/screens/homepage.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'dash/dashboard.dart';
+import 'ui/screens/dashboard.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key, this.title}) ;
+  LoginPage({Key? key, this.title});
 
   final String? title;
   @override
@@ -22,18 +23,26 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
+        body: SafeArea(
+            child: Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.lightGreen[50],
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+        ),
+        width: 300.0,
+        height: 270.0,
+        padding: const EdgeInsets.all(15.0),
         child: Form(
           key: formKey,
           child: Column(children: [
-            const Text('Welcome',
+            const Text('Login',
                 style: TextStyle(
                     color: Colors.purple,
                     fontSize: 25,
                     fontWeight: FontWeight.bold)),
             const SizedBox(
-              height: 30,
+              height: 5,
             ),
             TextFormField(
               validator: (value) {
@@ -54,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                   )),
             ),
             const SizedBox(
-              height: 30,
+              height: 5,
             ),
             TextFormField(
               validator: (value) {
@@ -81,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                   )),
             ),
             const SizedBox(
-              height: 30,
+              height: 13,
             ),
             RaisedButton(
               onPressed: () {
@@ -101,13 +110,15 @@ class _LoginPageState extends State<LoginPage> {
                   } else {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Dashboard()),
+                      MaterialPageRoute(builder: (context) => HomePage()),
                     );
                   }
                 } else {
-                  Alert(context: context,
-                            title: "Login Failed",
-                            desc: "invalid Attempt.").show();
+                  Alert(
+                          context: context,
+                          title: "Login Failed",
+                          desc: "invalid Attempt.")
+                      .show();
                 }
               },
               child: const Text(
@@ -119,6 +130,6 @@ class _LoginPageState extends State<LoginPage> {
           ]),
         ),
       ),
-    );
+    )));
   }
 }
