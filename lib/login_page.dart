@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_application/ui/screens/dashboard.dart';
+import 'package:my_application/ui/screens/home_screen.dart';
 import 'package:my_application/ui/screens/homepage.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'ui/screens/dashboard.dart';
@@ -110,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                   } else {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
+                      MaterialPageRoute(builder: (context) => AppHomeScreen()),
                     );
                   }
                 } else {

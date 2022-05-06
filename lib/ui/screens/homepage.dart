@@ -6,6 +6,7 @@ import 'package:my_application/ui/screens/Projects.dart';
 import 'package:my_application/ui/screens/Purchase.dart';
 import 'package:my_application/ui/screens/attendance.dart';
 import 'package:my_application/ui/screens/dashboard.dart';
+import 'package:my_application/ui/screens/selectProject.dart';
 
 import '../widgets/account_icon.dart';
 import 'Profile_Details.dart';
@@ -19,16 +20,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   var projects = ["new ", "Test project", "Mumbai", "ABC", "Maharashtra Area"];
-  int _selectedIndex = 3;
+  int _selectedIndex = 2;
+  PageController _pageController = PageController();
 
-  PageController pageController = PageController();
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(initialPage: _selectedIndex);
+  }
 
   void onTap(int index) {
     setState(() {
       _selectedIndex = index;
     });
-
-    pageController.jumpToPage(index);
+    _pageController.jumpToPage(index);
   }
 
   @override
@@ -76,24 +81,33 @@ class _HomePage extends State<HomePage> {
                 label: 'Menu')
           ],
         ),
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          title: Text(
-            "APP Icon",
-            style: TextStyle(color: Colors.black),
-          ),
-          actions: [
-            AccountIcon(),
-          ],
-        ),
+        appBar: _selectedIndex == 2
+            ? AppBar(
+                automaticallyImplyLeading: false,
+                title: Text(
+                  "APP Icon",
+                  style: TextStyle(color: kPrimaryColor),
+                ),
+                backgroundColor: primaryColor,
+                actions: [
+                  AccountIcon(),
+                ],
+              )
+            : null,
         body: PageView(
-          controller: pageController,
+          onPageChanged: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          controller: _pageController,
           children: [
-            Projects(),
-            AttendancePage(project: projects[1]),
+            Purchases(),
+            SelectProject(
+              projects: projects,
+            ),
             Dashboard(),
-            Purchase(),
+            Projects(),
             Details(),
           ],
         ));

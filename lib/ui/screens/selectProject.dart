@@ -12,10 +12,12 @@ class SelectProject extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text(
             "Select Project",
             style: pageTitle,
           ),
+          backgroundColor: kCaptionColor,
         ),
         body: ListView.builder(
             itemCount: projects.length,

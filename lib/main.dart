@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_application/app_theme.dart';
 import 'package:my_application/constatnts.dart';
 import 'login_page.dart';
 //import 'dashboard.dart';
@@ -17,25 +18,32 @@ class MyApp extends StatelessWidget {
       builder: (_) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: "Flutter CPMS UI",
-          themeMode: ThemeMode.dark,
-          darkTheme: ThemeData(
+          title: "CPMS UI",
+          themeMode: ThemeMode.system,
+          theme: ThemeData(
             visualDensity: VisualDensity.adaptivePlatformDensity,
-            textTheme: GoogleFonts.poppinsTextTheme().copyWith(
-              caption: TextStyle(
-                color: kCaptionColor,
-                fontSize: 16.0,
-              ),
-            ),
-            scaffoldBackgroundColor: kPrimaryColor,
+            textTheme: AppTheme.textTheme,
+            scaffoldBackgroundColor: bgColor,
             appBarTheme: AppBarTheme(
               elevation: 0.0,
-              color: kPrimaryColor,
+              color: primaryColor,
             ),
           ),
           home: LoginPage(),
         );
       },
     );
+  }
+}
+
+class HexColor extends Color {
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll('#', '');
+    if (hexColor.length == 6) {
+      hexColor = 'FF' + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
   }
 }

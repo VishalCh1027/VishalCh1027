@@ -1,9 +1,10 @@
 import 'package:my_application/models/orderItem_model.dart';
+import 'package:my_application/models/project_model.dart';
 
 class PurchaseRequest {
   int? id;
 
-  String? orderNO;
+  String? orderNo;
 
   DateTime? deliveryAt;
 
@@ -13,33 +14,38 @@ class PurchaseRequest {
 
   int? projectId;
 
-  String? status;
+  int? status;
 
   String? reason;
 
   List<OrderItem>? orderItems;
 
-  PurchaseRequest({
-    this.id,
-    this.orderNO,
-    this.amount,
-    this.deliveryAt,
-    this.status,
-    this.orderItems,
-    this.reason,
-    this.employeeId,
-    this.projectId,
-  });
+  Project? project;
+
+  PurchaseRequest(
+      {this.id,
+      this.orderNo,
+      this.amount,
+      this.deliveryAt,
+      this.status,
+      this.orderItems,
+      this.reason,
+      this.employeeId,
+      this.projectId,
+      this.project});
 
   PurchaseRequest.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     amount = json['amount'];
-    deliveryAt = json['deliveryAt'];
-    status = json['status'];
-    orderItems = json['orderItems'];
+    deliveryAt = DateTime.parse(json['deliveryAt']);
+    status = json['orderStatus'];
+    orderNo = json['orderNo'];
+    orderItems = List<OrderItem>.from(
+        (json['orderItems'].map((e) => OrderItem.fromJson(e))));
     reason = json['reason'];
     employeeId = json['employeeId'];
     projectId = json['projectId'];
+    project = Project.fromJson(json['project']);
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +57,7 @@ class PurchaseRequest {
     prurchaseRequest['reason'] = reason;
     prurchaseRequest['employeeId'] = employeeId;
     prurchaseRequest['projectId'] = projectId;
+    prurchaseRequest['project'] = project;
     return prurchaseRequest;
   }
 }

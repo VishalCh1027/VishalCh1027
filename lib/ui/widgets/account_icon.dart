@@ -13,7 +13,8 @@ class AccountIcon extends StatelessWidget {
           children: [
             Icon(
               IconData(0xf522, fontFamily: 'MaterialIcons'),
-              color: Colors.black,
+              color: bgColor,
+              size: 30,
             ),
           ],
         ),

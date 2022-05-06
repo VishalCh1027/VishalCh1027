@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 class OrderItem {
   int? id;
 
@@ -27,7 +29,7 @@ class OrderItem {
     id = json['id'];
     name = json['name'];
     description = json['decription'];
-    unit = json['unit'];
+    unit = Unit.values[json['unit']].toString();
     orderId = json['orderId'];
     price = json['price'];
     quantity = json['quantity'];
@@ -44,4 +46,28 @@ class OrderItem {
     orderItem['quantity'] = quantity;
     return orderItem;
   }
+}
+
+enum Unit {
+  Qty,
+
+  Mtr,
+
+  SqM,
+
+  CuM,
+
+  KM,
+
+  Ft,
+
+  SqFt,
+
+  CuFt,
+
+  Inch,
+
+  SqInch,
+
+  CuInch,
 }

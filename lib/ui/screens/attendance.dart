@@ -1,23 +1,28 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:my_application/constatnts.dart';
 import 'package:my_application/models/workmen_model.dart';
 
+import '../../app_theme.dart';
 import '../../models/attendance_model.dart';
 
 class AttendancePage extends StatefulWidget {
-  const AttendancePage({Key? key, required this.project});
+  const AttendancePage(
+      {Key? key, required this.project, this.animationController});
 
   final project;
+  final AnimationController? animationController;
 
   @override
-  State<StatefulWidget> createState() => _AttendanceState(project);
+  _AttendanceState createState() => _AttendanceState();
 }
 
-class _AttendanceState extends State<AttendancePage> {
-  _AttendanceState(this.project);
-  final String project;
-
+class _AttendanceState extends State<AttendancePage>
+    with TickerProviderStateMixin {
   var projects = ["test project", "new project"];
   TimeOfDay inTime = const TimeOfDay(hour: 9, minute: 30);
   TimeOfDay outTime = const TimeOfDay(hour: 6, minute: 30);
@@ -31,7 +36,71 @@ class _AttendanceState extends State<AttendancePage> {
         "bankId": 205,
         "businessId": 3,
         "departmentId": 1,
-        "firstName": "shruti",
+        "firstName": "vinod",
+        "lastName": "h",
+        "designation": "IT",
+        "email": "shruti@gmail.com",
+        "mobile": "9328893289",
+        "emergencyContact": "9889437883",
+        "emergencyPerson": "vishal",
+        "dailyRate": 3232787.83,
+        "overtimeRate": 9328893.28,
+        "pan": "3273278328",
+        "aadharCard": "3289328989238989",
+        "bank": null,
+        "department": null,
+        "isActive": true,
+        "createdBy": 3,
+        "createdAt": "2022-03-15T14:30:48.3415659",
+        "updatedBy": 3,
+        "updatedAt": "2022-04-18T21:15:44.051939"
+      },
+      "workmenId": 18,
+      "projectId": 60,
+      "overTime": 0,
+    },
+    {
+      "date": "4/26/2022",
+      "in": "",
+      "out": "",
+      "workmen": {
+        "id": 18,
+        "bankId": 205,
+        "businessId": 3,
+        "departmentId": 1,
+        "firstName": "Abhinav",
+        "lastName": "h",
+        "designation": "IT",
+        "email": "shruti@gmail.com",
+        "mobile": "9328893289",
+        "emergencyContact": "9889437883",
+        "emergencyPerson": "vishal",
+        "dailyRate": 3232787.83,
+        "overtimeRate": 9328893.28,
+        "pan": "3273278328",
+        "aadharCard": "3289328989238989",
+        "bank": null,
+        "department": null,
+        "isActive": true,
+        "createdBy": 3,
+        "createdAt": "2022-03-15T14:30:48.3415659",
+        "updatedBy": 3,
+        "updatedAt": "2022-04-18T21:15:44.051939"
+      },
+      "workmenId": 18,
+      "projectId": 60,
+      "overTime": 0,
+    },
+    {
+      "date": "4/26/2022",
+      "in": "",
+      "out": "",
+      "workmen": {
+        "id": 18,
+        "bankId": 205,
+        "businessId": 3,
+        "departmentId": 1,
+        "firstName": "Pankaj",
         "lastName": "h",
         "designation": "IT",
         "email": "shruti@gmail.com",
@@ -95,7 +164,7 @@ class _AttendanceState extends State<AttendancePage> {
         "bankId": 218,
         "businessId": 3,
         "departmentId": 7,
-        "firstName": "test",
+        "firstName": "Atul",
         "lastName": "test",
         "designation": "labour",
         "email": "tes@gmail.com",
@@ -127,7 +196,7 @@ class _AttendanceState extends State<AttendancePage> {
         "bankId": 219,
         "businessId": 3,
         "departmentId": 5,
-        "firstName": "test123",
+        "firstName": "Akshay",
         "lastName": "test",
         "designation": "test",
         "email": "tst@gmail.com",
@@ -159,7 +228,103 @@ class _AttendanceState extends State<AttendancePage> {
         "bankId": 219,
         "businessId": 3,
         "departmentId": 5,
-        "firstName": "test123",
+        "firstName": "Manoj",
+        "lastName": "test",
+        "designation": "test",
+        "email": "tst@gmail.com",
+        "mobile": "9832989238",
+        "emergencyContact": "2382389238",
+        "emergencyPerson": "vishal",
+        "dailyRate": 289328.98,
+        "overtimeRate": 238787.37,
+        "pan": "2332877872",
+        "aadharCard": "3287327732783278",
+        "bank": null,
+        "department": null,
+        "isActive": false,
+        "createdBy": 3,
+        "createdAt": "2022-03-22T14:05:11.0853499",
+        "updatedBy": 3,
+        "updatedAt": "2022-04-18T20:54:12.4815173"
+      },
+      "workmenId": 21,
+      "projectId": 60,
+      "overTime": 0,
+    },
+    {
+      "date": "4/26/2022",
+      "in": "",
+      "out": "",
+      "workmen": {
+        "id": 21,
+        "bankId": 219,
+        "businessId": 3,
+        "departmentId": 5,
+        "firstName": "Ajay",
+        "lastName": "test",
+        "designation": "test",
+        "email": "tst@gmail.com",
+        "mobile": "9832989238",
+        "emergencyContact": "2382389238",
+        "emergencyPerson": "vishal",
+        "dailyRate": 289328.98,
+        "overtimeRate": 238787.37,
+        "pan": "2332877872",
+        "aadharCard": "3287327732783278",
+        "bank": null,
+        "department": null,
+        "isActive": false,
+        "createdBy": 3,
+        "createdAt": "2022-03-22T14:05:11.0853499",
+        "updatedBy": 3,
+        "updatedAt": "2022-04-18T20:54:12.4815173"
+      },
+      "workmenId": 21,
+      "projectId": 60,
+      "overTime": 0,
+    },
+    {
+      "date": "4/26/2022",
+      "in": "",
+      "out": "",
+      "workmen": {
+        "id": 21,
+        "bankId": 219,
+        "businessId": 3,
+        "departmentId": 5,
+        "firstName": "Ramesh",
+        "lastName": "test",
+        "designation": "test",
+        "email": "tst@gmail.com",
+        "mobile": "9832989238",
+        "emergencyContact": "2382389238",
+        "emergencyPerson": "vishal",
+        "dailyRate": 289328.98,
+        "overtimeRate": 238787.37,
+        "pan": "2332877872",
+        "aadharCard": "3287327732783278",
+        "bank": null,
+        "department": null,
+        "isActive": false,
+        "createdBy": 3,
+        "createdAt": "2022-03-22T14:05:11.0853499",
+        "updatedBy": 3,
+        "updatedAt": "2022-04-18T20:54:12.4815173"
+      },
+      "workmenId": 21,
+      "projectId": 60,
+      "overTime": 0,
+    },
+    {
+      "date": "4/26/2022",
+      "in": "",
+      "out": "",
+      "workmen": {
+        "id": 21,
+        "bankId": 219,
+        "businessId": 3,
+        "departmentId": 5,
+        "firstName": "Suresh",
         "lastName": "test",
         "designation": "test",
         "email": "tst@gmail.com",
@@ -216,181 +381,398 @@ class _AttendanceState extends State<AttendancePage> {
     }
   ].map((e) => Attendance.fromJson(e)));
 
+  Animation<double>? topBarAnimation;
+
+  List<Widget> listViews = <Widget>[];
+  final ScrollController scrollController = ScrollController();
+  double topBarOpacity = 0.0;
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      // ignore: unnecessary_null_comparison
-      body: workmens == null
-          ? const Center(
-              child: Text("Attendance Done"),
-            )
-          : SingleChildScrollView(
-              child: Column(children: <Widget>[
-              Card(
-                child: ListTile(
-                  title: const Text("Name"),
-                  trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 35),
-                      child: TextButton(
-                        child: const Text("in time",
-                            style: TextStyle(color: Colors.black)),
-                        onPressed: () {},
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: TextButton(
-                        child: const Text("hrs",
-                            style: TextStyle(color: Colors.black)),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ]),
-                ),
-              ),
-              _buildlist(),
-              _buildButton()
-            ])),
+  void initState() {
+    topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+            parent: widget.animationController!,
+            curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
+    addAllListData();
+
+    scrollController.addListener(() {
+      if (scrollController.offset >= 24) {
+        if (topBarOpacity != 1.0) {
+          setState(() {
+            topBarOpacity = 1.0;
+          });
+        }
+      } else if (scrollController.offset <= 24 &&
+          scrollController.offset >= 0) {
+        if (topBarOpacity != scrollController.offset / 24) {
+          setState(() {
+            topBarOpacity = scrollController.offset / 24;
+          });
+        }
+      } else if (scrollController.offset <= 0) {
+        if (topBarOpacity != 0.0) {
+          setState(() {
+            topBarOpacity = 0.0;
+          });
+        }
+      }
+    });
+
+    super.initState();
+  }
+
+  void addAllListData() {
+    const int count = 2;
+    var animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+        parent: widget.animationController!,
+        curve:
+            const Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn)));
+    listViews.add(AnimatedBuilder(
+        animation: widget.animationController!,
+        builder: (BuildContext context, Widget? child) {
+          return FadeTransition(
+              opacity: animation,
+              child: Transform(
+                  transform: Matrix4.translationValues(
+                      0.0, 30 * (1.0 - animation.value), 0.0),
+                  child: Column(
+                    children: [_buildHead()],
+                  )));
+        }));
+
+    listViews.add(AnimatedBuilder(
+        animation: widget.animationController!,
+        builder: (BuildContext context, Widget? child) {
+          return FadeTransition(
+              opacity: animation,
+              child: Transform(
+                  transform: Matrix4.translationValues(
+                      0.0, 30 * (1.0 - animation.value), 0.0),
+                  child: Column(
+                    children: [
+                      Container(
+                          height: MediaQuery.of(context).size.height - 200,
+                          width: MediaQuery.of(context).size.width - 40,
+                          child: Column(children: [
+                            Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: ListTile(
+                                dense: true,
+                                title: const Text(
+                                  "Name",
+                                  style: AppTheme.listheading,
+                                ),
+                                trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 52),
+                                        child: Center(
+                                            child: const Text(
+                                          "In Time",
+                                          style: AppTheme.listheading,
+                                        )),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 15),
+                                        child: Center(
+                                          child: const Text("Hours",
+                                              style: AppTheme.listheading),
+                                        ),
+                                      ),
+                                    ]),
+                              ),
+                            ),
+                            Expanded(child: Column(children: [_buildlist()]))
+                          ]))
+                    ],
+                  )));
+        }));
+  }
+
+  Future<bool> getData() async {
+    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
+    return true;
+  }
+
+  Widget getMainListViewUI() {
+    return FutureBuilder<bool>(
+      future: getData(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (!snapshot.hasData) {
+          return const SizedBox();
+        } else {
+          return ListView.builder(
+            controller: scrollController,
+            padding: EdgeInsets.only(
+              top: AppBar().preferredSize.height +
+                  MediaQuery.of(context).padding.top +
+                  24,
+              bottom: 62 + MediaQuery.of(context).padding.bottom,
+            ),
+            itemCount: listViews.length,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (BuildContext context, int index) {
+              widget.animationController?.forward();
+              return listViews[index];
+            },
+          );
+        }
+      },
     );
   }
 
-  Widget _buildButton() {
+  Widget getAppBarUI() {
+    return Column(
+      children: <Widget>[
+        AnimatedBuilder(
+          animation: widget.animationController!,
+          builder: (BuildContext context, Widget? child) {
+            return FadeTransition(
+              opacity: topBarAnimation!,
+              child: Transform(
+                transform: Matrix4.translationValues(
+                    0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppTheme.white.withOpacity(topBarOpacity),
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(32.0),
+                    ),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
+                          offset: const Offset(1.1, 1.1),
+                          blurRadius: 10.0),
+                    ],
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: MediaQuery.of(context).padding.top,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 16,
+                            right: 16,
+                            top: 14 - 8.0 * topBarOpacity,
+                            bottom: 12 - 8.0 * topBarOpacity),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'ATTENDANCE',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontName,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 22 + 6 - 6 * topBarOpacity,
+                                    letterSpacing: 1.2,
+                                    color: AppTheme.darkerText,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 38,
+                              width: 38,
+                              child: InkWell(
+                                highlightColor: Colors.transparent,
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(32.0)),
+                                onTap: () {},
+                                child: Center(),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 8,
+                                right: 8,
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  IconButton(
+                                    icon: Icon(
+                                      IconData(0xe531,
+                                          fontFamily: 'MaterialIcons'),
+                                      color: Colors.blue,
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              AttendancePage(
+                                            project: widget.project,
+                                            animationController:
+                                                widget.animationController,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                  IconButton(
+                                    icon: Icon(
+                                      IconData(0xe156,
+                                          fontFamily: 'MaterialIcons'),
+                                      color: Colors.lightGreenAccent[700],
+                                    ),
+                                    onPressed: () {},
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        )
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.center,
-      child: ElevatedButton(
-        child: const Padding(
-          padding: EdgeInsets.all(0.0),
-          child: Text("Submit"),
-        ),
-        onPressed: () {
-          var check = workmens.any((element) => element.selected == true);
-          if (!check) {
-            var snackBar = SnackBar(content: Text("select workmens"));
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          } else {}
-        },
-        style: ElevatedButton.styleFrom(
-          primary: Colors.green,
+      color: AppTheme.background,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          children: <Widget>[
+            getMainListViewUI(),
+            getAppBarUI(),
+            SizedBox(
+              height: MediaQuery.of(context).padding.bottom,
+            )
+          ],
         ),
       ),
     );
   }
 
   Widget _buildHead() {
-    return ListTile(title: Center(child: Text(project)));
+    return Center(
+        heightFactor: 2,
+        child: Text(
+          widget.project,
+          style: TextStyle(
+            fontFamily: AppTheme.fontName,
+            fontWeight: FontWeight.w700,
+            fontSize: 17,
+            letterSpacing: 1.2,
+            color: AppTheme.darkerText,
+          ),
+        ));
   }
 
   Widget _buildlist() {
-    return ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: workmens.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              tileColor: (() {
-                if (workmens[index].selected!) {
-                  return Colors.green[100];
-                }
-
-                return null;
-              }()),
-              onTap: () {
-                setState(() {
-                  workmens[index].selected = !workmens[index].selected!;
-                });
-              },
-              title: Text(workmens[index].workmen!.firstname),
-              subtitle: Row(mainAxisSize: MainAxisSize.min, children: [
-                InkWell(
-                  child: Text("Transfer",
-                      style: TextStyle(color: Colors.cyanAccent[700])),
+    return Expanded(
+        child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: workmens.length,
+            itemBuilder: (context, index) {
+              return Card(
+                  // shape: RoundedRectangleBorder(
+                  //   borderRadius: BorderRadius.circular(8),
+                  // ),
+                  child: Container(
+                decoration: workmens[index].selected!
+                    ? BoxDecoration(
+                        border: Border(
+                        right: BorderSide(
+                            width: 5.0, color: AppTheme.nearlyDarkBlue),
+                      ))
+                    : BoxDecoration(),
+                child: ListTile(
                   onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                              title: const Text('Select Project'),
-                              content: _buildTransfPage());
-                        });
+                    setState(() {
+                      workmens[index].selected = !workmens[index].selected!;
+                    });
                   },
-                ),
-              ]),
-              // subtitle: Row(
-              //   mainAxisSize: MainAxisSize.min,
-              //   children: [
-              //     Text("in time : " +
-              //         (workmen.in_?.format(context) ??
-              //             inTime.format(context)) +
-              //         " "),
-              //     InkWell(
-              //       child: const Text(
-              //         "change",
-              //         style: TextStyle(color: Colors.blue),
-              //       ),
-              //       onTap: () {
-              //         _selectInTime(context, workmen);
-              //       },
-              //     )
-              //   ],
-              // ),
-              trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 40),
-                  child: TextButton(
-                    child: Text(
-                        workmens[index].in_?.format(context) ??
-                            inTime.format(context),
-                        style: TextStyle(color: Colors.cyanAccent[700])),
-                    onPressed: () {
-                      _selectInTime(context, workmens[index]);
-                    },
-                  ),
-                ),
-                Padding(
-                    padding: EdgeInsets.all(5),
-                    child: DropdownButton(
-                        menuMaxHeight: 150,
-                        value: workmens[index].hoursWorked ?? 8,
-                        style: TextStyle(color: Colors.black, fontSize: 15),
-                        onChanged: (int? value) {
-                          setState(() {
-                            workmens[index].selected = true;
-                            workmens[index].hoursWorked = value;
-                          });
+                  title: Row(children: [
+                    Text(workmens[index].workmen!.firstname),
+                    IconButton(
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                    title: const Text('Select Project'),
+                                    content: _buildTransfPage());
+                              });
                         },
-                        items: const [
-                          DropdownMenuItem(
-                            child: Text("4"),
-                            value: 4,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("6"),
-                            value: 6,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("8"),
-                            value: 8,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("10"),
-                            value: 10,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("12"),
-                            value: 12,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("16"),
-                            value: 16,
-                          )
-                        ]))
-              ]),
-            ),
-          );
-        });
+                        icon: FaIcon(
+                          FontAwesomeIcons.rightLeft,
+                          size: 13,
+                        ))
+                  ]),
+                  trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 40),
+                      child: TextButton(
+                        child: Text(
+                            workmens[index].in_?.format(context) ??
+                                inTime.format(context),
+                            style: TextStyle(color: AppTheme.nearlyDarkBlue)),
+                        onPressed: () {
+                          _selectInTime(context, workmens[index]);
+                        },
+                      ),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.all(5),
+                        child: DropdownButton(
+                            menuMaxHeight: 150,
+                            value: workmens[index].hoursWorked ?? 8,
+                            style: TextStyle(color: Colors.black, fontSize: 15),
+                            onChanged: (int? value) {
+                              setState(() {
+                                workmens[index].selected = true;
+                                workmens[index].hoursWorked = value;
+                              });
+                            },
+                            items: const [
+                              DropdownMenuItem(
+                                child: Text("4"),
+                                value: 4,
+                              ),
+                              DropdownMenuItem(
+                                child: Text("8"),
+                                value: 8,
+                              ),
+                              DropdownMenuItem(
+                                child: Text("12"),
+                                value: 12,
+                              ),
+                              DropdownMenuItem(
+                                child: Text("16"),
+                                value: 16,
+                              ),
+                              DropdownMenuItem(
+                                child: Text("20"),
+                                value: 20,
+                              ),
+                              DropdownMenuItem(
+                                child: Text("24"),
+                                value: 24,
+                              )
+                            ]))
+                  ]),
+                ),
+              ));
+            }));
   }
 
   Widget _buildTransfPage() {
@@ -420,7 +802,36 @@ class _AttendanceState extends State<AttendancePage> {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: const Text("Attendance"),
+      title: Text(
+        "ATTENDANCE",
+        style: pageTitle,
+      ),
+      actions: [
+        IconButton(
+          icon: Icon(
+            IconData(0xe531, fontFamily: 'MaterialIcons'),
+            color: Colors.blue,
+          ),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    AttendancePage(project: widget.project),
+              ),
+            );
+          },
+        ),
+        IconButton(
+          icon: Icon(
+            IconData(0xe156, fontFamily: 'MaterialIcons'),
+            color: Colors.lightGreenAccent[700],
+          ),
+          onPressed: () {},
+        )
+      ],
+      centerTitle: true,
+      backgroundColor: kCaptionColor,
     );
   }
 

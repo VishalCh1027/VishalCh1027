@@ -105,7 +105,7 @@ class MainDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: ((context) => Purchase())));
+                  MaterialPageRoute(builder: ((context) => Purchases())));
             },
           ),
           ListTile(
