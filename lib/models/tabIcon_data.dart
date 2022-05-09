@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 class TabIconData {
   TabIconData({
     this.iconData = const IconData(0xf05b1, fontFamily: 'MaterialIcons'),
-    this.imagePath = '',
     this.index = 0,
     this.isSelected = false,
     this.animationController,
   });
 
   IconData iconData;
-  String imagePath;
   bool isSelected;
   int index;
 

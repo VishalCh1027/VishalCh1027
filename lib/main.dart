@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_application/app_theme.dart';
@@ -6,13 +7,25 @@ import 'package:my_application/constatnts.dart';
 import 'login_page.dart';
 //import 'dashboard.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown
+  ]).then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.light,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
     return ScreenUtilInit(
       designSize: Size(375, 812),
       builder: (_) {
@@ -26,7 +39,7 @@ class MyApp extends StatelessWidget {
             scaffoldBackgroundColor: bgColor,
             appBarTheme: AppBarTheme(
               elevation: 0.0,
-              color: primaryColor,
+              color: AppTheme.white,
             ),
           ),
           home: LoginPage(),

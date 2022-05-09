@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:my_application/constatnts.dart';
 import 'package:my_application/models/PurchaseRequest_model.dart';
 import 'package:my_application/ui/screens/requestPage.dart';
@@ -14,7 +16,7 @@ var requests = List<PurchaseRequest>.from([
     "deliveryAt": "2022-04-22",
     "note": null,
     "priority": 0,
-    "orderStatus": 0,
+    "orderStatus": 3,
     "employeeId": 10028,
     "projectId": 60,
     "reason": null,
@@ -122,7 +124,7 @@ var requests = List<PurchaseRequest>.from([
     "deliveryAt": "2022-04-23",
     "note": null,
     "priority": 0,
-    "orderStatus": 0,
+    "orderStatus": 5,
     "employeeId": 10028,
     "projectId": 60,
     "reason": null,
@@ -770,7 +772,7 @@ var requests = List<PurchaseRequest>.from([
     "deliveryAt": "2022-04-23",
     "note": null,
     "priority": 0,
-    "orderStatus": 0,
+    "orderStatus": 3,
     "employeeId": 10028,
     "projectId": 60,
     "reason": null,
@@ -1094,7 +1096,7 @@ var requests = List<PurchaseRequest>.from([
     "deliveryAt": "2022-04-23",
     "note": null,
     "priority": 0,
-    "orderStatus": 0,
+    "orderStatus": 5,
     "employeeId": 10028,
     "projectId": 60,
     "reason": null,
@@ -1202,7 +1204,7 @@ var requests = List<PurchaseRequest>.from([
     "deliveryAt": "2022-04-23",
     "note": null,
     "priority": 0,
-    "orderStatus": 0,
+    "orderStatus": 3,
     "employeeId": 10028,
     "projectId": 60,
     "reason": null,
@@ -1310,7 +1312,7 @@ var requests = List<PurchaseRequest>.from([
     "deliveryAt": "2022-04-23",
     "note": null,
     "priority": 0,
-    "orderStatus": 0,
+    "orderStatus": 5,
     "employeeId": 10028,
     "projectId": 60,
     "reason": null,
@@ -1418,7 +1420,7 @@ var requests = List<PurchaseRequest>.from([
     "deliveryAt": "2022-04-23",
     "note": null,
     "priority": 0,
-    "orderStatus": 0,
+    "orderStatus": 3,
     "employeeId": 10028,
     "projectId": 60,
     "reason": null,
@@ -1649,6 +1651,7 @@ class _Purchases extends State<Purchases> with TickerProviderStateMixin {
         CurvedAnimation(
             parent: widget.animationController!,
             curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
+
     addAllListData();
 
     scrollController.addListener(() {
@@ -1691,12 +1694,18 @@ class _Purchases extends State<Purchases> with TickerProviderStateMixin {
               child: Transform(
                   transform: Matrix4.translationValues(
                       0.0, 30 * (1.0 - animation.value), 0.0),
-                  child: Column(children: [
-                    Container(
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          children: [
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                        child: Divider(
+                          color: Color.fromRGBO(97, 99, 119, 1),
+                        ),
+                      ),
+                      Container(
+                          height: MediaQuery.of(context).size.height - 100,
+                          width: MediaQuery.of(context).size.width - 40,
+                          child: Column(children: [
                             Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -1704,7 +1713,7 @@ class _Purchases extends State<Purchases> with TickerProviderStateMixin {
                               child: ListTile(
                                 dense: true,
                                 title: const Text(
-                                  "Order No.",
+                                  "OrderNo",
                                   style: AppTheme.listheading,
                                 ),
                                 trailing: Row(
@@ -1712,30 +1721,28 @@ class _Purchases extends State<Purchases> with TickerProviderStateMixin {
                                     children: [
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(right: 52),
+                                            const EdgeInsets.only(right: 60),
+                                        child: Center(
+                                          child: const Text("Date",
+                                              style: AppTheme.listheading),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 0),
                                         child: Center(
                                             child: const Text(
                                           "Status",
                                           style: AppTheme.listheading,
                                         )),
                                       ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 15),
-                                        child: Center(
-                                          child: const Text("delivery",
-                                              style: AppTheme.listheading),
-                                        ),
-                                      ),
                                     ]),
                               ),
                             ),
-                            Expanded(
-                                child:
-                                    Column(children: [getPurchaseRequests()]))
-                          ],
-                        ))
-                  ])));
+                            Expanded(child: Column(children: [_buildlist()]))
+                          ]))
+                    ],
+                  )));
         }));
   }
 
@@ -1749,6 +1756,16 @@ class _Purchases extends State<Purchases> with TickerProviderStateMixin {
     return Container(
       color: AppTheme.background,
       child: Scaffold(
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 60.0),
+          child: FloatingActionButton(
+            backgroundColor: AppTheme.nearlyDarkBlue,
+            elevation: 50,
+            child: Icon(Icons.add),
+            onPressed: () => {_openRequest(PurchaseRequest())},
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
         backgroundColor: Colors.transparent,
         body: Stack(
           children: <Widget>[
@@ -1837,7 +1854,7 @@ class _Purchases extends State<Purchases> with TickerProviderStateMixin {
                                   style: TextStyle(
                                     fontFamily: AppTheme.fontName,
                                     fontWeight: FontWeight.w700,
-                                    fontSize: 22 + 6 - 6 * topBarOpacity,
+                                    fontSize: 20 + 6 - 6 * topBarOpacity,
                                     letterSpacing: 1.2,
                                     color: AppTheme.darkerText,
                                   ),
@@ -1887,38 +1904,76 @@ class _Purchases extends State<Purchases> with TickerProviderStateMixin {
     );
   }
 
-  Widget getPurchaseRequests() {
+  Widget _buildlist() {
+    var count = requests.length;
+    var animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+        parent: widget.animationController!,
+        curve: Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn)));
+
     return Expanded(
         child: ListView.builder(
             shrinkWrap: true,
             itemCount: requests.length,
             itemBuilder: (context, index) {
-              return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Container(
-                      child: Row(
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(
-                            requests[index].orderNo!,
-                            style: TextStyle(fontSize: 10),
-                          )),
-                      SizedBox(width: 20),
-                      Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(requests[index].status!.toString())),
-                      SizedBox(width: 20),
-                      Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text(requests[index]
-                              .deliveryAt
-                              .toString()
-                              .replaceRange(11, 21, ""))),
-                    ],
-                  )));
+              return AnimatedBuilder(
+                  animation: widget.animationController!,
+                  builder: (BuildContext context, Widget? child) {
+                    return FadeTransition(
+                        opacity: animation,
+                        child: Transform(
+                            transform: Matrix4.translationValues(
+                                0.0, 30 * (1.0 - animation.value), 0.0),
+                            child: Card(
+                                child: Container(
+                              child: ListTile(
+                                onTap: () {
+                                  _openRequest(requests[index]);
+                                },
+                                title: SizedBox(
+                                  child: Text(
+                                    requests[index].orderNo.toString(),
+                                    maxLines: 3,
+                                  ),
+                                ),
+                                trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(right: 40),
+                                          child: Text(DateFormat("dd-MM-yyyy")
+                                              .format(requests[index]
+                                                  .deliveryAt!))),
+                                      Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: requests[index].status == 0
+                                            ? Icon(
+                                                FontAwesomeIcons.thumbsUp,
+                                                color: Colors.green,
+                                              )
+                                            : requests[index].status == 3
+                                                ? Icon(
+                                                    FontAwesomeIcons
+                                                        .circleXmark,
+                                                    color: Colors.red,
+                                                  )
+                                                : Icon(
+                                                    FontAwesomeIcons.hand,
+                                                    color: Colors.grey,
+                                                  ),
+                                      ),
+                                    ]),
+                              ),
+                            ))));
+                  });
             }));
+  }
+
+  Future _openRequest(currentRequest) async {
+    PurchaseRequest? request =
+        await Navigator.of(context).push(new MaterialPageRoute<PurchaseRequest>(
+            builder: (BuildContext context) {
+              return new RequestPage(request: currentRequest);
+            },
+            fullscreenDialog: true));
   }
 }

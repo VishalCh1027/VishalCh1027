@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:my_application/constatnts.dart';
 import 'package:my_application/models/workmen_model.dart';
 
@@ -32,11 +33,11 @@ class _AttendanceState extends State<AttendancePage>
       "in": "",
       "out": "",
       "workmen": {
-        "id": 18,
+        "id": 1,
         "bankId": 205,
         "businessId": 3,
         "departmentId": 1,
-        "firstName": "vinod",
+        "firstName": "vinod lakhavathula kumar varun",
         "lastName": "h",
         "designation": "IT",
         "email": "shruti@gmail.com",
@@ -55,7 +56,7 @@ class _AttendanceState extends State<AttendancePage>
         "updatedBy": 3,
         "updatedAt": "2022-04-18T21:15:44.051939"
       },
-      "workmenId": 18,
+      "workmenId": 1,
       "projectId": 60,
       "overTime": 0,
     },
@@ -64,7 +65,7 @@ class _AttendanceState extends State<AttendancePage>
       "in": "",
       "out": "",
       "workmen": {
-        "id": 18,
+        "id": 2,
         "bankId": 205,
         "businessId": 3,
         "departmentId": 1,
@@ -87,7 +88,7 @@ class _AttendanceState extends State<AttendancePage>
         "updatedBy": 3,
         "updatedAt": "2022-04-18T21:15:44.051939"
       },
-      "workmenId": 18,
+      "workmenId": 2,
       "projectId": 60,
       "overTime": 0,
     },
@@ -96,7 +97,7 @@ class _AttendanceState extends State<AttendancePage>
       "in": "",
       "out": "",
       "workmen": {
-        "id": 18,
+        "id": 3,
         "bankId": 205,
         "businessId": 3,
         "departmentId": 1,
@@ -119,7 +120,7 @@ class _AttendanceState extends State<AttendancePage>
         "updatedBy": 3,
         "updatedAt": "2022-04-18T21:15:44.051939"
       },
-      "workmenId": 18,
+      "workmenId": 3,
       "projectId": 60,
       "overTime": 0,
     },
@@ -128,7 +129,7 @@ class _AttendanceState extends State<AttendancePage>
       "in": "",
       "out": "",
       "workmen": {
-        "id": 19,
+        "id": 4,
         "bankId": 236,
         "businessId": 3,
         "departmentId": 1,
@@ -151,7 +152,7 @@ class _AttendanceState extends State<AttendancePage>
         "updatedBy": 3,
         "updatedAt": "2022-04-18T21:15:44.7674043"
       },
-      "workmenId": 19,
+      "workmenId": 4,
       "projectId": 60,
       "overTime": 0,
     },
@@ -378,6 +379,70 @@ class _AttendanceState extends State<AttendancePage>
       "workmenId": 21,
       "projectId": 60,
       "overTime": 0,
+    },
+    {
+      "date": "4/26/2022",
+      "in": "",
+      "out": "",
+      "workmen": {
+        "id": 22,
+        "bankId": 219,
+        "businessId": 3,
+        "departmentId": 5,
+        "firstName": "Ajay",
+        "lastName": "test",
+        "designation": "test",
+        "email": "tst@gmail.com",
+        "mobile": "9832989238",
+        "emergencyContact": "2382389238",
+        "emergencyPerson": "vishal",
+        "dailyRate": 289328.98,
+        "overtimeRate": 238787.37,
+        "pan": "2332877872",
+        "aadharCard": "3287327732783278",
+        "bank": null,
+        "department": null,
+        "isActive": false,
+        "createdBy": 3,
+        "createdAt": "2022-03-22T14:05:11.0853499",
+        "updatedBy": 3,
+        "updatedAt": "2022-04-18T20:54:12.4815173"
+      },
+      "workmenId": 22,
+      "projectId": 60,
+      "overTime": 0,
+    },
+    {
+      "date": "4/26/2022",
+      "in": "",
+      "out": "",
+      "workmen": {
+        "id": 23,
+        "bankId": 219,
+        "businessId": 3,
+        "departmentId": 5,
+        "firstName": "Ajay",
+        "lastName": "test",
+        "designation": "test",
+        "email": "tst@gmail.com",
+        "mobile": "9832989238",
+        "emergencyContact": "2382389238",
+        "emergencyPerson": "vishal",
+        "dailyRate": 289328.98,
+        "overtimeRate": 238787.37,
+        "pan": "2332877872",
+        "aadharCard": "3287327732783278",
+        "bank": null,
+        "department": null,
+        "isActive": false,
+        "createdBy": 3,
+        "createdAt": "2022-03-22T14:05:11.0853499",
+        "updatedBy": 3,
+        "updatedAt": "2022-04-18T20:54:12.4815173"
+      },
+      "workmenId": 23,
+      "projectId": 60,
+      "overTime": 0,
     }
   ].map((e) => Attendance.fromJson(e)));
 
@@ -436,7 +501,15 @@ class _AttendanceState extends State<AttendancePage>
                   transform: Matrix4.translationValues(
                       0.0, 30 * (1.0 - animation.value), 0.0),
                   child: Column(
-                    children: [_buildHead()],
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                        child: Divider(
+                          color: Color.fromRGBO(97, 99, 119, 1),
+                        ),
+                      ),
+                      _buildHead()
+                    ],
                   )));
         }));
 
@@ -451,7 +524,7 @@ class _AttendanceState extends State<AttendancePage>
                   child: Column(
                     children: [
                       Container(
-                          height: MediaQuery.of(context).size.height - 200,
+                          height: MediaQuery.of(context).size.height - 100,
                           width: MediaQuery.of(context).size.width - 40,
                           child: Column(children: [
                             Card(
@@ -469,7 +542,7 @@ class _AttendanceState extends State<AttendancePage>
                                     children: [
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(right: 52),
+                                            const EdgeInsets.only(right: 40),
                                         child: Center(
                                             child: const Text(
                                           "In Time",
@@ -478,7 +551,7 @@ class _AttendanceState extends State<AttendancePage>
                                       ),
                                       Padding(
                                         padding:
-                                            const EdgeInsets.only(right: 15),
+                                            const EdgeInsets.only(right: 10),
                                         child: Center(
                                           child: const Text("Hours",
                                               style: AppTheme.listheading),
@@ -663,18 +736,28 @@ class _AttendanceState extends State<AttendancePage>
   }
 
   Widget _buildHead() {
-    return Center(
-        heightFactor: 2,
-        child: Text(
-          widget.project,
-          style: TextStyle(
-            fontFamily: AppTheme.fontName,
-            fontWeight: FontWeight.w700,
-            fontSize: 17,
-            letterSpacing: 1.2,
-            color: AppTheme.darkerText,
+    return ListTile(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 20),
+          child: Text(widget.project,
+              style: TextStyle(
+                fontFamily: AppTheme.fontName,
+                fontWeight: FontWeight.w700,
+                fontSize: 17,
+                letterSpacing: 1.2,
+                color: AppTheme.darkerText,
+              )),
+        ),
+        trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Center(
+                child: Text(
+              DateFormat("dd-MM-yyyy").format(DateTime.now()),
+              style: AppTheme.listheading,
+            )),
           ),
-        ));
+        ]));
   }
 
   Widget _buildlist() {
@@ -697,12 +780,20 @@ class _AttendanceState extends State<AttendancePage>
                     : BoxDecoration(),
                 child: ListTile(
                   onTap: () {
-                    setState(() {
-                      workmens[index].selected = !workmens[index].selected!;
+                    widget.animationController?.fling().then<dynamic>((data) {
+                      setState(() {
+                        workmens[index].selected = !workmens[index].selected!;
+                      });
                     });
                   },
-                  title: Row(children: [
-                    Text(workmens[index].workmen!.firstname),
+                  title: SizedBox(
+                    width: MediaQuery.of(context).size.width / 1.8,
+                    child: Text(
+                      workmens[index].workmen!.firstname,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  trailing: Row(mainAxisSize: MainAxisSize.min, children: [
                     IconButton(
                         onPressed: () {
                           showDialog(
@@ -713,14 +804,13 @@ class _AttendanceState extends State<AttendancePage>
                                     content: _buildTransfPage());
                               });
                         },
-                        icon: FaIcon(
+                        icon: Icon(
                           FontAwesomeIcons.rightLeft,
                           size: 13,
-                        ))
-                  ]),
-                  trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                          color: AppTheme.nearlyDarkBlue,
+                        )),
                     Padding(
-                      padding: const EdgeInsets.only(right: 40),
+                      padding: const EdgeInsets.only(right: 35, left: 10),
                       child: TextButton(
                         child: Text(
                             workmens[index].in_?.format(context) ??
@@ -738,9 +828,13 @@ class _AttendanceState extends State<AttendancePage>
                             value: workmens[index].hoursWorked ?? 8,
                             style: TextStyle(color: Colors.black, fontSize: 15),
                             onChanged: (int? value) {
-                              setState(() {
-                                workmens[index].selected = true;
-                                workmens[index].hoursWorked = value;
+                              widget.animationController
+                                  ?.fling()
+                                  .then<dynamic>((data) {
+                                setState(() {
+                                  workmens[index].selected = true;
+                                  workmens[index].hoursWorked = value;
+                                });
                               });
                             },
                             items: const [
@@ -844,12 +938,14 @@ class _AttendanceState extends State<AttendancePage>
     );
     // ignore: unnecessary_null_comparison
     if (timeOfDay != null && timeOfDay != attendance.in_) {
-      setState(() {
-        var index = workmens
-            .indexWhere((element) => element.workmenId == attendance.workmenId);
+      widget.animationController?.fling().then<dynamic>((data) {
+        setState(() {
+          var index = workmens.indexWhere(
+              (element) => element.workmenId == attendance.workmenId);
 
-        workmens[index].in_ = timeOfDay;
-        workmens[index].selected = true;
+          workmens[index].in_ = timeOfDay;
+          workmens[index].selected = true;
+        });
       });
     }
   }
@@ -863,11 +959,13 @@ class _AttendanceState extends State<AttendancePage>
     );
     // ignore: unnecessary_null_comparison
     if (timeOfDay != null && timeOfDay != attendance.out) {
-      setState(() {
-        var index = workmens
-            .indexWhere((element) => element.workmenId == attendance.workmenId);
-        workmens[index].out = timeOfDay;
-        workmens[index].selected = true;
+      widget.animationController?.fling().then<dynamic>((data) {
+        setState(() {
+          var index = workmens.indexWhere(
+              (element) => element.workmenId == attendance.workmenId);
+          workmens[index].out = timeOfDay;
+          workmens[index].selected = true;
+        });
       });
     }
   }

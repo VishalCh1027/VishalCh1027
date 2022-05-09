@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:js_util';
 
 import 'package:flutter/material.dart';
 import 'package:my_application/models/attendance_model.dart';
@@ -26,7 +25,9 @@ class _AppHomeScreenState extends State<AppHomeScreen>
 
   List<TabIconData> tabIconsList = TabIconData.tabIconsList;
 
-  Widget tabBody = Container();
+  Widget tabBody = Container(
+    color: AppTheme.background,
+  );
 
   @override
   void initState() {

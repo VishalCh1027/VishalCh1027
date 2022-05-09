@@ -3,7 +3,6 @@ import 'package:my_application/models/project_model.dart';
 
 import '../../app_theme.dart';
 import '../../main.dart';
-import '../../models/meals_list_data.dart';
 
 class ProjectListView extends StatefulWidget {
   const ProjectListView(
@@ -19,7 +18,6 @@ class ProjectListView extends StatefulWidget {
 class _ProjectListView extends State<ProjectListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
-  List<MealsListData> mealsListData = MealsListData.tabIconsList;
   var projects = List<Project>.from([
     {
       "id": 1,

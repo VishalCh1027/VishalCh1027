@@ -15,6 +15,8 @@ class OrderItem {
 
   double? quantity;
 
+  bool? selected;
+
   OrderItem({
     this.id,
     this.name,
@@ -29,7 +31,8 @@ class OrderItem {
     id = json['id'];
     name = json['name'];
     description = json['decription'];
-    unit = Unit.values[json['unit']].toString();
+    unit =
+        Unit.values[json['unit']].toString().replaceFirst(RegExp("Unit."), "");
     orderId = json['orderId'];
     price = json['price'];
     quantity = json['quantity'];
@@ -45,6 +48,14 @@ class OrderItem {
     orderItem['price'] = price;
     orderItem['quantity'] = quantity;
     return orderItem;
+  }
+
+  OrderItem.empty() {
+    id = null;
+    name = "";
+    description = "";
+    unit = null;
+    quantity = null;
   }
 }
 
