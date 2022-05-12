@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:my_application/constatnts.dart';
 import 'package:my_application/models/PurchaseRequest_model.dart';
-import 'package:my_application/ui/screens/requestPage.dart';
+import 'package:my_application/ui/screens/requestscreen.dart';
 
 import '../../app_theme.dart';
 
@@ -340,7 +341,7 @@ var requests = List<PurchaseRequest>.from([
     "deliveryAt": "2022-04-23",
     "note": null,
     "priority": 0,
-    "orderStatus": 0,
+    "orderStatus": 2,
     "employeeId": 10028,
     "projectId": 60,
     "reason": null,
@@ -556,7 +557,7 @@ var requests = List<PurchaseRequest>.from([
     "deliveryAt": "2022-04-23",
     "note": null,
     "priority": 0,
-    "orderStatus": 0,
+    "orderStatus": 2,
     "employeeId": 10028,
     "projectId": 60,
     "reason": null,
@@ -1096,7 +1097,7 @@ var requests = List<PurchaseRequest>.from([
     "deliveryAt": "2022-04-23",
     "note": null,
     "priority": 0,
-    "orderStatus": 5,
+    "orderStatus": 2,
     "employeeId": 10028,
     "projectId": 60,
     "reason": null,
@@ -1312,7 +1313,7 @@ var requests = List<PurchaseRequest>.from([
     "deliveryAt": "2022-04-23",
     "note": null,
     "priority": 0,
-    "orderStatus": 5,
+    "orderStatus": 2,
     "employeeId": 10028,
     "projectId": 60,
     "reason": null,
@@ -1420,7 +1421,7 @@ var requests = List<PurchaseRequest>.from([
     "deliveryAt": "2022-04-23",
     "note": null,
     "priority": 0,
-    "orderStatus": 3,
+    "orderStatus": 2,
     "employeeId": 10028,
     "projectId": 60,
     "reason": null,
@@ -1630,120 +1631,161 @@ var requests = List<PurchaseRequest>.from([
   },
 ].map((e) => PurchaseRequest.fromJson(e)));
 
-class Purchases extends StatefulWidget {
-  const Purchases({Key? key, this.animationController}) : super(key: key);
+class PurchasesScreen extends StatefulWidget {
+  const PurchasesScreen({Key? key, this.animationController}) : super(key: key);
 
   final AnimationController? animationController;
   @override
-  _Purchases createState() => _Purchases();
+  _PurchasesScreen createState() => _PurchasesScreen();
 }
 
-class _Purchases extends State<Purchases> with TickerProviderStateMixin {
+class _PurchasesScreen extends State<PurchasesScreen>
+    with TickerProviderStateMixin {
   Animation<double>? topBarAnimation;
 
   List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
 
+  var isSelect = false;
+
   @override
   void initState() {
     topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(
-            parent: widget.animationController!,
-            curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
+      CurvedAnimation(
+        parent: widget.animationController!,
+        curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn),
+      ),
+    );
 
     addAllListData();
 
-    scrollController.addListener(() {
-      if (scrollController.offset >= 24) {
-        if (topBarOpacity != 1.0) {
-          setState(() {
-            topBarOpacity = 1.0;
-          });
+    scrollController.addListener(
+      () {
+        if (scrollController.offset >= 24) {
+          if (topBarOpacity != 1.0) {
+            setState(
+              () {
+                topBarOpacity = 1.0;
+              },
+            );
+          }
+        } else if (scrollController.offset <= 24 &&
+            scrollController.offset >= 0) {
+          if (topBarOpacity != scrollController.offset / 24) {
+            setState(() {
+              topBarOpacity = scrollController.offset / 24;
+            });
+          }
+        } else if (scrollController.offset <= 0) {
+          if (topBarOpacity != 0.0) {
+            setState(
+              () {
+                topBarOpacity = 0.0;
+              },
+            );
+          }
         }
-      } else if (scrollController.offset <= 24 &&
-          scrollController.offset >= 0) {
-        if (topBarOpacity != scrollController.offset / 24) {
-          setState(() {
-            topBarOpacity = scrollController.offset / 24;
-          });
-        }
-      } else if (scrollController.offset <= 0) {
-        if (topBarOpacity != 0.0) {
-          setState(() {
-            topBarOpacity = 0.0;
-          });
-        }
-      }
-    });
+      },
+    );
     super.initState();
   }
 
   void addAllListData() {
     const int count = 1;
-    var animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    var animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
         parent: widget.animationController!,
         curve:
-            const Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn)));
+            const Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn),
+      ),
+    );
 
-    listViews.add(AnimatedBuilder(
+    listViews.add(
+      AnimatedBuilder(
         animation: widget.animationController!,
         builder: (BuildContext context, Widget? child) {
           return FadeTransition(
-              opacity: animation,
-              child: Transform(
-                  transform: Matrix4.translationValues(
-                      0.0, 30 * (1.0 - animation.value), 0.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                        child: Divider(
-                          color: Color.fromRGBO(97, 99, 119, 1),
-                        ),
-                      ),
-                      Container(
-                          height: MediaQuery.of(context).size.height - 100,
-                          width: MediaQuery.of(context).size.width - 40,
-                          child: Column(children: [
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
+            opacity: animation,
+            child: Transform(
+              transform: Matrix4.translationValues(
+                  0.0, 30 * (1.0 - animation.value), 0.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.white,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
+                        offset: const Offset(1.1, 1.1),
+                        blurRadius: 10.0),
+                  ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(left: 30, right: 30, top: 20),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width - 40,
+                    height: MediaQuery.of(context).size.height - 100,
+                    child: Column(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              border: Border(
+                                  bottom:
+                                      BorderSide(color: Color(0xFFEEEEEE)))),
+                          child: Card(
+                            margin: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            elevation: 0,
+                            child: ListTile(
+                              dense: true,
+                              title: const Text(
+                                "Order No",
+                                style: AppTheme.listheading,
                               ),
-                              child: ListTile(
-                                dense: true,
-                                title: const Text(
-                                  "OrderNo",
-                                  style: AppTheme.listheading,
-                                ),
-                                trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 60),
-                                        child: Center(
-                                          child: const Text("Date",
-                                              style: AppTheme.listheading),
-                                        ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 20),
+                                    child: Center(
+                                      child: const Text("Priority",
+                                          style: AppTheme.listheading),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 23),
+                                    child: Center(
+                                      child: const Text("Delivery",
+                                          style: AppTheme.listheading),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 0),
+                                    child: Center(
+                                      child: const Text(
+                                        "Status",
+                                        style: AppTheme.listheading,
                                       ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(right: 0),
-                                        child: Center(
-                                            child: const Text(
-                                          "Status",
-                                          style: AppTheme.listheading,
-                                        )),
-                                      ),
-                                    ]),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            Expanded(child: Column(children: [_buildlist()]))
-                          ]))
-                    ],
-                  )));
-        }));
+                          ),
+                        ),
+                        Expanded(child: Column(children: [_buildlist()]))
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Future<bool> getData() async {
@@ -1911,69 +1953,176 @@ class _Purchases extends State<Purchases> with TickerProviderStateMixin {
         curve: Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn)));
 
     return Expanded(
-        child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: requests.length,
-            itemBuilder: (context, index) {
-              return AnimatedBuilder(
-                  animation: widget.animationController!,
-                  builder: (BuildContext context, Widget? child) {
-                    return FadeTransition(
-                        opacity: animation,
-                        child: Transform(
-                            transform: Matrix4.translationValues(
-                                0.0, 30 * (1.0 - animation.value), 0.0),
-                            child: Card(
-                                child: Container(
-                              child: ListTile(
-                                onTap: () {
+      child: ListView.builder(
+        padding: EdgeInsets.zero,
+        shrinkWrap: true,
+        itemCount: requests.length,
+        itemBuilder: (context, index) {
+          return AnimatedBuilder(
+            animation: widget.animationController!,
+            builder: (BuildContext context, Widget? child) {
+              return FadeTransition(
+                opacity: animation,
+                child: Transform(
+                  transform: Matrix4.translationValues(
+                      0.0, 30 * (1.0 - animation.value), 0.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(color: Color(0xFFEEEEEE)))),
+                    child: Card(
+                      margin: EdgeInsets.zero,
+                      elevation: 0,
+                      color: requests[index].selected
+                          ? Color.fromARGB(255, 248, 248, 250)
+                          : null,
+                      child: ListTile(
+                        onTap: () {
+                          if (requests
+                              .any((element) => element.selected == true)) {
+                            if (isSelect) {
+                              widget.animationController
+                                  ?.fling()
+                                  .then<dynamic>((data) {
+                                setState(() {
+                                  requests.forEach((element) {
+                                    element.selected = false;
+                                  });
+                                });
+                              });
+                            } else {
+                              _openRequest(requests[index]);
+                            }
+                          } else {
+                            _openRequest(requests[index]);
+                          }
+                        },
+                        onLongPress: () {
+                          widget.animationController
+                              ?.fling()
+                              .then<dynamic>((data) {
+                            setState(() {
+                              requests.forEach((element) {
+                                element.selected = false;
+                                requests[index].selected = true;
+                                isSelect = true;
+                              });
+                            });
+                          });
+                        },
+                        leading: requests[index].selected
+                            ? TextButton(
+                                child: SizedBox(
+                                    height: 50,
+                                    width: 175,
+                                    child: Icon(
+                                      Icons.delete_forever_rounded,
+                                      color: AppTheme.nearlyDarkBlue,
+                                      size: 20,
+                                    )),
+                                onPressed: () {
+                                  widget.animationController
+                                      ?.fling()
+                                      .then<dynamic>((data) {
+                                    setState(() {
+                                      requests.removeAt(index);
+                                    });
+                                  });
+                                },
+                              )
+                            : null,
+                        title: requests[index].selected
+                            ? null
+                            : SizedBox(
+                                child: Text(
+                                  requests[index]
+                                      .orderNo
+                                      .toString()
+                                      .replaceRange(18, null, ""),
+                                  maxLines: 3,
+                                ),
+                              ),
+                        trailing: requests[index].selected
+                            ? TextButton(
+                                child: SizedBox(
+                                    height: 50,
+                                    width: 175,
+                                    child: Icon(
+                                      Icons.create_rounded,
+                                      color: AppTheme.nearlyDarkBlue,
+                                      size: 20,
+                                    )),
+                                onPressed: () {
                                   _openRequest(requests[index]);
                                 },
-                                title: SizedBox(
+                              )
+                            : Row(mainAxisSize: MainAxisSize.min, children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right: 15),
+                                  child: SizedBox(
+                                      width: 50,
+                                      child: Center(
+                                          child: Text(
+                                        requests[index].priority!,
+                                      ))),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(right: 15),
                                   child: Text(
-                                    requests[index].orderNo.toString(),
-                                    maxLines: 3,
+                                    DateFormat("dd-MM-yyyy")
+                                        .format(requests[index].deliveryAt!),
                                   ),
                                 ),
-                                trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Padding(
-                                          padding: EdgeInsets.only(right: 40),
-                                          child: Text(DateFormat("dd-MM-yyyy")
-                                              .format(requests[index]
-                                                  .deliveryAt!))),
-                                      Padding(
-                                        padding: const EdgeInsets.all(10),
-                                        child: requests[index].status == 0
-                                            ? Icon(
-                                                FontAwesomeIcons.thumbsUp,
-                                                color: Colors.green,
-                                              )
-                                            : requests[index].status == 3
-                                                ? Icon(
-                                                    FontAwesomeIcons
-                                                        .circleXmark,
-                                                    color: Colors.red,
-                                                  )
-                                                : Icon(
-                                                    FontAwesomeIcons.hand,
-                                                    color: Colors.grey,
-                                                  ),
-                                      ),
-                                    ]),
-                              ),
-                            ))));
-                  });
-            }));
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: requests[index].status == 0
+                                      ? Icon(
+                                          Icons.change_circle_outlined,
+                                          color: Colors.blue,
+                                        )
+                                      : requests[index].status == 2
+                                          ? Icon(
+                                              FontAwesomeIcons.thumbsUp,
+                                              color: Colors.green,
+                                            )
+                                          : requests[index].status == 3
+                                              ? Icon(
+                                                  FontAwesomeIcons.circleXmark,
+                                                  color: Colors.red,
+                                                )
+                                              : Icon(
+                                                  FontAwesomeIcons.hand,
+                                                  color: Colors.grey,
+                                                ),
+                                ),
+                              ]),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
   }
 
   Future _openRequest(currentRequest) async {
-    PurchaseRequest? request =
-        await Navigator.of(context).push(new MaterialPageRoute<PurchaseRequest>(
-            builder: (BuildContext context) {
-              return new RequestPage(request: currentRequest);
-            },
-            fullscreenDialog: true));
+    widget.animationController?.fling().then<dynamic>((data) {
+      setState(() {
+        isSelect = false;
+        requests.forEach((element) {
+          element.selected = false;
+        });
+      });
+    });
+    PurchaseRequest? request = await Navigator.of(context).push(
+      new MaterialPageRoute<PurchaseRequest>(
+          builder: (BuildContext context) {
+            return new RequestScreen(request: currentRequest);
+          },
+          fullscreenDialog: true),
+    );
   }
 }

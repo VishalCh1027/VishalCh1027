@@ -5,12 +5,12 @@ import 'package:my_application/models/attendance_model.dart';
 import 'package:my_application/models/tabIcon_data.dart';
 import 'package:my_application/ui/screens/Profile_Details.dart';
 import 'package:my_application/ui/screens/Projects.dart';
-import 'package:my_application/ui/screens/Purchase.dart';
-import 'package:my_application/ui/screens/attendance.dart';
+import 'package:my_application/ui/screens/purchasesscreen.dart';
 import 'package:my_application/ui/screens/dashboard.dart';
-import 'package:my_application/ui/screens/dashboardPage.dart';
+import 'package:my_application/ui/screens/dashboardscreen.dart';
 import '../../app_theme.dart';
 import '../../bottombar/bottom_bar_view.dart';
+import 'attendancescreen.dart';
 
 class AppHomeScreen extends StatefulWidget {
   @override
@@ -34,7 +34,6 @@ class _AppHomeScreenState extends State<AppHomeScreen>
     tabIconsList.forEach((TabIconData tab) {
       tab.isSelected = false;
     });
-    tabIconsList[0].isSelected = true;
 
     // defines a timer
     _everySecond = Timer.periodic(Duration(seconds: 1), (Timer t) {
@@ -43,7 +42,7 @@ class _AppHomeScreenState extends State<AppHomeScreen>
 
     animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
-    tabBody = Projects(animationController: animationController);
+    tabBody = DashboardScreen(animationController: animationController);
     super.initState();
   }
 
@@ -56,9 +55,7 @@ class _AppHomeScreenState extends State<AppHomeScreen>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.background,
       child: Scaffold(
-        backgroundColor: Colors.transparent,
         body: FutureBuilder<bool>(
           future: getData(),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -96,7 +93,8 @@ class _AppHomeScreenState extends State<AppHomeScreen>
               tabIconsList.forEach((TabIconData tab) {
                 tab.isSelected = false;
               });
-              tabBody = DashboardPage(animationController: animationController);
+              tabBody =
+                  DashboardScreen(animationController: animationController);
             });
           },
           changeIndex: (int index) {
@@ -115,7 +113,8 @@ class _AppHomeScreenState extends State<AppHomeScreen>
                   return;
                 }
                 setState(() {
-                  tabBody = Purchases(animationController: animationController);
+                  tabBody =
+                      PurchasesScreen(animationController: animationController);
                 });
               });
             } else if (index == 1) {
@@ -124,7 +123,7 @@ class _AppHomeScreenState extends State<AppHomeScreen>
                   return;
                 }
                 setState(() {
-                  tabBody = AttendancePage(
+                  tabBody = AttendanceScreen(
                       project: "New Project",
                       animationController: animationController);
                 });

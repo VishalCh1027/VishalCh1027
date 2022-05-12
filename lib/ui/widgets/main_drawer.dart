@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:my_application/login_page.dart';
 import 'package:my_application/ui/screens/Profile_Details.dart';
 import 'package:my_application/ui/screens/Projects.dart';
-import 'package:my_application/ui/screens/Purchase.dart';
 import '../screens/Profile_Details.dart';
 import '../screens/Projects.dart';
-import '../screens/attendance.dart';
+import '../screens/Purchasesscreen.dart';
 import '../screens/selectProject.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -105,7 +104,7 @@ class MainDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: ((context) => Purchases())));
+                  MaterialPageRoute(builder: ((context) => PurchasesScreen())));
             },
           ),
           ListTile(

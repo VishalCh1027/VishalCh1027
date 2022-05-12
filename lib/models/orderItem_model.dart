@@ -15,7 +15,7 @@ class OrderItem {
 
   double? quantity;
 
-  bool? selected;
+  bool selected = false;
 
   OrderItem({
     this.id,
@@ -30,7 +30,7 @@ class OrderItem {
   OrderItem.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    description = json['decription'];
+    description = json['description'];
     unit =
         Unit.values[json['unit']].toString().replaceFirst(RegExp("Unit."), "");
     orderId = json['orderId'];

@@ -11,18 +11,18 @@ import 'package:my_application/models/workmen_model.dart';
 import '../../app_theme.dart';
 import '../../models/attendance_model.dart';
 
-class AttendancePage extends StatefulWidget {
-  const AttendancePage(
+class AttendanceScreen extends StatefulWidget {
+  const AttendanceScreen(
       {Key? key, required this.project, this.animationController});
 
   final project;
   final AnimationController? animationController;
 
   @override
-  _AttendanceState createState() => _AttendanceState();
+  _AttendanceScreenState createState() => _AttendanceScreenState();
 }
 
-class _AttendanceState extends State<AttendancePage>
+class _AttendanceScreenState extends State<AttendanceScreen>
     with TickerProviderStateMixin {
   var projects = ["test project", "new project"];
   TimeOfDay inTime = const TimeOfDay(hour: 9, minute: 30);
@@ -682,7 +682,7 @@ class _AttendanceState extends State<AttendancePage>
                                         context,
                                         MaterialPageRoute(
                                           builder: (BuildContext context) =>
-                                              AttendancePage(
+                                              AttendanceScreen(
                                             project: widget.project,
                                             animationController:
                                                 widget.animationController,
@@ -763,6 +763,7 @@ class _AttendanceState extends State<AttendancePage>
   Widget _buildlist() {
     return Expanded(
         child: ListView.builder(
+            padding: EdgeInsets.zero,
             shrinkWrap: true,
             itemCount: workmens.length,
             itemBuilder: (context, index) {
@@ -887,7 +888,7 @@ class _AttendanceState extends State<AttendancePage>
                         context,
                         MaterialPageRoute(
                             builder: ((context) =>
-                                AttendancePage(project: projects[index]))));
+                                AttendanceScreen(project: projects[index]))));
                   },
                 ));
               }))
@@ -911,7 +912,7 @@ class _AttendanceState extends State<AttendancePage>
               context,
               MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    AttendancePage(project: widget.project),
+                    AttendanceScreen(project: widget.project),
               ),
             );
           },

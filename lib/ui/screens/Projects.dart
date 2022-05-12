@@ -1,458 +1,1980 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:my_application/constatnts.dart';
-import 'package:my_application/models/workmen_model.dart';
+import 'package:my_application/models/PurchaseRequest_model.dart';
+import 'package:my_application/ui/screens/requestscreen.dart';
 
-import '../../models/attendance_model.dart';
+import '../../app_theme.dart';
+
+var requests = List<PurchaseRequest>.from([
+  {
+    "id": 89,
+    "orderNo": "2CU2ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-22",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 3,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 200,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 201,
+        "name": "test",
+        "description": null,
+        "price": null,
+        "unit": 2,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 29.92,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+  {
+    "id": 90,
+    "orderNo": "2CU34ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-23",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 5,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 210,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 203,
+        "name": "cement",
+        "description": null,
+        "price": null,
+        "unit": 8,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 90,
+        "note": null,
+        "quantity": 209.00,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+  {
+    "id": 90,
+    "orderNo": "2CU34ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-23",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 0,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 210,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 203,
+        "name": "cement",
+        "description": null,
+        "price": null,
+        "unit": 8,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 90,
+        "note": null,
+        "quantity": 209.00,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+  {
+    "id": 90,
+    "orderNo": "2CU34ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-23",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 0,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 210,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 203,
+        "name": "cement",
+        "description": null,
+        "price": null,
+        "unit": 8,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 90,
+        "note": null,
+        "quantity": 209.00,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+  {
+    "id": 90,
+    "orderNo": "2CU34ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-23",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 0,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 210,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 203,
+        "name": "cement",
+        "description": null,
+        "price": null,
+        "unit": 8,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 90,
+        "note": null,
+        "quantity": 209.00,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+  {
+    "id": 90,
+    "orderNo": "2CU34ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-23",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 0,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 210,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 203,
+        "name": "cement",
+        "description": null,
+        "price": null,
+        "unit": 8,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 90,
+        "note": null,
+        "quantity": 209.00,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+  {
+    "id": 90,
+    "orderNo": "2CU34ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-23",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 0,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 210,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 203,
+        "name": "cement",
+        "description": null,
+        "price": null,
+        "unit": 8,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 90,
+        "note": null,
+        "quantity": 209.00,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+  {
+    "id": 90,
+    "orderNo": "2CU34ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-23",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 3,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 210,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 203,
+        "name": "cement",
+        "description": null,
+        "price": null,
+        "unit": 8,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 90,
+        "note": null,
+        "quantity": 209.00,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+  {
+    "id": 90,
+    "orderNo": "2CU34ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-23",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 0,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 210,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 203,
+        "name": "cement",
+        "description": null,
+        "price": null,
+        "unit": 8,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 90,
+        "note": null,
+        "quantity": 209.00,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+  {
+    "id": 90,
+    "orderNo": "2CU34ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-23",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 0,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 210,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 203,
+        "name": "cement",
+        "description": null,
+        "price": null,
+        "unit": 8,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 90,
+        "note": null,
+        "quantity": 209.00,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+  {
+    "id": 90,
+    "orderNo": "2CU34ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-23",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 5,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 210,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 203,
+        "name": "cement",
+        "description": null,
+        "price": null,
+        "unit": 8,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 90,
+        "note": null,
+        "quantity": 209.00,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+  {
+    "id": 90,
+    "orderNo": "2CU34ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-23",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 3,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 210,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 203,
+        "name": "cement",
+        "description": null,
+        "price": null,
+        "unit": 8,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 90,
+        "note": null,
+        "quantity": 209.00,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+  {
+    "id": 90,
+    "orderNo": "2CU34ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-23",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 5,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 210,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 203,
+        "name": "cement",
+        "description": null,
+        "price": null,
+        "unit": 8,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 90,
+        "note": null,
+        "quantity": 209.00,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+  {
+    "id": 90,
+    "orderNo": "2CU34ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-23",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 3,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 210,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 203,
+        "name": "cement",
+        "description": null,
+        "price": null,
+        "unit": 8,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 90,
+        "note": null,
+        "quantity": 209.00,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+  {
+    "id": 90,
+    "orderNo": "2CU34ENW-4/22/2022 5:31:12 PM",
+    "name": null,
+    "totalAmount": null,
+    "deliveryAt": "2022-04-23",
+    "note": null,
+    "priority": 0,
+    "orderStatus": 0,
+    "employeeId": 10028,
+    "projectId": 60,
+    "reason": null,
+    "orderItems": [
+      {
+        "id": 210,
+        "name": "new",
+        "description": null,
+        "price": null,
+        "unit": 1,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 89,
+        "note": null,
+        "quantity": 2.09,
+        "department": null,
+        "bill": null,
+        "checked": false
+      },
+      {
+        "id": 203,
+        "name": "cement",
+        "description": null,
+        "price": null,
+        "unit": 8,
+        "departmentId": null,
+        "billId": null,
+        "orderId": 90,
+        "note": null,
+        "quantity": 209.00,
+        "department": null,
+        "bill": null,
+        "checked": false
+      }
+    ],
+    "employee": {
+      "id": 10028,
+      "userId": null,
+      "businessId": 3,
+      "code": "888",
+      "addressId": null,
+      "firstName": "vishal",
+      "lastName": "chinta1",
+      "email": "vishalch@business.com",
+      "mobile": "8355952505",
+      "home": "8355952505",
+      "hourlyRate": null,
+      "overtimeRate": null,
+      "dob": "1999-01-01T00:00:00",
+      "startDate": "2022-03-15T15:45:16.0514647",
+      "address": null,
+      "permissions": [],
+      "isActive": false,
+      "createdBy": 0,
+      "createdAt": "2022-03-15T15:45:16.05",
+      "updatedBy": 3,
+      "updatedAt": "2022-03-31T17:59:50.99"
+    },
+    "project": {
+      "id": 60,
+      "clientId": 8,
+      "officeId": 5,
+      "contractorIds": [],
+      "supervisorIds": [],
+      "leadIds": [],
+      "bankIds": [],
+      "technicalHeadId": 10028,
+      "procurementOfficerId": 10028,
+      "name": "New Project ",
+      "agreement": "372387237823",
+      "startDate": "2022-03-12T00:00:00",
+      "commencementDate": "2022-03-11T00:00:00",
+      "estimateCost": 1212787128.71,
+      "totalCost": 1000000000.21,
+      "orderAttachment": null,
+      "status": 1,
+      "client": null,
+      "office": null,
+      "technicalHead": null,
+      "procurementOfficer": null,
+      "projectItems": [],
+      "projectExpenses": [],
+      "projectBanks": [],
+      "projectLeads": [],
+      "projectSupervisors": [],
+      "projectContractors": [],
+      "photos": [],
+      "documents": [],
+      "isActive": true,
+      "createdBy": 10012,
+      "createdAt": "2022-02-25T21:21:53.73",
+      "updatedBy": 10042,
+      "updatedAt": "2022-04-18T19:56:24.3"
+    },
+    "createdBy": 10028,
+    "createdAt": "2022-04-22T17:31:12",
+    "updatedBy": 10028,
+    "updatedAt": "2022-04-22T17:32:09.677"
+  },
+].map((e) => PurchaseRequest.fromJson(e)));
 
 class Projects extends StatefulWidget {
-  const Projects({Key? key, this.animationController});
+  const Projects({Key? key, this.animationController}) : super(key: key);
 
   final AnimationController? animationController;
   @override
-  State<StatefulWidget> createState() => _Projects();
+  _Projects createState() => _Projects();
 }
 
 class _Projects extends State<Projects> with TickerProviderStateMixin {
-  _Projects();
+  Animation<double>? topBarAnimation;
 
-  var projects = ["test project", "new project"];
-  TimeOfDay inTime = const TimeOfDay(hour: 9, minute: 30);
-  TimeOfDay outTime = const TimeOfDay(hour: 6, minute: 30);
-  var workmens = List<Attendance>.from([
-    {
-      "date": "4/26/2022",
-      "in": "",
-      "out": "",
-      "workmen": {
-        "id": 18,
-        "bankId": 205,
-        "businessId": 3,
-        "departmentId": 1,
-        "firstName": "shruti",
-        "lastName": "h",
-        "designation": "IT",
-        "email": "shruti@gmail.com",
-        "mobile": "9328893289",
-        "emergencyContact": "9889437883",
-        "emergencyPerson": "vishal",
-        "dailyRate": 3232787.83,
-        "overtimeRate": 9328893.28,
-        "pan": "3273278328",
-        "aadharCard": "3289328989238989",
-        "bank": null,
-        "department": null,
-        "isActive": true,
-        "createdBy": 3,
-        "createdAt": "2022-03-15T14:30:48.3415659",
-        "updatedBy": 3,
-        "updatedAt": "2022-04-18T21:15:44.051939"
-      },
-      "workmenId": 18,
-      "projectId": 60,
-      "overTime": 0,
-    },
-    {
-      "date": "4/26/2022",
-      "in": "",
-      "out": "",
-      "workmen": {
-        "id": 19,
-        "bankId": 236,
-        "businessId": 3,
-        "departmentId": 1,
-        "firstName": "komal",
-        "lastName": "I",
-        "designation": "IT",
-        "email": "komal@gmail.com",
-        "mobile": "9839832889",
-        "emergencyContact": "2893298893",
-        "emergencyPerson": "rahul",
-        "dailyRate": 3283872.38,
-        "overtimeRate": 3896598.59,
-        "pan": "8932832898",
-        "aadharCard": "3889238932898932",
-        "bank": null,
-        "department": null,
-        "isActive": true,
-        "createdBy": 3,
-        "createdAt": "2022-03-15T14:35:21.3283332",
-        "updatedBy": 3,
-        "updatedAt": "2022-04-18T21:15:44.7674043"
-      },
-      "workmenId": 19,
-      "projectId": 60,
-      "overTime": 0,
-    },
-    {
-      "date": "4/26/2022",
-      "in": "",
-      "out": "",
-      "workmen": {
-        "id": 20,
-        "bankId": 218,
-        "businessId": 3,
-        "departmentId": 7,
-        "firstName": "test",
-        "lastName": "test",
-        "designation": "labour",
-        "email": "tes@gmail.com",
-        "mobile": "9283923898",
-        "emergencyContact": "8298238238",
-        "emergencyPerson": "vishal",
-        "dailyRate": null,
-        "overtimeRate": 2378.72,
-        "pan": "ghsghd2898",
-        "aadharCard": "2372636236732676",
-        "bank": null,
-        "department": null,
-        "isActive": false,
-        "createdBy": 3,
-        "createdAt": "2022-03-21T19:54:53.7915674",
-        "updatedBy": 3,
-        "updatedAt": "2022-04-18T21:15:36.5767997"
-      },
-      "workmenId": 20,
-      "projectId": 60,
-      "overTime": 0,
-    },
-    {
-      "date": "4/26/2022",
-      "in": "",
-      "out": "",
-      "workmen": {
-        "id": 21,
-        "bankId": 219,
-        "businessId": 3,
-        "departmentId": 5,
-        "firstName": "test123",
-        "lastName": "test",
-        "designation": "test",
-        "email": "tst@gmail.com",
-        "mobile": "9832989238",
-        "emergencyContact": "2382389238",
-        "emergencyPerson": "vishal",
-        "dailyRate": 289328.98,
-        "overtimeRate": 238787.37,
-        "pan": "2332877872",
-        "aadharCard": "3287327732783278",
-        "bank": null,
-        "department": null,
-        "isActive": false,
-        "createdBy": 3,
-        "createdAt": "2022-03-22T14:05:11.0853499",
-        "updatedBy": 3,
-        "updatedAt": "2022-04-18T20:54:12.4815173"
-      },
-      "workmenId": 21,
-      "projectId": 60,
-      "overTime": 0,
-    },
-    {
-      "date": "4/26/2022",
-      "in": "",
-      "out": "",
-      "workmen": {
-        "id": 21,
-        "bankId": 219,
-        "businessId": 3,
-        "departmentId": 5,
-        "firstName": "test123",
-        "lastName": "test",
-        "designation": "test",
-        "email": "tst@gmail.com",
-        "mobile": "9832989238",
-        "emergencyContact": "2382389238",
-        "emergencyPerson": "vishal",
-        "dailyRate": 289328.98,
-        "overtimeRate": 238787.37,
-        "pan": "2332877872",
-        "aadharCard": "3287327732783278",
-        "bank": null,
-        "department": null,
-        "isActive": false,
-        "createdBy": 3,
-        "createdAt": "2022-03-22T14:05:11.0853499",
-        "updatedBy": 3,
-        "updatedAt": "2022-04-18T20:54:12.4815173"
-      },
-      "workmenId": 21,
-      "projectId": 60,
-      "overTime": 0,
-    },
-    {
-      "date": "4/26/2022",
-      "in": "",
-      "out": "",
-      "workmen": {
-        "id": 21,
-        "bankId": 219,
-        "businessId": 3,
-        "departmentId": 5,
-        "firstName": "Ajay",
-        "lastName": "test",
-        "designation": "test",
-        "email": "tst@gmail.com",
-        "mobile": "9832989238",
-        "emergencyContact": "2382389238",
-        "emergencyPerson": "vishal",
-        "dailyRate": 289328.98,
-        "overtimeRate": 238787.37,
-        "pan": "2332877872",
-        "aadharCard": "3287327732783278",
-        "bank": null,
-        "department": null,
-        "isActive": false,
-        "createdBy": 3,
-        "createdAt": "2022-03-22T14:05:11.0853499",
-        "updatedBy": 3,
-        "updatedAt": "2022-04-18T20:54:12.4815173"
-      },
-      "workmenId": 21,
-      "projectId": 60,
-      "overTime": 0,
-    }
-  ].map((e) => Attendance.fromJson(e)));
+  List<Widget> listViews = <Widget>[];
+  final ScrollController scrollController = ScrollController();
+  double topBarOpacity = 0.0;
+
+  @override
+  void initState() {
+    topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+            parent: widget.animationController!,
+            curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn)));
+
+    addAllListData();
+
+    scrollController.addListener(() {
+      if (scrollController.offset >= 24) {
+        if (topBarOpacity != 1.0) {
+          setState(() {
+            topBarOpacity = 1.0;
+          });
+        }
+      } else if (scrollController.offset <= 24 &&
+          scrollController.offset >= 0) {
+        if (topBarOpacity != scrollController.offset / 24) {
+          setState(() {
+            topBarOpacity = scrollController.offset / 24;
+          });
+        }
+      } else if (scrollController.offset <= 0) {
+        if (topBarOpacity != 0.0) {
+          setState(() {
+            topBarOpacity = 0.0;
+          });
+        }
+      }
+    });
+    super.initState();
+  }
+
+  void addAllListData() {
+    const int count = 1;
+    var animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+        parent: widget.animationController!,
+        curve:
+            const Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn)));
+
+    listViews.add(AnimatedBuilder(
+        animation: widget.animationController!,
+        builder: (BuildContext context, Widget? child) {
+          return FadeTransition(
+              opacity: animation,
+              child: Transform(
+                  transform: Matrix4.translationValues(
+                      0.0, 30 * (1.0 - animation.value), 0.0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                        child: Divider(
+                          color: Color.fromRGBO(97, 99, 119, 1),
+                        ),
+                      ),
+                      Container(
+                          height: MediaQuery.of(context).size.height - 100,
+                          width: MediaQuery.of(context).size.width - 40,
+                          child: Column(children: [
+                            Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: ListTile(
+                                dense: true,
+                                title: const Text(
+                                  "OrderNo",
+                                  style: AppTheme.listheading,
+                                ),
+                                trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 60),
+                                        child: Center(
+                                          child: const Text("Date",
+                                              style: AppTheme.listheading),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 0),
+                                        child: Center(
+                                            child: const Text(
+                                          "Status",
+                                          style: AppTheme.listheading,
+                                        )),
+                                      ),
+                                    ]),
+                              ),
+                            ),
+                            Expanded(child: Column(children: [_buildlist()]))
+                          ]))
+                    ],
+                  )));
+        }));
+  }
+
+  Future<bool> getData() async {
+    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      // ignore: unnecessary_null_comparison
-      body: workmens == null
-          ? const Center(
-              child: Text("Attendance Done"),
-            )
-          : SingleChildScrollView(
-              child: Column(children: <Widget>[
-              Card(
-                child: ListTile(
-                  title: const Text("Name"),
-                  trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 35),
-                      child: TextButton(
-                        child: const Text("in time",
-                            style: TextStyle(color: Colors.black)),
-                        onPressed: () {},
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: TextButton(
-                        child: const Text("hrs",
-                            style: TextStyle(color: Colors.black)),
-                        onPressed: () {},
-                      ),
-                    ),
-                  ]),
-                ),
-              ),
-              _buildlist(),
-              _buildButton()
-            ])),
-    );
-  }
-
-  Widget _buildButton() {
     return Container(
-      alignment: Alignment.center,
-      child: ElevatedButton(
-        child: const Padding(
-          padding: EdgeInsets.all(0.0),
-          child: Text("Submit"),
+      color: AppTheme.background,
+      child: Scaffold(
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 60.0),
+          child: FloatingActionButton(
+            backgroundColor: AppTheme.nearlyDarkBlue,
+            elevation: 50,
+            child: Icon(Icons.add),
+            onPressed: () => {_openRequest(PurchaseRequest())},
+          ),
         ),
-        onPressed: () {
-          var check = workmens.any((element) => element.selected == true);
-          if (!check) {
-            var snackBar = SnackBar(content: Text("select workmens"));
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          } else {}
-        },
-        style: ElevatedButton.styleFrom(
-          primary: Colors.green,
+        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          children: <Widget>[
+            getMainListViewUI(),
+            getAppBarUI(),
+            SizedBox(
+              height: MediaQuery.of(context).padding.bottom,
+            )
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildHead() {
-    return ListTile(title: Center(child: Text(projects[1])));
+  Widget getMainListViewUI() {
+    return FutureBuilder<bool>(
+      future: getData(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (!snapshot.hasData) {
+          return const SizedBox();
+        } else {
+          return ListView.builder(
+            controller: scrollController,
+            padding: EdgeInsets.only(
+              top: AppBar().preferredSize.height +
+                  MediaQuery.of(context).padding.top +
+                  24,
+              bottom: 62 + MediaQuery.of(context).padding.bottom,
+            ),
+            itemCount: listViews.length,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (BuildContext context, int index) {
+              widget.animationController?.forward();
+              return listViews[index];
+            },
+          );
+        }
+      },
+    );
+  }
+
+  Widget getAppBarUI() {
+    return Column(
+      children: <Widget>[
+        AnimatedBuilder(
+          animation: widget.animationController!,
+          builder: (BuildContext context, Widget? child) {
+            return FadeTransition(
+              opacity: topBarAnimation!,
+              child: Transform(
+                transform: Matrix4.translationValues(
+                    0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppTheme.white.withOpacity(topBarOpacity),
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(32.0),
+                    ),
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
+                          offset: const Offset(1.1, 1.1),
+                          blurRadius: 10.0),
+                    ],
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: MediaQuery.of(context).padding.top,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: 16,
+                            right: 16,
+                            top: 16 - 8.0 * topBarOpacity,
+                            bottom: 12 - 8.0 * topBarOpacity),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Purchase Requests',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontName,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 20 + 6 - 6 * topBarOpacity,
+                                    letterSpacing: 1.2,
+                                    color: AppTheme.darkerText,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 38,
+                              width: 38,
+                              child: InkWell(
+                                highlightColor: Colors.transparent,
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(32.0)),
+                                onTap: () {},
+                                child: Center(),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 8,
+                                right: 8,
+                              ),
+                              child: Row(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: Icon(
+                                      Icons.filter_alt,
+                                      color: AppTheme.grey,
+                                      size: 25,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
+        )
+      ],
+    );
   }
 
   Widget _buildlist() {
-    return ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: workmens.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: ListTile(
-              tileColor: (() {
-                if (workmens[index].selected!) {
-                  return Colors.green[100];
-                }
+    var count = requests.length;
+    var animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+        parent: widget.animationController!,
+        curve: Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn)));
 
-                return null;
-              }()),
-              onTap: () {
-                setState(() {
-                  workmens[index].selected = !workmens[index].selected!;
-                });
-              },
-              title: Text(workmens[index].workmen!.firstname),
-              subtitle: Row(mainAxisSize: MainAxisSize.min, children: [
-                InkWell(
-                  child: Text("Transfer",
-                      style: TextStyle(color: Colors.cyanAccent[700])),
-                  onTap: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                              title: const Text('Select Project'),
-                              content: _buildTransfPage());
-                        });
-                  },
-                ),
-              ]),
-              // subtitle: Row(
-              //   mainAxisSize: MainAxisSize.min,
-              //   children: [
-              //     Text("in time : " +
-              //         (workmen.in_?.format(context) ??
-              //             inTime.format(context)) +
-              //         " "),
-              //     InkWell(
-              //       child: const Text(
-              //         "change",
-              //         style: TextStyle(color: Colors.blue),
-              //       ),
-              //       onTap: () {
-              //         _selectInTime(context, workmen);
-              //       },
-              //     )
-              //   ],
-              // ),
-              trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 40),
-                  child: TextButton(
-                    child: Text(
-                        workmens[index].in_?.format(context) ??
-                            inTime.format(context),
-                        style: TextStyle(color: Colors.cyanAccent[700])),
-                    onPressed: () {
-                      _selectInTime(context, workmens[index]);
-                    },
-                  ),
-                ),
-                Padding(
-                    padding: EdgeInsets.all(5),
-                    child: DropdownButton(
-                        menuMaxHeight: 150,
-                        value: workmens[index].hoursWorked ?? 8,
-                        style: TextStyle(color: Colors.black, fontSize: 15),
-                        onChanged: (int? value) {
-                          setState(() {
-                            workmens[index].selected = true;
-                            workmens[index].hoursWorked = value;
-                          });
-                        },
-                        items: const [
-                          DropdownMenuItem(
-                            child: Text("4"),
-                            value: 4,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("6"),
-                            value: 6,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("8"),
-                            value: 8,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("10"),
-                            value: 10,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("12"),
-                            value: 12,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("16"),
-                            value: 16,
-                          )
-                        ]))
-              ]),
-            ),
-          );
-        });
+    return Expanded(
+        child: ListView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            itemCount: requests.length,
+            itemBuilder: (context, index) {
+              return AnimatedBuilder(
+                  animation: widget.animationController!,
+                  builder: (BuildContext context, Widget? child) {
+                    return FadeTransition(
+                        opacity: animation,
+                        child: Transform(
+                            transform: Matrix4.translationValues(
+                                0.0, 30 * (1.0 - animation.value), 0.0),
+                            child: Card(
+                                child: Container(
+                              child: ListTile(
+                                onTap: () {
+                                  _openRequest(requests[index]);
+                                },
+                                title: SizedBox(
+                                  child: Text(
+                                    requests[index].orderNo.toString(),
+                                    maxLines: 3,
+                                  ),
+                                ),
+                                trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(right: 40),
+                                          child: Text(DateFormat("dd-MM-yyyy")
+                                              .format(requests[index]
+                                                  .deliveryAt!))),
+                                      Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: requests[index].status == 0
+                                            ? Icon(
+                                                FontAwesomeIcons.thumbsUp,
+                                                color: Colors.green,
+                                              )
+                                            : requests[index].status == 3
+                                                ? Icon(
+                                                    FontAwesomeIcons
+                                                        .circleXmark,
+                                                    color: Colors.red,
+                                                  )
+                                                : Icon(
+                                                    FontAwesomeIcons.hand,
+                                                    color: Colors.grey,
+                                                  ),
+                                      ),
+                                    ]),
+                              ),
+                            ))));
+                  });
+            }));
   }
 
-  Widget _buildTransfPage() {
-    return SingleChildScrollView(
-        child: Column(children: [
-      Container(
-          color: Colors.grey[50],
-          height: 190, // MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: ListView.builder(
-              itemCount: projects.length,
-              itemBuilder: (context, index) {
-                return Card(
-                    child: ListTile(
-                  title: Text(projects[index]),
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: ((context) => Projects())));
-                  },
-                ));
-              }))
-    ]));
-  }
-
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: const Text("Attendance"),
-    );
-  }
-
-  Future<void> _selectInTime(
-      BuildContext context, Attendance attendance) async {
-    final TimeOfDay? timeOfDay = await showTimePicker(
-      context: context,
-      initialTime: attendance.in_ ?? inTime,
-      initialEntryMode: TimePickerEntryMode.dial,
-    );
-    // ignore: unnecessary_null_comparison
-    if (timeOfDay != null && timeOfDay != attendance.in_) {
-      setState(() {
-        var index = workmens
-            .indexWhere((element) => element.workmenId == attendance.workmenId);
-
-        workmens[index].in_ = timeOfDay;
-        workmens[index].selected = true;
-      });
-    }
-  }
-
-  Future<void> _selectOutTime(
-      BuildContext context, Attendance attendance) async {
-    final TimeOfDay? timeOfDay = await showTimePicker(
-      context: context,
-      initialTime: attendance.out ?? outTime,
-      initialEntryMode: TimePickerEntryMode.dial,
-    );
-    // ignore: unnecessary_null_comparison
-    if (timeOfDay != null && timeOfDay != attendance.out) {
-      setState(() {
-        var index = workmens
-            .indexWhere((element) => element.workmenId == attendance.workmenId);
-        workmens[index].out = timeOfDay;
-        workmens[index].selected = true;
-      });
-    }
+  Future _openRequest(currentRequest) async {
+    PurchaseRequest? request =
+        await Navigator.of(context).push(new MaterialPageRoute<PurchaseRequest>(
+            builder: (BuildContext context) {
+              return new RequestScreen(request: currentRequest);
+            },
+            fullscreenDialog: true));
   }
 }

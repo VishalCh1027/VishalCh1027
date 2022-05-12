@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_application/constatnts.dart';
-import 'package:my_application/ui/screens/attendance.dart';
+
+import 'attendancescreen.dart';
 
 class SelectProject extends StatelessWidget {
   const SelectProject({Key? key, required this.projects}) : super(key: key);
@@ -30,7 +31,7 @@ class SelectProject extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: ((context) =>
-                              AttendancePage(project: projects[index]))));
+                              AttendanceScreen(project: projects[index]))));
                 },
               ));
             }));

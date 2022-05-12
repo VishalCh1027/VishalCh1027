@@ -7,7 +7,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../../constatnts.dart';
 import '../widgets/account_icon.dart';
 import '../widgets/main_drawer.dart';
-import 'attendance.dart';
+import 'attendancescreen.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({Key? key, this.animationController});
@@ -201,7 +201,7 @@ class _Dashboard extends State<Dashboard> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: ((context) => AttendancePage(
+                                      builder: ((context) => AttendanceScreen(
                                           project: projects[0]))));
                             },
                             child: Container(
@@ -230,8 +230,8 @@ class _Dashboard extends State<Dashboard> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: ((context) =>
-                                        AttendancePage(project: projects[0]))));
+                                    builder: ((context) => AttendanceScreen(
+                                        project: projects[0]))));
                           },
                           child: Card(
                               shape: RoundedRectangleBorder(
@@ -257,7 +257,7 @@ class _Dashboard extends State<Dashboard> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: ((context) => AttendancePage(
+                                      builder: ((context) => AttendanceScreen(
                                           project: projects[0]))));
                             },
                             child: Container(
@@ -285,7 +285,7 @@ class _Dashboard extends State<Dashboard> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: ((context) => AttendancePage(
+                                      builder: ((context) => AttendanceScreen(
                                           project: projects[0]))));
                             },
                             child: Container(

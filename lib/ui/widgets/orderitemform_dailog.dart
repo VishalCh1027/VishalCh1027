@@ -36,144 +36,165 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
-        backgroundColor: AppTheme.white,
-        appBar: new AppBar(
-            leading: IconButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(
-                  FontAwesomeIcons.xmark,
-                  color: AppTheme.nearlyBlack,
-                )),
-            title: const Text('Add New Item',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 22 + 6 - 6,
-                  letterSpacing: 1.2,
-                  color: AppTheme.darkerText,
-                )),
-            actions: <Widget>[
-              new TextButton(
-                  child: new Text(
-                    'ADD',
-                    style: TextStyle(color: AppTheme.nearlyDarkBlue),
-                  ),
+      backgroundColor: AppTheme.background,
+      appBar: new AppBar(
+        toolbarHeight: 80,
+        backgroundColor: AppTheme.background,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(
+              FontAwesomeIcons.xmark,
+              color: AppTheme.nearlyBlack,
+            )),
+        title: const Text(
+          'Request Item',
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontFamily: AppTheme.fontName,
+            fontWeight: FontWeight.w700,
+            fontSize: 22 + 6 - 6,
+            letterSpacing: 1.2,
+            color: AppTheme.darkerText,
+          ),
+        ),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 15),
+              child: IconButton(
+                  color: AppTheme.nearlyDarkBlue,
+                  icon:
+                      const Icon(IconData(0xe156, fontFamily: 'MaterialIcons')),
                   onPressed: () {
                     checkForm();
                     if (_canSave) {
                       Navigator.of(context).pop(_item);
                     }
-                  })
-            ]),
-        body: Center(
+                  }))
+        ],
+      ),
+      body: Center(
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppTheme.white,
+          ),
+          width: MediaQuery.of(context).size.width,
+          child: Padding(
+            padding: EdgeInsets.only(left: 30, right: 30, top: 30),
             child: Container(
-          width: 350,
-          child: Form(
-              key: formKey,
-              child: Column(children: [
-                TextFormField(
-                  initialValue: _item.name,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter name';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    _item.name = value;
-                  },
-                  decoration: const InputDecoration(
-                      icon: Icon(
-                        Icons.person,
-                        color: Colors.blue,
-                      ),
-                      labelText: 'Name',
-                      labelStyle: TextStyle(
-                        color: AppTheme.nearlyDarkBlue,
-                      )),
-                ),
-                TextFormField(
-                  initialValue: _item.description,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter description';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    _item.description = value;
-                  },
-                  decoration: const InputDecoration(
-                      icon: Icon(
-                        Icons.person,
-                        color: Colors.blue,
-                      ),
-                      labelText: 'Description',
-                      labelStyle: TextStyle(
-                        color: AppTheme.nearlyDarkBlue,
-                      )),
-                ),
-                DropdownButtonFormField(
-                    elevation: 2,
-                    value: _item.unit,
-                    validator: (value) {
-                      if (value == null) {
-                        return 'Please select unit';
-                      }
-                      return null;
-                    },
-                    items: Unit.values.map((item) {
-                      return new DropdownMenuItem<String>(
-                        value: item.toString(),
-                        child: new Text(
-                          item.name,
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _item.unit =
-                            value.toString().replaceFirst(RegExp("Unit."), "");
-                      });
-                    },
-                    decoration: InputDecoration(
+              width: MediaQuery.of(context).size.width - 40,
+              height: MediaQuery.of(context).size.height - 100,
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    TextFormField(
+                      initialValue: _item.name,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter name';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        _item.name = value;
+                      },
+                      decoration: const InputDecoration(
                         icon: Icon(
-                          FontAwesomeIcons.ruler,
-                          color: Colors.blue,
+                          Icons.person,
+                          color: AppTheme.nearlyDarkBlue,
                         ),
-                        labelText: "Unit",
-                        labelStyle: TextStyle(color: AppTheme.nearlyDarkBlue))),
-                TextFormField(
-                  initialValue:
-                      _item.quantity != null ? _item.quantity.toString() : null,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter Quantity';
-                    }
-                    return null;
-                  },
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(
-                        RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
-                  ],
-                  onChanged: (value) {
-                    _item.quantity = double.tryParse(value);
-                  },
-                  decoration: const InputDecoration(
-                      icon: Icon(
-                        FontAwesomeIcons.arrowUpWideShort,
-                        color: Colors.blue,
+                        labelText: 'Name',
+                        labelStyle: TextStyle(
+                          color: AppTheme.nearlyDarkBlue,
+                        ),
                       ),
-                      labelText: 'Quantity',
-                      labelStyle: TextStyle(
-                        color: AppTheme.nearlyDarkBlue,
-                      )),
+                    ),
+                    TextFormField(
+                      initialValue: _item.description,
+                      onChanged: (value) {
+                        _item.description = value;
+                      },
+                      decoration: const InputDecoration(
+                        icon: Icon(
+                          FontAwesomeIcons.circleInfo,
+                          color: AppTheme.nearlyDarkBlue,
+                        ),
+                        labelText: 'Description',
+                        labelStyle: TextStyle(
+                          color: AppTheme.nearlyDarkBlue,
+                        ),
+                      ),
+                    ),
+                    DropdownButtonFormField(
+                        elevation: 2,
+                        value: _item.unit,
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select unit';
+                          }
+                          return null;
+                        },
+                        items: Unit.values.map((item) {
+                          return new DropdownMenuItem<String>(
+                            value: item.name.toString(),
+                            child: new Text(
+                              item.name.toString(),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _item.unit = value
+                                .toString()
+                                .replaceFirst(RegExp("Unit."), "");
+                          });
+                        },
+                        decoration: InputDecoration(
+                            icon: Icon(
+                              FontAwesomeIcons.ruler,
+                              color: AppTheme.nearlyDarkBlue,
+                            ),
+                            labelText: "Unit",
+                            labelStyle:
+                                TextStyle(color: AppTheme.nearlyDarkBlue))),
+                    TextFormField(
+                      initialValue: _item.quantity != null
+                          ? _item.quantity.toString()
+                          : null,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please enter Quantity';
+                        }
+                        return null;
+                      },
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(
+                            RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
+                      ],
+                      onChanged: (value) {
+                        _item.quantity = double.tryParse(value);
+                      },
+                      decoration: const InputDecoration(
+                        icon: Icon(
+                          FontAwesomeIcons.arrowUpWideShort,
+                          color: AppTheme.nearlyDarkBlue,
+                        ),
+                        labelText: 'Quantity',
+                        labelStyle: TextStyle(
+                          color: AppTheme.nearlyDarkBlue,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ])),
-        )));
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   void checkForm() {

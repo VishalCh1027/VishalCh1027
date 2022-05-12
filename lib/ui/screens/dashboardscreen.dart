@@ -10,15 +10,15 @@ import '../widgets/water_view.dart';
 import '../widgets/wave_view.dart';
 import '../widgets/title_view.dart';
 
-class DashboardPage extends StatefulWidget {
-  const DashboardPage({Key? key, this.animationController}) : super(key: key);
+class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({Key? key, this.animationController}) : super(key: key);
 
   final AnimationController? animationController;
   @override
-  _DashboardPage createState() => _DashboardPage();
+  _DashboardScreen createState() => _DashboardScreen();
 }
 
-class _DashboardPage extends State<DashboardPage>
+class _DashboardScreen extends State<DashboardScreen>
     with TickerProviderStateMixin {
   Animation<double>? topBarAnimation;
 

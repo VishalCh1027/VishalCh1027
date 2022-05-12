@@ -90,4 +90,3 @@ flutter:
               - asset: assets/fonts/Roboto-Medium.ttf
                 weight: 400
 
-  # see https://flutter.dev/custom-fonts/#from-packages

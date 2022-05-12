@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:my_application/models/orderItem_model.dart';
+import 'package:my_application/models/priority_enum.dart';
 import 'package:my_application/models/project_model.dart';
 
 class PurchaseRequest {
@@ -23,6 +24,10 @@ class PurchaseRequest {
 
   Project? project;
 
+  String? priority;
+
+  bool selected = false;
+
   PurchaseRequest(
       {this.id,
       this.orderNo,
@@ -32,7 +37,8 @@ class PurchaseRequest {
       this.reason,
       this.employeeId,
       this.projectId,
-      this.project})
+      this.project,
+      this.priority})
       : orderItems = [];
 
   PurchaseRequest.fromJson(Map<String, dynamic> json) {
@@ -47,6 +53,9 @@ class PurchaseRequest {
     employeeId = json['employeeId'];
     projectId = json['projectId'];
     project = Project.fromJson(json['project']);
+    priority = RequestPriority.values[json['priority']]
+        .toString()
+        .replaceFirst(RegExp("RequestPriority."), "");
   }
 
   Map<String, dynamic> toJson() {

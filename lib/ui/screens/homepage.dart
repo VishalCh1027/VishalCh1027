@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:my_application/constatnts.dart';
 import 'package:my_application/ui/screens/Projects.dart';
-import 'package:my_application/ui/screens/Purchase.dart';
-import 'package:my_application/ui/screens/attendance.dart';
 import 'package:my_application/ui/screens/dashboard.dart';
 import 'package:my_application/ui/screens/selectProject.dart';
 
 import '../widgets/account_icon.dart';
 import 'Profile_Details.dart';
+import 'Purchasesscreen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -102,7 +101,7 @@ class _HomePage extends State<HomePage> {
           },
           controller: _pageController,
           children: [
-            Purchases(),
+            PurchasesScreen(),
             SelectProject(
               projects: projects,
             ),

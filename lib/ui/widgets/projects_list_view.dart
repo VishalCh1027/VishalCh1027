@@ -81,10 +81,12 @@ class _ProjectListView extends State<ProjectListView>
                   final int count = projects.length > 10 ? 10 : projects.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController!,
-                              curve: Interval((1 / count) * index, 1.0,
-                                  curve: Curves.fastOutSlowIn)));
+                    CurvedAnimation(
+                      parent: animationController!,
+                      curve: Interval((1 / count) * index, 1.0,
+                          curve: Curves.fastOutSlowIn),
+                    ),
+                  );
                   animationController?.forward();
 
                   return ProjectsView(
@@ -202,28 +204,29 @@ class ProjectsView extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                      bottom: 20,
-                      left: 15,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppTheme.nearlyWhite,
-                          shape: BoxShape.circle,
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: AppTheme.nearlyBlack.withOpacity(0.4),
-                                offset: Offset(8.0, 8.0),
-                                blurRadius: 8.0),
-                          ],
+                    bottom: 20,
+                    left: 15,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppTheme.nearlyWhite,
+                        shape: BoxShape.circle,
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              color: AppTheme.nearlyBlack.withOpacity(0.4),
+                              offset: Offset(8.0, 8.0),
+                              blurRadius: 8.0),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Icon(
+                          Icons.add,
+                          color: HexColor("#6F72CA"),
+                          size: 24,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(6.0),
-                          child: Icon(
-                            Icons.add,
-                            color: HexColor("#6F72CA"),
-                            size: 24,
-                          ),
-                        ),
-                      )),
+                      ),
+                    ),
+                  ),
                   Positioned(
                     top: 0,
                     left: 0,

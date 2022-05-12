@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_application/app_theme.dart';
 import 'package:my_application/constatnts.dart';
 import 'login_page.dart';
-//import 'dashboard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
