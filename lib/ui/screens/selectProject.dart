@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_application/constatnts.dart';
+import 'package:my_application/Apptheme/constatnts.dart';
 
 import 'attendancescreen.dart';
 
@@ -26,13 +26,7 @@ class SelectProject extends StatelessWidget {
               return Card(
                   child: ListTile(
                 title: Text(projects[index]),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: ((context) =>
-                              AttendanceScreen(project: projects[index]))));
-                },
+                onTap: () {},
               ));
             }));
   }

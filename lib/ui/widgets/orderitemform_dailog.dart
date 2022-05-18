@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart';
 import 'package:my_application/models/orderItem_model.dart';
 
-import '../../app_theme.dart';
+import '../../Apptheme/app_theme.dart';
 
 class OrderItemUpdatePage extends StatefulWidget {
   OrderItemUpdatePage({Key? key, this.orderItem});
@@ -45,7 +44,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
               Navigator.of(context).pop();
             },
             icon: Icon(
-              FontAwesomeIcons.xmark,
+              Icons.clear_rounded,
               color: AppTheme.nearlyBlack,
             )),
         title: const Text(
@@ -118,7 +117,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                       },
                       decoration: const InputDecoration(
                         icon: Icon(
-                          FontAwesomeIcons.circleInfo,
+                          Icons.info_outline_rounded,
                           color: AppTheme.nearlyDarkBlue,
                         ),
                         labelText: 'Description',
@@ -153,7 +152,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                         },
                         decoration: InputDecoration(
                             icon: Icon(
-                              FontAwesomeIcons.ruler,
+                              Icons.linear_scale_rounded,
                               color: AppTheme.nearlyDarkBlue,
                             ),
                             labelText: "Unit",
@@ -178,7 +177,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                       },
                       decoration: const InputDecoration(
                         icon: Icon(
-                          FontAwesomeIcons.arrowUpWideShort,
+                          Icons.production_quantity_limits_rounded,
                           color: AppTheme.nearlyDarkBlue,
                         ),
                         labelText: 'Quantity',

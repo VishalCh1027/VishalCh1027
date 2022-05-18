@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
-import 'package:my_application/constatnts.dart';
+import 'package:my_application/Apptheme/constatnts.dart';
 import 'package:my_application/ui/screens/Projects.dart';
 import 'package:my_application/ui/screens/dashboard.dart';
 import 'package:my_application/ui/screens/selectProject.dart';
@@ -38,48 +37,6 @@ class _HomePage extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: SnakeNavigationBar.color(
-          behaviour: SnakeBarBehaviour.pinned,
-          snakeShape: SnakeShape.circle,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          padding: EdgeInsets.zero,
-
-          ///configuration for SnakeNavigationBar.color
-          snakeViewColor: kCaptionColor,
-          selectedItemColor: Color.fromRGBO(39, 50, 80, 1),
-          unselectedItemColor: Colors.blueGrey,
-
-          ///configuration for SnakeNavigationBar.gradient
-          //snakeViewGradient: selectedGradient,
-          //selectedItemGradient: snakeShape == SnakeShape.indicator ? selectedGradient : null,
-          //unselectedItemGradient: unselectedGradient,
-
-          showUnselectedLabels: false,
-          showSelectedLabels: true,
-
-          currentIndex: _selectedIndex,
-          onTap: (index) {
-            onTap(index);
-          },
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(IconData(0xe189, fontFamily: 'MaterialIcons')),
-                label: 'Project'),
-            BottomNavigationBarItem(
-                icon: Icon(IconData(0xf05ef, fontFamily: 'MaterialIcons')),
-                label: 'Attendance'),
-            BottomNavigationBarItem(
-                icon: Icon(IconData(0xe8af, fontFamily: 'MaterialIcons')),
-                label: 'home'),
-            BottomNavigationBarItem(
-                icon: Icon(IconData(0xe567, fontFamily: 'MaterialIcons')),
-                label: 'Requests'),
-            BottomNavigationBarItem(
-                icon: Icon(IconData(0xe3dc, fontFamily: 'MaterialIcons')),
-                label: 'Menu')
-          ],
-        ),
         appBar: _selectedIndex == 2
             ? AppBar(
                 automaticallyImplyLeading: false,

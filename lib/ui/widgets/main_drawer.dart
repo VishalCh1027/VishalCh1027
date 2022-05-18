@@ -8,8 +8,7 @@ import '../screens/Purchasesscreen.dart';
 import '../screens/selectProject.dart';
 
 class MainDrawer extends StatelessWidget {
-  const MainDrawer(Key? key, this.projects) : super(key: key);
-  final projects;
+  MainDrawer();
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -72,14 +71,7 @@ class MainDrawer extends StatelessWidget {
                 fontSize: 18,
               ),
             ),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: ((context) => SelectProject(
-                            projects: projects,
-                          ))));
-            },
+            onTap: () {},
           ),
           ListTile(
             leading: const Icon(Icons.person),

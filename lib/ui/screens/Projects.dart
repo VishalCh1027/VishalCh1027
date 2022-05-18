@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import 'package:my_application/constatnts.dart';
-import 'package:my_application/models/PurchaseRequest_model.dart';
+import 'package:my_application/Apptheme/constatnts.dart';
+import 'package:my_application/models/purchaserequest_model.dart';
 import 'package:my_application/ui/screens/requestscreen.dart';
 
-import '../../app_theme.dart';
+import '../../Apptheme/app_theme.dart';
 
 var requests = List<PurchaseRequest>.from([
   {
@@ -1948,17 +1947,16 @@ class _Projects extends State<Projects> with TickerProviderStateMixin {
                                         padding: const EdgeInsets.all(10),
                                         child: requests[index].status == 0
                                             ? Icon(
-                                                FontAwesomeIcons.thumbsUp,
+                                                Icons.thumb_up_off_alt_rounded,
                                                 color: Colors.green,
                                               )
                                             : requests[index].status == 3
                                                 ? Icon(
-                                                    FontAwesomeIcons
-                                                        .circleXmark,
+                                                    Icons.clear_rounded,
                                                     color: Colors.red,
                                                   )
                                                 : Icon(
-                                                    FontAwesomeIcons.hand,
+                                                    Icons.back_hand_outlined,
                                                     color: Colors.grey,
                                                   ),
                                       ),

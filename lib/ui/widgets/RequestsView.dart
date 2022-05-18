@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dart:math' as math;
 
-import '../../app_theme.dart';
+import '../../Apptheme/app_theme.dart';
 import '../../main.dart';
 
 class RequetsView extends StatelessWidget {
@@ -99,7 +98,8 @@ class RequetsView extends StatelessWidget {
                                                   width: 28,
                                                   height: 28,
                                                   child: Icon(
-                                                    FontAwesomeIcons.thumbsUp,
+                                                    Icons
+                                                        .thumb_up_off_alt_rounded,
                                                     color: HexColor('#6ef578'),
                                                   ),
                                                 ),

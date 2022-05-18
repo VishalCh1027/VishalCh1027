@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
-import 'package:my_application/constatnts.dart';
-import 'package:my_application/models/PurchaseRequest_model.dart';
+import 'package:my_application/models/purchaserequest_model.dart';
 import 'package:my_application/ui/screens/requestscreen.dart';
 
-import '../../app_theme.dart';
+import '../../Apptheme/app_theme.dart';
 
 var requests = List<PurchaseRequest>.from([
   {
@@ -1976,127 +1974,139 @@ class _PurchasesScreen extends State<PurchasesScreen>
                       color: requests[index].selected
                           ? Color.fromARGB(255, 248, 248, 250)
                           : null,
-                      child: ListTile(
-                        onTap: () {
-                          if (requests
-                              .any((element) => element.selected == true)) {
-                            if (isSelect) {
-                              widget.animationController
-                                  ?.fling()
-                                  .then<dynamic>((data) {
-                                setState(() {
-                                  requests.forEach((element) {
-                                    element.selected = false;
-                                  });
-                                });
-                              });
-                            } else {
-                              _openRequest(requests[index]);
-                            }
-                          } else {
-                            _openRequest(requests[index]);
-                          }
-                        },
-                        onLongPress: () {
-                          widget.animationController
-                              ?.fling()
-                              .then<dynamic>((data) {
-                            setState(() {
-                              requests.forEach((element) {
-                                element.selected = false;
-                                requests[index].selected = true;
-                                isSelect = true;
-                              });
-                            });
-                          });
-                        },
-                        leading: requests[index].selected
-                            ? TextButton(
-                                child: SizedBox(
+                      child: requests[index].selected
+                          ? Container(
+                              width: 300,
+                              height: 40,
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Expanded(
+                                      child: SizedBox(
                                     height: 50,
-                                    width: 175,
-                                    child: Icon(
-                                      Icons.delete_forever_rounded,
-                                      color: AppTheme.nearlyDarkBlue,
-                                      size: 20,
-                                    )),
-                                onPressed: () {
-                                  widget.animationController
-                                      ?.fling()
-                                      .then<dynamic>((data) {
-                                    setState(() {
-                                      requests.removeAt(index);
+                                    child: TextButton(
+                                      child: Icon(
+                                        Icons.create_rounded,
+                                        color: AppTheme.nearlyDarkBlue,
+                                        size: 20,
+                                      ),
+                                      onPressed: () {
+                                        _openRequest(requests[index]);
+                                      },
+                                    ),
+                                  )),
+                                  Expanded(
+                                    child: SizedBox(
+                                      height: 50,
+                                      child: TextButton(
+                                        child: Icon(
+                                          Icons.delete_forever_rounded,
+                                          color: AppTheme.nearlyDarkBlue,
+                                          size: 20,
+                                        ),
+                                        onPressed: () {
+                                          widget.animationController
+                                              ?.fling()
+                                              .then<dynamic>((data) {
+                                            setState(() {
+                                              requests.removeAt(index);
+                                            });
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ))
+                          : ListTile(
+                              onTap: () {
+                                if (requests.any(
+                                    (element) => element.selected == true)) {
+                                  if (isSelect) {
+                                    widget.animationController
+                                        ?.fling()
+                                        .then<dynamic>((data) {
+                                      setState(() {
+                                        requests.forEach((element) {
+                                          element.selected = false;
+                                        });
+                                      });
+                                    });
+                                  } else {
+                                    _openRequest(requests[index]);
+                                  }
+                                } else {
+                                  _openRequest(requests[index]);
+                                }
+                              },
+                              onLongPress: () {
+                                widget.animationController
+                                    ?.fling()
+                                    .then<dynamic>((data) {
+                                  setState(() {
+                                    requests.forEach((element) {
+                                      element.selected = false;
+                                      requests[index].selected = true;
+                                      isSelect = true;
                                     });
                                   });
-                                },
-                              )
-                            : null,
-                        title: requests[index].selected
-                            ? null
-                            : SizedBox(
-                                child: Text(
-                                  requests[index]
-                                      .orderNo
-                                      .toString()
-                                      .replaceRange(18, null, ""),
-                                  maxLines: 3,
-                                ),
-                              ),
-                        trailing: requests[index].selected
-                            ? TextButton(
-                                child: SizedBox(
-                                    height: 50,
-                                    width: 175,
-                                    child: Icon(
-                                      Icons.create_rounded,
-                                      color: AppTheme.nearlyDarkBlue,
-                                      size: 20,
-                                    )),
-                                onPressed: () {
-                                  _openRequest(requests[index]);
-                                },
-                              )
-                            : Row(mainAxisSize: MainAxisSize.min, children: [
-                                Padding(
-                                  padding: EdgeInsets.only(right: 15),
-                                  child: SizedBox(
-                                      width: 50,
-                                      child: Center(
-                                          child: Text(
-                                        requests[index].priority!,
-                                      ))),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 15),
-                                  child: Text(
-                                    DateFormat("dd-MM-yyyy")
-                                        .format(requests[index].deliveryAt!),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: requests[index].status == 0
-                                      ? Icon(
-                                          Icons.change_circle_outlined,
-                                          color: Colors.blue,
-                                        )
-                                      : requests[index].status == 2
+                                });
+                              },
+                              title: requests[index].selected
+                                  ? null
+                                  : SizedBox(
+                                      child: Text(
+                                        requests[index]
+                                            .orderNo
+                                            .toString()
+                                            .replaceRange(18, null, ""),
+                                        maxLines: 3,
+                                      ),
+                                    ),
+                              trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 15),
+                                      child: SizedBox(
+                                          width: 50,
+                                          child: Center(
+                                              child: Text(
+                                            requests[index].priority!,
+                                          ))),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 15),
+                                      child: Text(
+                                        DateFormat("dd-MM-yyyy").format(
+                                            requests[index].deliveryAt!),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: requests[index].status == 0
                                           ? Icon(
-                                              FontAwesomeIcons.thumbsUp,
-                                              color: Colors.green,
+                                              Icons.change_circle_outlined,
+                                              color: Colors.blue,
                                             )
-                                          : requests[index].status == 3
+                                          : requests[index].status == 2
                                               ? Icon(
-                                                  FontAwesomeIcons.circleXmark,
-                                                  color: Colors.red,
+                                                  Icons
+                                                      .thumb_up_off_alt_rounded,
+                                                  color: Colors.green,
                                                 )
-                                              : Icon(
-                                                  FontAwesomeIcons.hand,
-                                                  color: Colors.grey,
-                                                ),
-                                ),
-                              ]),
-                      ),
+                                              : requests[index].status == 3
+                                                  ? Icon(
+                                                      Icons.clear_rounded,
+                                                      color: Colors.red,
+                                                    )
+                                                  : Icon(
+                                                      Icons.back_hand_outlined,
+                                                      color: Colors.grey,
+                                                    ),
+                                    ),
+                                  ]),
+                            ),
                     ),
                   ),
                 ),
@@ -2124,5 +2134,14 @@ class _PurchasesScreen extends State<PurchasesScreen>
           },
           fullscreenDialog: true),
     );
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      widget.animationController?.fling().then<dynamic>((data) {
+        setState(() {
+          if (request != null && !requests.contains(request)) {
+            requests.add(request);
+          }
+        });
+      });
+    });
   }
 }

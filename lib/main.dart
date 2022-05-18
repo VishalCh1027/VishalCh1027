@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:my_application/app_theme.dart';
-import 'package:my_application/constatnts.dart';
+import 'package:my_application/Apptheme/app_theme.dart';
+import 'package:my_application/Apptheme/constatnts.dart';
 import 'login_page.dart';
 
 void main() async {

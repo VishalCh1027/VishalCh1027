@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_application/app_theme.dart';
+import 'package:my_application/Apptheme/app_theme.dart';
+import 'package:my_application/bloc/login/service.dart';
 import 'package:my_application/main.dart';
 import 'package:my_application/ui/screens/dashboard.dart';
 import 'package:my_application/ui/screens/forgetpasswordscreen.dart';
 import 'package:my_application/ui/screens/home_screen.dart';
 import 'package:my_application/ui/screens/homepage.dart';
+import 'package:my_application/ui/widgets/Loading_dailog.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'global/global_function.dart';
 import 'ui/screens/dashboard.dart';
 
 class LoginPage extends StatefulWidget {
@@ -25,40 +27,47 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController usernameCntrlr = TextEditingController();
   TextEditingController passwordCntrlr = TextEditingController();
 
+  double? padding = 50;
   var obscure = true;
 
   String userName = 'test@gmail.com';
   String passWord = '1234567';
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 25.0, // soften the shadow
-              spreadRadius: 1, //extend the shadow
-            )
+        body: Container(
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 25.0, // soften the shadow
+            spreadRadius: 1, //extend the shadow
+          )
+        ],
+        gradient: LinearGradient(
+          colors: <HexColor>[
+            HexColor("#6899f5"),
+            HexColor("#d173bb"),
           ],
-          gradient: LinearGradient(
-            colors: <HexColor>[
-              HexColor("#6899f5"),
-              HexColor("#d173bb"),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
-        width: MediaQuery.of(context).size.width,
-        padding:
-            const EdgeInsets.only(left: 10, right: 10, top: 190, bottom: 190),
-        child: Stack(children: <Widget>[
-          Card(
-            elevation: 25,
-            child: Container(
+      ),
+      width: MediaQuery.of(context).size.width,
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: CustomPaint(
+          painter: CurvedPainter(),
+          child: Stack(children: <Widget>[
+            Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(40)),
               ),
@@ -67,27 +76,19 @@ class _LoginPageState extends State<LoginPage> {
                 child: Expanded(
                   child: Form(
                     key: formKey,
-                    child: Column(children: [
+                    child: Column(mainAxisSize: MainAxisSize.min, children: [
                       const SizedBox(
-                        height: 20,
+                        height: 70,
                       ),
                       Text(
                         'Login',
                         textAlign: TextAlign.left,
                         style: GoogleFonts.fredokaOne(
                           fontSize: 31,
-                          // foreground: Paint()
-                          //   ..shader = LinearGradient(
-                          //     colors: <Color>[
-                          //       HexColor("#6899f5"),
-                          //       HexColor("#d173bb"),
-                          //     ],
-                          //   ).createShader(
-                          //       Rect.fromLTWH(0.0, 0.0, 400.0, 100.0)),
                         ),
                       ),
                       const SizedBox(
-                        height: 40,
+                        height: 30,
                       ),
                       TextFormField(
                         validator: (value) {
@@ -127,11 +128,12 @@ class _LoginPageState extends State<LoginPage> {
                         controller: passwordCntrlr, //detects the controller
                         obscureText: obscure,
                         decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(0),
                             suffixIcon: Padding(
                                 padding: EdgeInsets.only(top: 20, left: 10),
                                 child: InkWell(
                                   child: Icon(
-                                    FontAwesomeIcons.eyeSlash,
+                                    Icons.remove_red_eye,
                                     size: 12,
                                   ),
                                   onTap: () {
@@ -170,61 +172,95 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: 23,
                       ),
-                      TextButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                AppTheme.nearlyDarkBlue),
-                            shape: MaterialStateProperty.all<
-                                RoundedRectangleBorder>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            ))),
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            if (usernameCntrlr.text != userName) {
-                              Alert(
-                                      context: context,
-                                      title: "Login Failed",
-                                      desc: "Wrong username.")
-                                  .show();
-                            } else if (passwordCntrlr.text != passWord) {
-                              Alert(
-                                      context: context,
-                                      title: "Login Failed",
-                                      desc: "Wrong password.")
-                                  .show();
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AppHomeScreen()),
-                              );
-                            }
-                          } else {
-                            Alert(
-                                    context: context,
-                                    title: "Login Failed",
-                                    desc: "invalid Attempt.")
-                                .show();
-                          }
-                        },
-                        child: SizedBox(
-                          width: 300,
-                          height: 30,
-                          child: Center(
-                              child: Text(
-                            'Login',
-                            style: TextStyle(color: Colors.white),
-                          )),
-                        ),
+                      _buildloginbutton(),
+                      SizedBox(
+                        height: padding,
                       ),
                     ]),
                   ),
                 ),
               ),
             ),
+          ]),
+        ),
+      ),
+    ));
+  }
+
+  Widget _buildloginbutton() {
+    return TextButton(
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(AppTheme.nearlyDarkBlue),
+          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0),
+          ))),
+      onPressed: () async {
+        if (formKey.currentState!.validate()) {
+          LoadingDialog.showLoadingDialog(context);
+          var account = await LoginService()
+              .logIn(usernameCntrlr.text, passwordCntrlr.text);
+          LoadingDialog.hideLoadingDialog(context);
+          if (account != null) {
+            refreshLogin(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AppHomeScreen()),
+            );
+          } else {
+            Alert(
+                    context: context,
+                    title: "Login Failed",
+                    desc: "Wrong password.")
+                .show();
+          }
+        } else {
+          setState(() {
+            padding = 0;
+          });
+          Alert(
+                  context: context,
+                  title: "Login Failed",
+                  desc: "invalid Attempt.")
+              .show();
+        }
+      },
+      child: const SizedBox(
+        width: 300,
+        height: 30,
+        child: Center(
+          child: Text(
+            'Login',
+            style: TextStyle(color: Colors.white),
           ),
-        ]),
+        ),
       ),
     );
+  }
+}
+
+class CurvedPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = Colors.white
+      ..strokeWidth = 15;
+
+    var path = Path();
+
+    path.moveTo(0, size.height * 0.17);
+    path.quadraticBezierTo(size.width * 0.25, size.height * 0.01,
+        size.width * 0.5, size.height * 0.12);
+    path.quadraticBezierTo(size.width * 0.75, size.height * 0.24,
+        size.width * 1.0, size.height * 0.1);
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
   }
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:my_application/ui/screens/purchasesscreen.dart';
 
-import '../../app_theme.dart';
+import '../../Apptheme/app_theme.dart';
 import '../../models/project_model.dart';
 import '../widgets/RequestsView.dart';
 import '../widgets/body_measurement.dart';
 import '../widgets/glass_view.dart';
+import '../widgets/main_drawer.dart';
 import '../widgets/projects_list_view.dart';
 import '../widgets/water_view.dart';
 import '../widgets/wave_view.dart';
@@ -108,7 +110,7 @@ class _DashboardScreen extends State<DashboardScreen>
     listViews.add(
       TitleView(
         titleTxt: 'Attendance',
-        subTxt: 'Today',
+        istrailing: false,
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:
@@ -118,7 +120,7 @@ class _DashboardScreen extends State<DashboardScreen>
     );
 
     listViews.add(
-      BodyMeasurementView(
+      AttendanceTileView(
         animation: Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
             parent: widget.animationController!,
             curve:

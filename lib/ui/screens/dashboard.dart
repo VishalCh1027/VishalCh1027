@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_application/ui/screens/selectProject.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../../constatnts.dart';
+import '../../Apptheme/constatnts.dart';
 import '../widgets/account_icon.dart';
 import '../widgets/main_drawer.dart';
 import 'attendancescreen.dart';

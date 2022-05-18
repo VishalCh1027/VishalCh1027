@@ -1,18 +1,16 @@
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
-import 'package:my_application/constatnts.dart';
-import 'package:my_application/models/PurchaseRequest_model.dart';
+import 'package:my_application/Apptheme/constatnts.dart';
+import 'package:my_application/models/purchaserequest_model.dart';
 import 'package:my_application/models/orderItem_model.dart';
 import 'package:my_application/models/priority_enum.dart';
 import 'package:my_application/models/project_model.dart';
 import 'package:my_application/ui/screens/requestscreen.dart';
 import 'package:my_application/ui/widgets/orderitemform_dailog.dart';
 
-import '../../app_theme.dart';
+import '../../Apptheme/app_theme.dart';
 import '../widgets/title_view.dart';
 
 class RequestScreen extends StatefulWidget {
@@ -150,13 +148,30 @@ class _RequestScreen extends State<RequestScreen>
                                 decoration: InputDecoration(
                                   labelText: "Project",
                                 )),
-                            _deliverydatebuild(),
+                            TextFormField(
+                              initialValue: request.deliveryAt
+                                  .toString()
+                                  .replaceRange(11, null, ""),
+                              onTap: () {
+                                _deliverydatebuild();
+                              },
+                              readOnly: true,
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Please select Delivery';
+                                }
+                                return null;
+                              },
+                              decoration: const InputDecoration(
+                                labelText: 'Delivery',
+                              ),
+                            ),
                             DropdownButtonFormField(
                               elevation: 2,
                               value: request.priority,
                               validator: (value) {
                                 if (value == null) {
-                                  return 'Please select unit';
+                                  return 'Please select Priority';
                                 }
                                 return null;
                               },
@@ -504,21 +519,27 @@ class _RequestScreen extends State<RequestScreen>
             }));
   }
 
-  Widget _deliverydatebuild() {
-    return DateTimeField(
-      initialValue: request.deliveryAt,
-      decoration: InputDecoration(
-        labelText: "Delivery Date",
-      ),
-      format: format,
-      onShowPicker: (context, currentValue) {
-        return showDatePicker(
-            context: context,
-            firstDate: DateTime(1900),
-            initialDate: currentValue ?? DateTime.now(),
-            lastDate: DateTime(2100));
-      },
-    );
+  Future<void> _deliverydatebuild() async {
+    DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(
+            2000), //DateTime.now() - not to allow to choose before today.
+        lastDate: DateTime(2101));
+
+    if (pickedDate != null) {
+      savedeliveryDate(pickedDate);
+    }
+  }
+
+  void savedeliveryDate(pickedDate) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      animationController?.fling().then<dynamic>((data) {
+        setState(() {
+          request.deliveryAt = pickedDate; //set output date to TextField value.
+        });
+      });
+    });
   }
 
   Future _openDialogAddItem(OrderItem? orderItem) async {
@@ -582,7 +603,7 @@ class _RequestScreen extends State<RequestScreen>
                 child: Center(
                   child: InkWell(
                     child: Icon(
-                      FontAwesomeIcons.xmark,
+                      Icons.clear_rounded,
                       color: AppTheme.nearlyDarkBlue,
                       size: 20,
                     ),
@@ -605,7 +626,7 @@ class _RequestScreen extends State<RequestScreen>
             ]),
             leading: InkWell(
               child: Icon(
-                FontAwesomeIcons.listCheck,
+                Icons.checklist_rounded,
                 color: AppTheme.nearlyDarkBlue,
                 size: 20,
               ),

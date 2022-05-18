@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 
-import '../../app_theme.dart';
+import '../../Apptheme/app_theme.dart';
 
 class TitleView extends StatelessWidget {
   final String titleTxt;
   final String subTxt;
+  final bool istrailing;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
-  const TitleView(
-      {Key? key,
-      this.titleTxt: "",
-      this.subTxt: "",
-      this.animationController,
-      this.animation})
-      : super(key: key);
+  const TitleView({
+    Key? key,
+    this.titleTxt: "",
+    this.subTxt: "",
+    this.istrailing = true,
+    this.animationController,
+    this.animation,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,38 +46,43 @@ class TitleView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    InkWell(
-                      highlightColor: Colors.transparent,
-                      borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      onTap: () {},
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Row(
-                          children: <Widget>[
-                            Text(
-                              subTxt,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 16,
-                                letterSpacing: 0.5,
-                                color: AppTheme.nearlyDarkBlue,
+                    istrailing
+                        ? InkWell(
+                            highlightColor: Colors.transparent,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(4.0)),
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: Row(
+                                children: <Widget>[
+                                  Text(
+                                    subTxt,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      fontFamily: AppTheme.fontName,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 16,
+                                      letterSpacing: 0.5,
+                                      color: AppTheme.nearlyDarkBlue,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 38,
+                                    width: 26,
+                                    child: Icon(
+                                      Icons.arrow_forward,
+                                      color: AppTheme.darkText,
+                                      size: 18,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(
-                              height: 38,
-                              width: 26,
-                              child: Icon(
-                                Icons.arrow_forward,
-                                color: AppTheme.darkText,
-                                size: 18,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
+                          )
+                        : Container(
+                            height: 38,
+                          ),
                   ],
                 ),
               ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_application/constatnts.dart';
+import 'package:my_application/Apptheme/constatnts.dart';
 
 class Details extends StatefulWidget {
   const Details({Key? key, this.animationController}) : super(key: key);

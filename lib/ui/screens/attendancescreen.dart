@@ -2,18 +2,20 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:my_application/constatnts.dart';
+import 'package:my_application/Apptheme/constatnts.dart';
 import 'package:my_application/models/workmen_model.dart';
 
-import '../../app_theme.dart';
+import '../../Apptheme/app_theme.dart';
 import '../../models/attendance_model.dart';
 
 class AttendanceScreen extends StatefulWidget {
-  const AttendanceScreen(
-      {Key? key, required this.project, this.animationController});
+  const AttendanceScreen({
+    Key? key,
+    required this.project,
+    this.animationController,
+  });
 
   final project;
   final AnimationController? animationController;
@@ -653,17 +655,6 @@ class _AttendanceScreenState extends State<AttendanceScreen>
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              height: 38,
-                              width: 38,
-                              child: InkWell(
-                                highlightColor: Colors.transparent,
-                                borderRadius: const BorderRadius.all(
-                                    Radius.circular(32.0)),
-                                onTap: () {},
-                                child: Center(),
-                              ),
-                            ),
                             Padding(
                               padding: const EdgeInsets.only(
                                 left: 8,
@@ -772,13 +763,13 @@ class _AttendanceScreenState extends State<AttendanceScreen>
                   //   borderRadius: BorderRadius.circular(8),
                   // ),
                   child: Container(
-                decoration: workmens[index].selected!
-                    ? BoxDecoration(
-                        border: Border(
-                        right: BorderSide(
-                            width: 5.0, color: AppTheme.nearlyDarkBlue),
-                      ))
-                    : BoxDecoration(),
+                // decoration: workmens[index].selected!
+                //     ? BoxDecoration(
+                //         border: Border(
+                //         right: BorderSide(
+                //             width: 5.0, color: AppTheme.nearlyDarkBlue),
+                //       ))
+                //     : BoxDecoration(),
                 child: ListTile(
                   onTap: () {
                     widget.animationController?.fling().then<dynamic>((data) {
@@ -806,8 +797,8 @@ class _AttendanceScreenState extends State<AttendanceScreen>
                               });
                         },
                         icon: Icon(
-                          FontAwesomeIcons.rightLeft,
-                          size: 13,
+                          Icons.multiple_stop_rounded,
+                          size: 20,
                           color: AppTheme.nearlyDarkBlue,
                         )),
                     Padding(
@@ -839,6 +830,10 @@ class _AttendanceScreenState extends State<AttendanceScreen>
                               });
                             },
                             items: const [
+                              DropdownMenuItem(
+                                child: Text("0"),
+                                value: 0,
+                              ),
                               DropdownMenuItem(
                                 child: Text("4"),
                                 value: 4,
@@ -887,8 +882,9 @@ class _AttendanceScreenState extends State<AttendanceScreen>
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: ((context) =>
-                                AttendanceScreen(project: projects[index]))));
+                            builder: ((context) => AttendanceScreen(
+                                  project: projects[index],
+                                ))));
                   },
                 ));
               }))

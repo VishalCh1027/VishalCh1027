@@ -1,13 +1,36 @@
-import 'package:flutter/material.dart';
-import 'package:my_application/app_theme.dart';
+import 'dart:async';
 
-class BodyMeasurementView extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:my_application/Apptheme/app_theme.dart';
+
+class AttendanceTileView extends StatefulWidget {
+  AttendanceTileView({Key? key, this.animationController, this.animation});
+
+  final AnimationController? animationController;
+  final Animation<double>? animation;
+  @override
+  _AttendanceTileView createState() => _AttendanceTileView(
+      animationController: animationController, animation: animation);
+}
+
+class _AttendanceTileView extends State<AttendanceTileView> {
   final AnimationController? animationController;
   final Animation<double>? animation;
 
-  const BodyMeasurementView(
-      {Key? key, this.animationController, this.animation})
-      : super(key: key);
+  _AttendanceTileView({this.animationController, this.animation});
+  late Timer timer;
+  bool heading = true;
+  @override
+  void initState() {
+    super.initState();
+
+    timer = Timer.periodic(Duration(milliseconds: 500), (timer) {
+      setState(() {
+        heading = !heading;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +73,21 @@ class BodyMeasurementView extends StatelessWidget {
                             padding: const EdgeInsets.only(
                                 left: 4, bottom: 8, top: 16),
                             child: Text(
-                              'Weight',
+                              'Have you marked your workers attendance today',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  letterSpacing: -0.1,
+                                  color: heading ? AppTheme.grey : Colors.red),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                left: 4, bottom: 8, top: 16),
+                            child: Text(
+                              'Date',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontFamily: AppTheme.fontName,
@@ -72,12 +109,14 @@ class BodyMeasurementView extends StatelessWidget {
                                     padding: const EdgeInsets.only(
                                         left: 4, bottom: 3),
                                     child: Text(
-                                      '206.8',
+                                      DateFormat('dd-MM-yyyy')
+                                          .format(DateTime.now())
+                                          .toString(),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontFamily: AppTheme.fontName,
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 32,
+                                        fontSize: 22,
                                         color: AppTheme.nearlyDarkBlue,
                                       ),
                                     ),
@@ -86,7 +125,7 @@ class BodyMeasurementView extends StatelessWidget {
                                     padding: const EdgeInsets.only(
                                         left: 8, bottom: 8),
                                     child: Text(
-                                      'Ibs',
+                                      "",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontFamily: AppTheme.fontName,
@@ -133,7 +172,7 @@ class BodyMeasurementView extends StatelessWidget {
                                     padding: const EdgeInsets.only(
                                         top: 4, bottom: 14),
                                     child: Text(
-                                      'InBody SmartScale',
+                                      'Mark today\'s attendance',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontFamily: AppTheme.fontName,
@@ -162,121 +201,122 @@ class BodyMeasurementView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 24, right: 24, top: 8, bottom: 16),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  '185 cm',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontName,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    letterSpacing: -0.2,
-                                    color: AppTheme.darkText,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 6),
-                                  child: Text(
-                                    'Height',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color: AppTheme.grey.withOpacity(0.5),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text(
-                                      '27.3 BMI',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        letterSpacing: -0.2,
-                                        color: AppTheme.darkText,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 6),
-                                      child: Text(
-                                        'Overweight',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                          color: AppTheme.grey.withOpacity(0.5),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget>[
-                                    Text(
-                                      '20%',
-                                      style: TextStyle(
-                                        fontFamily: AppTheme.fontName,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        letterSpacing: -0.2,
-                                        color: AppTheme.darkText,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 6),
-                                      child: Text(
-                                        'Body fat',
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontFamily: AppTheme.fontName,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 12,
-                                          color: AppTheme.grey.withOpacity(0.5),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    )
+                    // Padding(
+                    //   padding: const EdgeInsets.only(
+                    //       left: 24, right: 24, top: 8, bottom: 16),
+                    //   child: Row(
+                    //     children: <Widget>[
+                    //       Expanded(
+                    //         child: Column(
+                    //           mainAxisAlignment: MainAxisAlignment.center,
+                    //           crossAxisAlignment: CrossAxisAlignment.start,
+                    //           children: <Widget>[
+                    //             Text(
+                    //               '185 cm',
+                    //               textAlign: TextAlign.center,
+                    //               style: TextStyle(
+                    //                 fontFamily: AppTheme.fontName,
+                    //                 fontWeight: FontWeight.w500,
+                    //                 fontSize: 16,
+                    //                 letterSpacing: -0.2,
+                    //                 color: AppTheme.darkText,
+                    //               ),
+                    //             ),
+                    //             Padding(
+                    //               padding: const EdgeInsets.only(top: 6),
+                    //               child: Text(
+                    //                 'Height',
+                    //                 textAlign: TextAlign.center,
+                    //                 style: TextStyle(
+                    //                   fontFamily: AppTheme.fontName,
+                    //                   fontWeight: FontWeight.w600,
+                    //                   fontSize: 12,
+                    //                   color: AppTheme.grey.withOpacity(0.5),
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //       Expanded(
+                    //         child: Row(
+                    //           mainAxisAlignment: MainAxisAlignment.center,
+                    //           crossAxisAlignment: CrossAxisAlignment.center,
+                    //           children: <Widget>[
+                    //             Column(
+                    //               mainAxisAlignment: MainAxisAlignment.center,
+                    //               crossAxisAlignment: CrossAxisAlignment.center,
+                    //               children: <Widget>[
+                    //                 Text(
+                    //                   '27.3 BMI',
+                    //                   textAlign: TextAlign.center,
+                    //                   style: TextStyle(
+                    //                     fontFamily: AppTheme.fontName,
+                    //                     fontWeight: FontWeight.w500,
+                    //                     fontSize: 16,
+                    //                     letterSpacing: -0.2,
+                    //                     color: AppTheme.darkText,
+                    //                   ),
+                    //                 ),
+                    //                 Padding(
+                    //                   padding: const EdgeInsets.only(top: 6),
+                    //                   child: Text(
+                    //                     'Overweight',
+                    //                     textAlign: TextAlign.center,
+                    //                     style: TextStyle(
+                    //                       fontFamily: AppTheme.fontName,
+                    //                       fontWeight: FontWeight.w600,
+                    //                       fontSize: 12,
+                    //                       color: AppTheme.grey.withOpacity(0.5),
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //       Expanded(
+                    //         child: Row(
+                    //           mainAxisAlignment: MainAxisAlignment.end,
+                    //           crossAxisAlignment: CrossAxisAlignment.center,
+                    //           children: <Widget>[
+                    //             Column(
+                    //               mainAxisAlignment: MainAxisAlignment.center,
+                    //               crossAxisAlignment: CrossAxisAlignment.end,
+                    //               children: <Widget>[
+                    //                 Text(
+                    //                   '20%',
+                    //                   style: TextStyle(
+                    //                     fontFamily: AppTheme.fontName,
+                    //                     fontWeight: FontWeight.w500,
+                    //                     fontSize: 16,
+                    //                     letterSpacing: -0.2,
+                    //                     color: AppTheme.darkText,
+                    //                   ),
+                    //                 ),
+                    //                 Padding(
+                    //                   padding: const EdgeInsets.only(top: 6),
+                    //                   child: Text(
+                    //                     'Body fat',
+                    //                     textAlign: TextAlign.center,
+                    //                     style: TextStyle(
+                    //                       fontFamily: AppTheme.fontName,
+                    //                       fontWeight: FontWeight.w600,
+                    //                       fontSize: 12,
+                    //                       color: AppTheme.grey.withOpacity(0.5),
+                    //                     ),
+                    //                   ),
+                    //                 ),
+                    //               ],
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       )
+                    //     ],
+                    //   ),
+                    // )
+                    // ,
                   ],
                 ),
               ),

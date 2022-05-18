@@ -1,10 +1,10 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:my_application/constatnts.dart';
+import 'package:my_application/Apptheme/constatnts.dart';
 
+import '../../Apptheme/app_theme.dart';
 import '../../main.dart';
-import '../app_theme.dart';
-import '../models/tabIcon_data.dart';
+import '../../helpers/tabIcon_data.dart';
 
 class BottomBarView extends StatefulWidget {
   const BottomBarView(
