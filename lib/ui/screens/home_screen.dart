@@ -1,12 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:my_application/models/attendance_model.dart';
 import 'package:my_application/helpers/tabIcon_data.dart';
 import 'package:my_application/ui/screens/Profile_Details.dart';
-import 'package:my_application/ui/screens/Projects.dart';
 import 'package:my_application/ui/screens/purchasesscreen.dart';
-import 'package:my_application/ui/screens/dashboard.dart';
 import 'package:my_application/ui/screens/dashboardscreen.dart';
 import '../../Apptheme/app_theme.dart';
 import '../bottombar/bottom_bar_view.dart';
@@ -125,7 +122,6 @@ class _AppHomeScreenState extends State<AppHomeScreen>
                 setState(() {
                   tabBody = AttendanceScreen(
                     project: "New Project",
-                    animationController: animationController,
                   );
                 });
               });
@@ -135,7 +131,9 @@ class _AppHomeScreenState extends State<AppHomeScreen>
                   return;
                 }
                 setState(() {
-                  tabBody = Dashboard(animationController: animationController);
+                  tabBody = AttendanceScreen(
+                    project: "New Project",
+                  );
                 });
               });
             }

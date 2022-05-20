@@ -21,4 +21,13 @@ class LoginFailed extends LoginState {}
 
 class LoginLoading extends LoginState {}
 
+class LoginError extends LoginState {
+  final String error;
+
+  LoginError(this.error);
+  @override
+  // TODO: implement props
+  List<Object> get props => [error];
+}
+
 class LoginInit extends LoginState {}

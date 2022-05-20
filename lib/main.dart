@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_application/Apptheme/app_theme.dart';
 import 'package:my_application/Apptheme/constatnts.dart';
+import 'package:my_application/bloc/Attendance/event.dart';
+import 'bloc/Attendance/bloc.dart';
+import 'bloc/login/bloc.dart';
+import 'bloc/login/event.dart';
 import 'login_page.dart';
 
 void main() async {
@@ -27,21 +32,25 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: Size(375, 812),
       builder: (_) {
-        return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: "CPMS UI",
-          themeMode: ThemeMode.system,
-          theme: ThemeData(
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            textTheme: AppTheme.textTheme,
-            scaffoldBackgroundColor: bgColor,
-            appBarTheme: AppBarTheme(
-              elevation: 0.0,
-              color: AppTheme.white,
-            ),
-          ),
-          home: LoginPage(),
-        );
+        return MultiBlocProvider(
+            providers: [
+              BlocProvider<LoginBloc>(create: (context) => LoginBloc()),
+            ],
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: "CPMS UI",
+              themeMode: ThemeMode.system,
+              theme: ThemeData(
+                visualDensity: VisualDensity.adaptivePlatformDensity,
+                textTheme: AppTheme.textTheme,
+                scaffoldBackgroundColor: bgColor,
+                appBarTheme: AppBarTheme(
+                  elevation: 0.0,
+                  color: AppTheme.white,
+                ),
+              ),
+              home: LoginPage(),
+            ));
       },
     );
   }

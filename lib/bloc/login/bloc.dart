@@ -5,33 +5,35 @@ import 'package:my_application/bloc/login/state.dart';
 import 'event.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(LoginInit());
-
-  @override
-  Stream<LoginState> mapEventToState(LoginEvent event) async* {
-    // TODO: implement mapEventToState
-    if (event is LoginNow) {
-      yield* mapLoginNowToState(event);
-    } else if (event is GetCurrentLogin) {
-      yield* mapGetCurrentLoginToState(event);
-    }
+  LoginBloc() : super(LoginInit()) {
+    // To catch every event, we just need to register
+    // the parent class of all the event subclasses.
+    on<LoginEvent>(
+      // If you squint, it's just like looking at mapEventToState
+      (event, emit) {
+        // Don't forget to pass emit to your handlers, though!
+        if (event is LoginEvent)
+          loginNow(event, emit);
+        else if (event is GetCurrentLogin) getCurrentLogin(event, emit);
+      },
+    );
   }
 
-  Stream<LoginState> mapLoginNowToState(LoginNow event) async* {
+  void loginNow(event, emit) async {
     var rs = await LoginService().logIn(event.username, event.password);
     if (rs != null) {
-      yield LoginSuccessfully(rs);
+      emit(LoginSuccessfully(rs));
     } else {
-      yield LoginFailed();
+      emit(LoginFailed());
     }
   }
 
-  Stream<LoginState> mapGetCurrentLoginToState(GetCurrentLogin event) async* {
+  void getCurrentLogin(event, emit) async {
     var rs = await LoginService().getCurrentLogin();
     if (rs != null) {
-      yield LoginSuccessfully(rs);
+      emit(LoginSuccessfully(rs));
     } else {
-      yield LoginFailed();
+      emit(LoginFailed());
     }
   }
 }

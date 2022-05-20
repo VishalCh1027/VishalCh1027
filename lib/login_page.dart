@@ -3,14 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_application/Apptheme/app_theme.dart';
 import 'package:my_application/bloc/login/service.dart';
 import 'package:my_application/main.dart';
-import 'package:my_application/ui/screens/dashboard.dart';
 import 'package:my_application/ui/screens/forgetpasswordscreen.dart';
 import 'package:my_application/ui/screens/home_screen.dart';
-import 'package:my_application/ui/screens/homepage.dart';
 import 'package:my_application/ui/widgets/Loading_dailog.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'global/global_function.dart';
-import 'ui/screens/dashboard.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key? key, this.title});
@@ -198,11 +195,13 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () async {
         if (formKey.currentState!.validate()) {
           LoadingDialog.showLoadingDialog(context);
-          var account = await LoginService()
-              .logIn(usernameCntrlr.text, passwordCntrlr.text);
+          //var account = await LoginService()
+          // .logIn(usernameCntrlr.text, passwordCntrlr.text);
+
           LoadingDialog.hideLoadingDialog(context);
-          if (account != null) {
-            refreshLogin(context);
+          if (usernameCntrlr.text == userName &&
+              passwordCntrlr.text == passWord) {
+            // refreshLogin(context);
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AppHomeScreen()),

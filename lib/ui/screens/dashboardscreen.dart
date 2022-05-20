@@ -6,7 +6,6 @@ import '../../models/project_model.dart';
 import '../widgets/RequestsView.dart';
 import '../widgets/body_measurement.dart';
 import '../widgets/glass_view.dart';
-import '../widgets/main_drawer.dart';
 import '../widgets/projects_list_view.dart';
 import '../widgets/water_view.dart';
 import '../widgets/wave_view.dart';

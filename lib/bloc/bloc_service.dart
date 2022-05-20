@@ -12,8 +12,4 @@ abstract class BlocService<M> {
     result = result.replaceFirst('&', '');
     return result;
   }
-
-  Future<List<M>?> getAll({int from = 0, int limit});
-
-  Future<M?> get(int id);
 }

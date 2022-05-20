@@ -10,14 +10,23 @@ class AttendanceState extends Equatable {
 }
 
 class AttendanceLoadedSuccessfully extends AttendanceState {
-  final Attendance accountModel;
+  final List<Attendance> workmens;
 
-  AttendanceLoadedSuccessfully(this.accountModel);
+  AttendanceLoadedSuccessfully(this.workmens);
   @override
   // TODO: implement props
-  List<Object> get props => [accountModel];
+  List<Object> get props => [workmens];
 }
 
 class AttendanceLoading extends AttendanceState {}
 
 class AttendanceError extends AttendanceState {}
+
+class AttendanceSavedSuccessfully extends AttendanceState {
+  final Object result;
+
+  AttendanceSavedSuccessfully(this.result);
+  @override
+  // TODO: implement props
+  List<Object> get props => [result];
+}
