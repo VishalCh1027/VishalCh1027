@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_application/bloc/attendance/bloc.dart';
+import 'package:my_application/bloc/attendance/service.dart';
 import 'package:my_application/helpers/tabIcon_data.dart';
 import 'package:my_application/ui/screens/Profile_Details.dart';
 import 'package:my_application/ui/screens/purchasesscreen.dart';
@@ -32,10 +35,10 @@ class _AppHomeScreenState extends State<AppHomeScreen>
       tab.isSelected = false;
     });
 
-    // defines a timer
-    _everySecond = Timer.periodic(Duration(seconds: 1), (Timer t) {
-      // setState(() {});
-    });
+    AnimationController(vsync: this, duration: Duration(milliseconds: 600))
+      ..addListener(() {
+        setState(() {});
+      });
 
     animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
@@ -51,25 +54,30 @@ class _AppHomeScreenState extends State<AppHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Scaffold(
-        body: FutureBuilder<bool>(
-          future: getData(),
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-            if (!snapshot.hasData) {
-              return const SizedBox();
-            } else {
-              return Stack(
-                children: <Widget>[
-                  tabBody,
-                  bottomBar(),
-                ],
-              );
-            }
-          },
-        ),
-      ),
-    );
+    return MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<AttendanceService>.value(
+              value: AttendanceService()),
+        ],
+        child: Container(
+          child: Scaffold(
+            body: FutureBuilder<bool>(
+              future: getData(),
+              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                if (!snapshot.hasData) {
+                  return const SizedBox();
+                } else {
+                  return Stack(
+                    children: <Widget>[
+                      tabBody,
+                      bottomBar(),
+                    ],
+                  );
+                }
+              },
+            ),
+          ),
+        ));
   }
 
   Future<bool> getData() async {
@@ -120,7 +128,7 @@ class _AppHomeScreenState extends State<AppHomeScreen>
                   return;
                 }
                 setState(() {
-                  tabBody = AttendanceScreen(
+                  tabBody = AttendancePage(
                     project: "New Project",
                   );
                 });
@@ -130,11 +138,12 @@ class _AppHomeScreenState extends State<AppHomeScreen>
                 if (!mounted) {
                   return;
                 }
-                setState(() {
-                  tabBody = AttendanceScreen(
-                    project: "New Project",
-                  );
-                });
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AttendancePage(
+                              project: "New Project",
+                            )));
               });
             }
           },

@@ -7,11 +7,20 @@ class PurchasesEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetPurchases extends PurchasesEvent {
-  final int employeeId;
+class GetWorkmens extends PurchasesEvent {
+  final int projectId;
 
-  GetPurchases(this.employeeId);
-  @override
-  // TODO: implement props
-  List<Object> get props => [employeeId];
+  GetWorkmens(this.projectId);
+}
+
+class EditPurchases extends PurchasesEvent {
+  final List<PurchaseRequest> Purchasess;
+
+  EditPurchases(this.Purchasess);
+}
+
+class EditIntime extends PurchasesEvent {
+  final PurchaseRequest Purchases;
+
+  EditIntime(this.Purchases);
 }

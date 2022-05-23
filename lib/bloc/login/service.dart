@@ -7,7 +7,7 @@ import '../../helpers/http_helper.dart';
 import '../../helpers/local_helper.dart';
 import '../bloc_service.dart';
 
-class LoginService extends BlocService<LoginModel> {
+class LoginService {
   Future<LoginModel> getCurrentLogin() async {
     var rs = await LocalHelper.getAccountFromLocal();
     currentLogin = rs;

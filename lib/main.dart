@@ -32,25 +32,20 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: Size(375, 812),
       builder: (_) {
-        return MultiBlocProvider(
-            providers: [
-              BlocProvider<LoginBloc>(create: (context) => LoginBloc()),
-            ],
-            child: MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: "CPMS UI",
-              themeMode: ThemeMode.system,
-              theme: ThemeData(
-                visualDensity: VisualDensity.adaptivePlatformDensity,
-                textTheme: AppTheme.textTheme,
-                scaffoldBackgroundColor: bgColor,
-                appBarTheme: AppBarTheme(
-                  elevation: 0.0,
-                  color: AppTheme.white,
-                ),
+        return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: "CPMS UI",
+            themeMode: ThemeMode.system,
+            theme: ThemeData(
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              textTheme: AppTheme.textTheme,
+              scaffoldBackgroundColor: bgColor,
+              appBarTheme: AppBarTheme(
+                elevation: 0.0,
+                color: AppTheme.white,
               ),
-              home: LoginPage(),
-            ));
+            ),
+            home: LoginPage());
       },
     );
   }

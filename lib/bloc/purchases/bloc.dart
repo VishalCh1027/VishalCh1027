@@ -1,27 +1,28 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_application/bloc/purchases/event.dart';
 import 'package:my_application/bloc/purchases/service.dart';
 import 'package:my_application/bloc/purchases/state.dart';
+import 'package:my_application/models/purchaserequest_model.dart';
 
-class PurchasesBloc extends Bloc<PurchasesEvent, PurchasesState> {
-  PurchasesBloc(PurchasesState initialState) : super(initialState) {
-    // To catch every event, we just need to register
-    // the parent class of all the event subclasses.
-    on<PurchasesEvent>(
-      // If you squint, it's just like looking at mapEventToState
-      (event, emit) {
-        // Don't forget to pass emit to your handlers, though!
-        if (event is GetPurchases) getPurchases(event, emit);
-      },
-    );
+class PurchasesCubit extends Cubit<PurchasesState> {
+  final PurchasesService repository;
+  PurchasesCubit({required this.repository})
+      : super(const PurchasesState.loading());
+
+  Future<void> getWorkmens(int projectId) async {
+    var rs = await repository.getPurchases(projectId);
+    if (rs != null) {
+      emit(PurchasesState.success(rs));
+    } else {
+      emit(PurchasesState.failure());
+    }
   }
 
-  void getPurchases(event, emit) async {
-    var rs = await PurchasesService().GetPurchases(event.employeeId);
-    if (rs != null) {
-      emit(PurchasesLoadedSuccessfully(rs));
+  Future<void> updatelist(PurchaseRequest Purchases) async {
+    state.Purchases[state.Purchases.indexOf(Purchases)] = Purchases;
+    if (state.Purchases != null) {
+      emit(PurchasesState.success(state.Purchases));
     } else {
-      emit(PurchasesError());
+      emit(PurchasesState.failure());
     }
   }
 }

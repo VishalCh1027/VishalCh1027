@@ -5,34 +5,36 @@ import 'package:my_application/bloc/attendance/service.dart';
 import 'package:my_application/bloc/attendance/state.dart';
 import 'package:my_application/models/attendance_model.dart';
 
-class AttendanceBloc extends Bloc<AttendanceEvent, AttendanceState> {
-  var _attendanceService = new AttendanceService();
-  AttendanceBloc() : super(AttendanceLoading()) {
-    // To catch every event, we just need to register
-    // the parent class of all the event subclasses.
-    on<GetWorkmens>(getWorkmens);
-    on<EditAttendance>(editAttendance);
-  }
+class AttendanceCubit extends Cubit<AttendanceState> {
+  final AttendanceService repository;
+  AttendanceCubit({required this.repository})
+      : super(const AttendanceState.loading());
 
-  void getWorkmens(event, emit) async {
-    var rs = await _attendanceService.getWorkmens(event.projectId);
+  Future<void> getWorkmens(int projectId) async {
+    var rs = await repository.getWorkmens(projectId);
     if (rs != null) {
-      emit(AttendanceLoadedSuccessfully(rs));
+      emit(AttendanceState.success(rs));
     } else {
-      emit(AttendanceError());
+      emit(AttendanceState.failure());
     }
   }
 
-  void editAttendance(event, emit) async {
-    var rs = await _attendanceService.editAttendance(event.attendances);
+  Future<void> editAttendance() async {
+    final attendance = state.attendance;
+    var rs = await repository.editAttendance(attendance);
     if (rs != null) {
-      emit(AttendanceSavedSuccessfully(rs));
+      emit(AttendanceState.success(attendance));
     } else {
-      emit(AttendanceError());
+      emit(AttendanceState.failure());
     }
   }
 
-  // void editintime(event, emit) {
-  //   var workmens = this.workmens;
-  // }
+  Future<void> updatelist(Attendance attendance) async {
+    state.attendance[state.attendance.indexOf(attendance)] = attendance;
+    if (state.attendance != null) {
+      emit(AttendanceState.success(state.attendance));
+    } else {
+      emit(AttendanceState.failure());
+    }
+  }
 }
