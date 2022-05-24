@@ -5,7 +5,8 @@ import '../../models/loginmodel.dart';
 
 enum AttendanceStatus {
   AttendanceLoading,
-  AttendanceLoadedSuccessfully,
+  AttendanceEdited,
+  AttendanceLoaded,
   AttendanceError
 }
 
@@ -21,8 +22,10 @@ class AttendanceState extends Equatable {
 
   const AttendanceState.success(List<Attendance> attendance)
       : this._(
-            status: AttendanceStatus.AttendanceLoadedSuccessfully,
-            attendance: attendance);
+            status: AttendanceStatus.AttendanceLoaded, attendance: attendance);
+
+  const AttendanceState.edited(List<Attendance> attendance)
+      : this._(status: AttendanceStatus.AttendanceEdited);
 
   const AttendanceState.failure()
       : this._(status: AttendanceStatus.AttendanceError);

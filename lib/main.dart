@@ -5,9 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_application/Apptheme/app_theme.dart';
 import 'package:my_application/Apptheme/constatnts.dart';
 import 'package:my_application/bloc/Attendance/event.dart';
-import 'bloc/Attendance/bloc.dart';
-import 'bloc/login/bloc.dart';
-import 'bloc/login/event.dart';
 import 'login_page.dart';
 
 void main() async {

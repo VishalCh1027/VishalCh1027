@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_application/bloc/attendance/bloc.dart';
 import 'package:my_application/bloc/attendance/service.dart';
@@ -19,10 +20,8 @@ class AppHomeScreen extends StatefulWidget {
 
 class _AppHomeScreenState extends State<AppHomeScreen>
     with TickerProviderStateMixin {
-  AnimationController? animationController;
-
-  late Timer _everySecond;
-
+  Duration _elapsed = Duration.zero;
+  late final Ticker _ticker;
   List<TabIconData> tabIconsList = TabIconData.tabIconsList;
 
   Widget tabBody = Container(
@@ -35,20 +34,12 @@ class _AppHomeScreenState extends State<AppHomeScreen>
       tab.isSelected = false;
     });
 
-    AnimationController(vsync: this, duration: Duration(milliseconds: 600))
-      ..addListener(() {
-        setState(() {});
-      });
-
-    animationController = AnimationController(
-        duration: const Duration(milliseconds: 600), vsync: this);
-    tabBody = DashboardScreen(animationController: animationController);
+    tabBody = DashboardScreen();
     super.initState();
   }
 
   @override
   void dispose() {
-    animationController?.dispose();
     super.dispose();
   }
 
@@ -98,53 +89,43 @@ class _AppHomeScreenState extends State<AppHomeScreen>
               tabIconsList.forEach((TabIconData tab) {
                 tab.isSelected = false;
               });
-              tabBody =
-                  DashboardScreen(animationController: animationController);
+              tabBody = DashboardScreen();
             });
           },
           changeIndex: (int index) {
             if (index == 0) {
-              animationController?.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                setState(() {
-                  tabBody = Details(animationController: animationController);
-                });
+              if (!mounted) {
+                return;
+              }
+              setState(() {
+                tabBody = Details();
               });
             } else if (index == 2) {
-              animationController?.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                setState(() {
-                  tabBody =
-                      PurchasesScreen(animationController: animationController);
-                });
+              if (!mounted) {
+                return;
+              }
+              setState(() {
+                tabBody = PurchasesScreen();
               });
             } else if (index == 1) {
-              animationController?.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                setState(() {
-                  tabBody = AttendancePage(
-                    project: "New Project",
-                  );
-                });
+              if (!mounted) {
+                return;
+              }
+              setState(() {
+                tabBody = AttendancePage(
+                  project: "New Project",
+                );
               });
             } else if (index == 3) {
-              animationController?.reverse().then<dynamic>((data) {
-                if (!mounted) {
-                  return;
-                }
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AttendancePage(
-                              project: "New Project",
-                            )));
-              });
+              if (!mounted) {
+                return;
+              }
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AttendancePage(
+                            project: "New Project",
+                          )));
             }
           },
         ),

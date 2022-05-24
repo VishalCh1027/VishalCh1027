@@ -313,7 +313,9 @@ class AttendanceListVIew extends StatelessWidget {
     final state = context.watch<AttendanceCubit>().state;
     if (state.status == AttendanceStatus.AttendanceError) {
       return const Center(child: Text('Oops something went wrong!'));
-    } else if (state.status == AttendanceStatus.AttendanceLoadedSuccessfully) {
+    } else if (state.status == AttendanceStatus.AttendanceLoaded) {
+      return _buildlist(workmens: state.attendance);
+    } else if (state.status == AttendanceStatus.AttendanceEdited) {
       return _buildlist(workmens: state.attendance);
     } else {
       return const Center(child: CircularProgressIndicator());
@@ -339,7 +341,8 @@ class _buildlist extends StatelessWidget {
     // ignore: unnecessary_null_comparison
     if (timeOfDay != null && timeOfDay != attendance.in_) {
       attendance.in_ = timeOfDay;
-      context.read<AttendanceCubit>().updatelist(attendance);
+      BlocProvider.of<AttendanceCubit>(context, listen: false)
+          .updatelist(attendance);
     }
   }
 

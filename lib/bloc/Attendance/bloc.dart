@@ -32,7 +32,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   Future<void> updatelist(Attendance attendance) async {
     state.attendance[state.attendance.indexOf(attendance)] = attendance;
     if (state.attendance != null) {
-      emit(AttendanceState.success(state.attendance));
+      emit(AttendanceState.edited(state.attendance));
     } else {
       emit(AttendanceState.failure());
     }
