@@ -27,7 +27,6 @@ class _RequestScreen extends State<RequestScreen>
   PurchaseRequest? purchaserequest;
   final format = DateFormat("yyyy-MM-dd");
   Animation<double>? topBarAnimation;
-  AnimationController? animationController;
 
   var request = PurchaseRequest();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -39,23 +38,11 @@ class _RequestScreen extends State<RequestScreen>
 
   TextEditingController deliveryDate = TextEditingController();
 
-  List<Widget> listViews = <Widget>[];
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
   var isdelete = false;
   void initState() {
     request = purchaserequest ?? PurchaseRequest();
-
-    animationController = AnimationController(
-        duration: const Duration(milliseconds: 600), vsync: this);
-
-    topBarAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: animationController!,
-        curve: Interval(0, 0.5, curve: Curves.fastOutSlowIn),
-      ),
-    );
-    addAllListData();
 
     scrollController.addListener(() {
       if (scrollController.offset >= 24) {
@@ -85,26 +72,33 @@ class _RequestScreen extends State<RequestScreen>
 
   @override
   void dispose() {
-    animationController?.dispose();
     super.dispose();
   }
 
-  void addAllListData() {
-    const int count = 2;
-    var animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-        parent: animationController!,
-        curve:
-            const Interval((1 / count) * 0, 1.0, curve: Curves.fastOutSlowIn)));
-    listViews.add(
-      AnimatedBuilder(
-        animation: animationController!,
-        builder: (BuildContext context, Widget? child) {
-          return FadeTransition(
-            opacity: animation,
-            child: Transform(
-              transform: Matrix4.translationValues(
-                  0.0, 30 * (1.0 - animation.value), 0.0),
-              child: Container(
+  Future<bool> getData() async {
+    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
+    return true;
+  }
+
+  Widget getMainListViewUI() {
+    return FutureBuilder<bool>(
+      future: getData(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (!snapshot.hasData) {
+          return const SizedBox();
+        } else {
+          return ListView.builder(
+            controller: scrollController,
+            padding: EdgeInsets.only(
+              top: AppBar().preferredSize.height +
+                  MediaQuery.of(context).padding.top +
+                  24,
+              bottom: 62 + MediaQuery.of(context).padding.bottom,
+            ),
+            itemCount: 1,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
                 decoration: BoxDecoration(
                   color: AppTheme.white,
                   boxShadow: <BoxShadow>[
@@ -149,9 +143,11 @@ class _RequestScreen extends State<RequestScreen>
                                   labelText: "Project",
                                 )),
                             TextFormField(
-                              initialValue: request.deliveryAt
-                                  .toString()
-                                  .replaceRange(11, null, ""),
+                              initialValue: request.deliveryAt == null
+                                  ? null
+                                  : request.deliveryAt
+                                      .toString()
+                                      .replaceRange(11, null, ""),
                               onTap: () {
                                 _deliverydatebuild();
                               },
@@ -191,7 +187,7 @@ class _RequestScreen extends State<RequestScreen>
                                           RegExp("RequestPriority."), "");
                                 });
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: "Priority",
                               ),
                             ),
@@ -199,7 +195,7 @@ class _RequestScreen extends State<RequestScreen>
                         ),
                       ),
                     ),
-                    ListTile(
+                    const ListTile(
                       title: Padding(
                         padding: EdgeInsets.only(left: 20),
                         child: Text(
@@ -243,22 +239,20 @@ class _RequestScreen extends State<RequestScreen>
                                     ),
                                     trailing: Row(
                                       mainAxisSize: MainAxisSize.min,
-                                      children: [
+                                      children: const [
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 40),
+                                          padding: EdgeInsets.only(right: 40),
                                           child: Center(
-                                            child: const Text(
+                                            child: Text(
                                               "Quantity",
                                               style: AppTheme.listheading,
                                             ),
                                           ),
                                         ),
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 10),
+                                          padding: EdgeInsets.only(right: 10),
                                           child: Center(
-                                            child: const Text("Unit",
+                                            child: Text("Unit",
                                                 style: AppTheme.listheading),
                                           ),
                                         ),
@@ -279,39 +273,7 @@ class _RequestScreen extends State<RequestScreen>
                     ),
                   ],
                 ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
-    return true;
-  }
-
-  Widget getMainListViewUI() {
-    return FutureBuilder<bool>(
-      future: getData(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (!snapshot.hasData) {
-          return const SizedBox();
-        } else {
-          return ListView.builder(
-            controller: scrollController,
-            padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  24,
-              bottom: 62 + MediaQuery.of(context).padding.bottom,
-            ),
-            itemCount: listViews.length,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, int index) {
-              animationController?.forward();
-              return listViews[index];
+              );
             },
           );
         }
@@ -320,83 +282,65 @@ class _RequestScreen extends State<RequestScreen>
   }
 
   Widget getAppBarUI() {
-    return Column(
-      children: <Widget>[
-        AnimatedBuilder(
-          animation: animationController!,
-          builder: (BuildContext context, Widget? child) {
-            return FadeTransition(
-              opacity: topBarAnimation!,
-              child: Transform(
-                transform: Matrix4.translationValues(
-                    0.0, 30 * (1.0 - topBarAnimation!.value), 0.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppTheme.white.withOpacity(topBarOpacity),
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(32.0),
-                    ),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                          offset: const Offset(1.1, 1.1),
-                          blurRadius: 10.0),
-                    ],
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: MediaQuery.of(context).padding.top,
+    return Container(
+      decoration: BoxDecoration(
+        color: AppTheme.white.withOpacity(topBarOpacity),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(32.0),
+        ),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+              color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
+              offset: const Offset(1.1, 1.1),
+              blurRadius: 10.0),
+        ],
+      ),
+      child: Column(
+        children: <Widget>[
+          SizedBox(
+            height: MediaQuery.of(context).padding.top,
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 14 - 8.0 * topBarOpacity,
+                bottom: 12 - 8.0 * topBarOpacity),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: const Icon(IconData(0xe092,
+                      fontFamily: 'MaterialIcons', matchTextDirection: true)),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Request Detail',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontName,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 22 + 6 - 6 * topBarOpacity,
+                        letterSpacing: 1.2,
+                        color: AppTheme.darkerText,
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: 16,
-                            right: 16,
-                            top: 14 - 8.0 * topBarOpacity,
-                            bottom: 12 - 8.0 * topBarOpacity),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            IconButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              icon: const Icon(IconData(0xe092,
-                                  fontFamily: 'MaterialIcons',
-                                  matchTextDirection: true)),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  'Request Detail',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontName,
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 22 + 6 - 6 * topBarOpacity,
-                                    letterSpacing: 1.2,
-                                    color: AppTheme.darkerText,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            IconButton(
-                              color: AppTheme.nearlyDarkBlue,
-                              onPressed: () =>
-                                  Navigator.of(context).pop(request),
-                              icon: const Icon(IconData(0xe156,
-                                  fontFamily: 'MaterialIcons')),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          },
-        )
-      ],
+                IconButton(
+                  color: AppTheme.nearlyDarkBlue,
+                  onPressed: () => Navigator.of(context).pop(request),
+                  icon:
+                      const Icon(IconData(0xe156, fontFamily: 'MaterialIcons')),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -459,16 +403,14 @@ class _RequestScreen extends State<RequestScreen>
                       child: ListTile(
                         onTap: () {
                           if (isdelete) {
-                            animationController?.fling().then<dynamic>((data) {
-                              setState(() {
-                                orderItems[index].selected =
-                                    !orderItems[index].selected;
+                            setState(() {
+                              orderItems[index].selected =
+                                  !orderItems[index].selected;
 
-                                if (!orderItems.any(
-                                    (element) => element.selected == true)) {
-                                  isdelete = false;
-                                }
-                              });
+                              if (!orderItems
+                                  .any((element) => element.selected == true)) {
+                                isdelete = false;
+                              }
                             });
                           } else {
                             _openDialogAddItem(orderItems[index]);
@@ -508,11 +450,9 @@ class _RequestScreen extends State<RequestScreen>
                               )),
                         ]),
                         onLongPress: () {
-                          animationController?.fling().then<dynamic>((data) {
-                            setState(() {
-                              isdelete = true;
-                              orderItems[index].selected = true;
-                            });
+                          setState(() {
+                            isdelete = true;
+                            orderItems[index].selected = true;
                           });
                         },
                       )));
@@ -533,12 +473,8 @@ class _RequestScreen extends State<RequestScreen>
   }
 
   void savedeliveryDate(pickedDate) {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      animationController?.fling().then<dynamic>((data) {
-        setState(() {
-          request.deliveryAt = pickedDate; //set output date to TextField value.
-        });
-      });
+    setState(() {
+      request.deliveryAt = pickedDate; //set output date to TextField value.
     });
   }
 
@@ -553,14 +489,10 @@ class _RequestScreen extends State<RequestScreen>
   }
 
   void saveOrderItem(item) {
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      animationController?.fling().then<dynamic>((data) {
-        setState(() {
-          if (item != null && !request.orderItems.contains(item)) {
-            request.orderItems.add(item);
-          }
-        });
-      });
+    setState(() {
+      if (item != null && !request.orderItems.contains(item)) {
+        request.orderItems.add(item);
+      }
     });
   }
 
@@ -583,17 +515,15 @@ class _RequestScreen extends State<RequestScreen>
                       size: 20,
                     ),
                     onTap: () {
-                      animationController?.fling().then<dynamic>(
-                        (data) {
-                          setState(
-                            () {
-                              request.orderItems.removeWhere(
-                                  (element) => element.selected == true);
-                              isdelete = false;
-                            },
-                          );
-                        },
-                      );
+                      (data) {
+                        setState(
+                          () {
+                            request.orderItems.removeWhere(
+                                (element) => element.selected == true);
+                            isdelete = false;
+                          },
+                        );
+                      };
                     },
                   ),
                 ),
@@ -608,17 +538,15 @@ class _RequestScreen extends State<RequestScreen>
                       size: 20,
                     ),
                     onTap: () {
-                      animationController?.fling().then<dynamic>(
-                        (data) {
-                          setState(
-                            () {
-                              request.orderItems.forEach(
-                                  (element) => element.selected = false);
-                              isdelete = false;
-                            },
-                          );
-                        },
-                      );
+                      (data) {
+                        setState(
+                          () {
+                            request.orderItems
+                                .forEach((element) => element.selected = false);
+                            isdelete = false;
+                          },
+                        );
+                      };
                     },
                   ),
                 ),
@@ -631,22 +559,20 @@ class _RequestScreen extends State<RequestScreen>
                 size: 20,
               ),
               onTap: () {
-                animationController?.fling().then<dynamic>(
-                  (data) {
-                    setState(
-                      () {
-                        if (request.orderItems
-                            .any((element) => element.selected == false)) {
-                          request.orderItems
-                              .forEach((element) => element.selected = true);
-                        } else {
-                          request.orderItems
-                              .forEach((element) => element.selected = false);
-                        }
-                      },
-                    );
-                  },
-                );
+                (data) {
+                  setState(
+                    () {
+                      if (request.orderItems
+                          .any((element) => element.selected == false)) {
+                        request.orderItems
+                            .forEach((element) => element.selected = true);
+                      } else {
+                        request.orderItems
+                            .forEach((element) => element.selected = false);
+                      }
+                    },
+                  );
+                };
               },
             ),
           ),
