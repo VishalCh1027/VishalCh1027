@@ -21,6 +21,6 @@ class LocalHelper {
     if (account != null) {
       return LoginModel.fromJson(json.decode(account as String));
     }
-    return new LoginModel();
+    return LoginModel();
   }
 }

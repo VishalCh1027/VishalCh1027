@@ -67,91 +67,91 @@ class _AttendancePageState extends State<AttendancePage> {
   }
 
   Widget getAppBarUI() {
-    return Column(children: <Widget>[
-      Container(
-        decoration: BoxDecoration(
-          color: AppTheme.white.withOpacity(topBarOpacity),
-          borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(32.0),
-          ),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                offset: const Offset(1.1, 1.1),
-                blurRadius: 10.0),
-          ],
-        ),
-        child: Column(
+    return Builder(
+      builder: (context) {
+        return Column(
           children: <Widget>[
-            SizedBox(
-              height: MediaQuery.of(context).padding.top,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  top: 14 - 8.0 * topBarOpacity,
-                  bottom: 12 - 8.0 * topBarOpacity),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+            Container(
+              decoration: BoxDecoration(
+                color: AppTheme.white.withOpacity(topBarOpacity),
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(32.0),
+                ),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
+                      offset: const Offset(1.1, 1.1),
+                      blurRadius: 10.0),
+                ],
+              ),
+              child: Column(
                 children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'ATTENDANCE',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 22 + 6 - 6 * topBarOpacity,
-                          letterSpacing: 1.2,
-                          color: AppTheme.darkerText,
-                        ),
-                      ),
-                    ),
+                  SizedBox(
+                    height: MediaQuery.of(context).padding.top,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(
-                      left: 8,
-                      right: 8,
-                    ),
+                    padding: EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        top: 14 - 8.0 * topBarOpacity,
+                        bottom: 12 - 8.0 * topBarOpacity),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                            IconData(0xe531, fontFamily: 'MaterialIcons'),
-                            color: Colors.blue,
-                          ),
-                          onPressed: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    AttendancePage(
-                                  project: widget.project,
-                                ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'ATTENDANCE',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontFamily: AppTheme.fontName,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 22 + 6 - 6 * topBarOpacity,
+                                letterSpacing: 1.2,
+                                color: AppTheme.darkerText,
                               ),
-                            );
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            IconData(0xe156, fontFamily: 'MaterialIcons'),
-                            color: Colors.lightGreenAccent[700],
+                            ),
                           ),
-                          onPressed: () {},
-                        )
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 8,
+                            right: 8,
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(
+                                  IconData(0xe531, fontFamily: 'MaterialIcons'),
+                                  color: Colors.blue,
+                                ),
+                                onPressed: () {
+                                  context
+                                      .read<AttendanceCubit>()
+                                      .getWorkmens(1);
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  IconData(0xe156, fontFamily: 'MaterialIcons'),
+                                  color: Colors.lightGreenAccent[700],
+                                ),
+                                onPressed: () {},
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  ),
+                  )
                 ],
               ),
             )
           ],
-        ),
-      )
-    ]);
+        );
+      },
+    );
   }
 
   @override
@@ -310,16 +310,20 @@ class _buildHead extends StatelessWidget {
 class AttendanceListVIew extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<AttendanceCubit>().state;
-    if (state.status == AttendanceStatus.AttendanceError) {
-      return const Center(child: Text('Oops something went wrong!'));
-    } else if (state.status == AttendanceStatus.AttendanceLoaded) {
-      return _buildlist(workmens: state.attendance);
-    } else if (state.status == AttendanceStatus.AttendanceEdited) {
-      return _buildlist(workmens: state.attendance);
-    } else {
-      return const Center(child: CircularProgressIndicator());
-    }
+    return BlocBuilder<AttendanceCubit, AttendanceState>(
+      buildWhen: (previous, current) => true,
+      builder: (context, state) {
+        if (state.status == AttendanceStatus.AttendanceError) {
+          return const Center(child: Text('Oops something went wrong!'));
+        } else if (state.status == AttendanceStatus.AttendanceLoaded) {
+          return _buildlist(workmens: state.attendance);
+        } else if (state.status == AttendanceStatus.AttendanceEdited) {
+          return _buildlist(workmens: state.attendance);
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
+    );
   }
 }
 
@@ -340,9 +344,7 @@ class _buildlist extends StatelessWidget {
     );
     // ignore: unnecessary_null_comparison
     if (timeOfDay != null && timeOfDay != attendance.in_) {
-      attendance.in_ = timeOfDay;
-      BlocProvider.of<AttendanceCubit>(context, listen: false)
-          .updatelist(attendance);
+      context.read<AttendanceCubit>().updateInTime(attendance, timeOfDay);
     }
   }
 
@@ -392,10 +394,9 @@ class _buildlist extends StatelessWidget {
                         value: workmens[index].hoursWorked ?? 8,
                         style: TextStyle(color: Colors.black, fontSize: 15),
                         onChanged: (int? value) {
-                          workmens[index].hoursWorked = value;
                           context
                               .read<AttendanceCubit>()
-                              .updatelist(workmens[index]);
+                              .updatehours(workmens[index], value);
                         },
                         items: const [
                           DropdownMenuItem(

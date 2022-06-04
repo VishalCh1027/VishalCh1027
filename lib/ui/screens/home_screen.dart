@@ -45,30 +45,25 @@ class _AppHomeScreenState extends State<AppHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider<AttendanceService>.value(
-              value: AttendanceService()),
-        ],
-        child: Container(
-          child: Scaffold(
-            body: FutureBuilder<bool>(
-              future: getData(),
-              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                if (!snapshot.hasData) {
-                  return const SizedBox();
-                } else {
-                  return Stack(
-                    children: <Widget>[
-                      tabBody,
-                      bottomBar(),
-                    ],
-                  );
-                }
-              },
-            ),
-          ),
-        ));
+    return Container(
+      child: Scaffold(
+        body: FutureBuilder<bool>(
+          future: getData(),
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            if (!snapshot.hasData) {
+              return const SizedBox();
+            } else {
+              return Stack(
+                children: <Widget>[
+                  tabBody,
+                  bottomBar(),
+                ],
+              );
+            }
+          },
+        ),
+      ),
+    );
   }
 
   Future<bool> getData() async {
