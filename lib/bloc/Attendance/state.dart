@@ -10,7 +10,7 @@ enum AttendanceStatus {
   AttendanceError
 }
 
-class AttendanceState extends Equatable {
+class AttendanceState {
   const AttendanceState._({
     this.status = AttendanceStatus.AttendanceLoading,
     this.attendance = const <Attendance>[],
@@ -25,7 +25,8 @@ class AttendanceState extends Equatable {
             status: AttendanceStatus.AttendanceLoaded, attendance: attendance);
 
   const AttendanceState.edited(List<Attendance> attendance)
-      : this._(status: AttendanceStatus.AttendanceEdited);
+      : this._(
+            status: AttendanceStatus.AttendanceLoaded, attendance: attendance);
 
   const AttendanceState.failure()
       : this._(status: AttendanceStatus.AttendanceError);

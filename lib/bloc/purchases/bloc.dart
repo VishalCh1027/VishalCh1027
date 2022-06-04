@@ -8,7 +8,7 @@ class PurchasesCubit extends Cubit<PurchasesState> {
   PurchasesCubit({required this.repository})
       : super(const PurchasesState.loading());
 
-  Future<void> getWorkmens(int projectId) async {
+  Future<void> getPurchases(int projectId) async {
     var rs = await repository.getPurchases(projectId);
     if (rs != null) {
       emit(PurchasesState.success(rs));
@@ -17,10 +17,36 @@ class PurchasesCubit extends Cubit<PurchasesState> {
     }
   }
 
-  Future<void> updatelist(PurchaseRequest Purchases) async {
-    state.Purchases[state.Purchases.indexOf(Purchases)] = Purchases;
-    if (state.Purchases != null) {
-      emit(PurchasesState.success(state.Purchases));
+  Future<void> editPurchase(PurchaseRequest request) async {
+    var newstate = state.copyWith();
+    newstate.purchases.forEach((element) {
+      element.selected = false;
+    });
+    newstate.purchases[newstate.purchases.indexOf(request)].selected = true;
+    if (newstate.purchases.isNotEmpty) {
+      emit(PurchasesState.editing(newstate.purchases));
+    } else {
+      emit(PurchasesState.failure());
+    }
+  }
+
+  Future<void> deletePurchase(request) async {
+    var newstate = state.copyWith();
+    newstate.purchases.remove(request);
+    if (newstate.purchases.isNotEmpty) {
+      emit(PurchasesState.editing(newstate.purchases));
+    } else {
+      emit(PurchasesState.listIsEmty());
+    }
+  }
+
+  Future<void> unSelectAll() async {
+    var newstate = state.copyWith();
+    newstate.purchases.forEach((element) {
+      element.selected = false;
+    });
+    if (newstate.purchases.isNotEmpty) {
+      emit(PurchasesState.editing(newstate.purchases));
     } else {
       emit(PurchasesState.failure());
     }

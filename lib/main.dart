@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_application/Apptheme/app_theme.dart';
 import 'package:my_application/Apptheme/constatnts.dart';
 import 'package:my_application/bloc/Attendance/event.dart';
+import 'package:my_application/bloc/purchases/service.dart';
+import 'bloc/attendance/service.dart';
 import 'login_page.dart';
 
 void main() async {
@@ -27,24 +29,31 @@ class MyApp extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
     return ScreenUtilInit(
-      designSize: Size(375, 812),
-      builder: (_) {
-        return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: "CPMS UI",
-            themeMode: ThemeMode.system,
-            theme: ThemeData(
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-              textTheme: AppTheme.textTheme,
-              scaffoldBackgroundColor: bgColor,
-              appBarTheme: AppBarTheme(
-                elevation: 0.0,
-                color: AppTheme.white,
-              ),
-            ),
-            home: LoginPage());
-      },
-    );
+        designSize: Size(375, 812),
+        builder: (_) {
+          return MultiRepositoryProvider(
+            providers: [
+              RepositoryProvider<AttendanceService>.value(
+                  value: AttendanceService()),
+              RepositoryProvider<PurchasesService>.value(
+                  value: PurchasesService()),
+            ],
+            child: MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: "CPMS UI",
+                themeMode: ThemeMode.system,
+                theme: ThemeData(
+                  visualDensity: VisualDensity.adaptivePlatformDensity,
+                  textTheme: AppTheme.textTheme,
+                  scaffoldBackgroundColor: bgColor,
+                  appBarTheme: AppBarTheme(
+                    elevation: 0.0,
+                    color: AppTheme.white,
+                  ),
+                ),
+                home: LoginPage()),
+          );
+        });
   }
 }
 

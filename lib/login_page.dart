@@ -63,14 +63,14 @@ class _LoginPageState extends State<LoginPage> {
         alignment: Alignment.bottomCenter,
         child: CustomPaint(
           painter: CurvedPainter(),
-          child: Stack(children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(40)),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(30),
-                child: Expanded(
+          child: Stack(
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(40)),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(30),
                   child: Form(
                     key: formKey,
                     child: Column(mainAxisSize: MainAxisSize.min, children: [
@@ -177,8 +177,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-            ),
-          ]),
+            ],
+          ),
         ),
       ),
     ));
