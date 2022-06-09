@@ -4,7 +4,7 @@ import 'package:my_application/ui/screens/purchasesscreen.dart';
 import '../../Apptheme/app_theme.dart';
 import '../../models/project_model.dart';
 import '../widgets/RequestsView.dart';
-import '../widgets/body_measurement.dart';
+import '../widgets/attendance_tile.dart';
 import '../widgets/glass_view.dart';
 import '../widgets/projects_list_view.dart';
 import '../widgets/water_view.dart';

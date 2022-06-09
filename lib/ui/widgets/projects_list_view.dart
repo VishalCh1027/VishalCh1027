@@ -19,22 +19,27 @@ class _ProjectListView extends State<ProjectListView>
     {
       "id": 1,
       "name": "Test project",
+      "status": "New",
     },
     {
       "id": 2,
       "name": "Worli Project",
+      "status": "New",
     },
     {
       "id": 3,
       "name": "Mumbai Project",
+      "status": "New",
     },
     {
       "id": 4,
       "name": "Maharashtra Area",
+      "status": "New",
     },
     {
       "id": 5,
       "name": "Lower parel chawl",
+      "status": "New",
     }
   ].map((e) => Project.fromJson(e)));
 
@@ -122,7 +127,7 @@ class ProjectsView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      projectsListData!.name,
+                      projectsListData!.name ?? "",
                       maxLines: 5,
                       textAlign: TextAlign.center,
                       style: TextStyle(

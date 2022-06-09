@@ -11,7 +11,6 @@ import 'package:my_application/ui/screens/requestscreen.dart';
 import 'package:my_application/ui/widgets/orderitemform_dailog.dart';
 
 import '../../Apptheme/app_theme.dart';
-import '../widgets/title_view.dart';
 
 class RequestScreen extends StatefulWidget {
   const RequestScreen({Key? key, this.request});
@@ -31,9 +30,9 @@ class _RequestScreen extends State<RequestScreen>
   var request = PurchaseRequest();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   var projects = [
-    Project(name: "new project", id: 60),
-    Project(name: "Jo Liza project", id: 61),
-    Project(name: "bdd chawl project", id: 62)
+    Project(name: "new project", id: 60, status: "New"),
+    Project(name: "Jo Liza project", id: 61, status: "Active"),
+    Project(name: "bdd chawl project", id: 62, status: "New")
   ];
 
   TextEditingController deliveryDate = TextEditingController();
@@ -132,7 +131,7 @@ class _RequestScreen extends State<RequestScreen>
                                   return new DropdownMenuItem<String>(
                                     value: item.id.toString(),
                                     child: new Text(
-                                      item.name,
+                                      item.name ?? "",
                                     ),
                                   );
                                 }).toList(),

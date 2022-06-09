@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_application/Apptheme/app_theme.dart';
 import 'package:my_application/Apptheme/constatnts.dart';
 import 'package:my_application/bloc/Attendance/event.dart';
+import 'package:my_application/bloc/project_list/service.dart';
 import 'package:my_application/bloc/purchases/service.dart';
 import 'bloc/attendance/service.dart';
 import 'login_page.dart';
@@ -37,6 +38,8 @@ class MyApp extends StatelessWidget {
                   value: AttendanceService()),
               RepositoryProvider<PurchasesService>.value(
                   value: PurchasesService()),
+              RepositoryProvider<ProjectsService>.value(
+                  value: ProjectsService()),
             ],
             child: MaterialApp(
                 debugShowCheckedModeBanner: false,

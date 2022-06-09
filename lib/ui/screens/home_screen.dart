@@ -7,6 +7,7 @@ import 'package:my_application/bloc/attendance/bloc.dart';
 import 'package:my_application/bloc/attendance/service.dart';
 import 'package:my_application/helpers/tabIcon_data.dart';
 import 'package:my_application/ui/screens/Profile_Details.dart';
+import 'package:my_application/ui/screens/projectlistscreen.dart';
 import 'package:my_application/ui/screens/purchasesscreen.dart';
 import 'package:my_application/ui/screens/dashboardscreen.dart';
 import '../../Apptheme/app_theme.dart';
@@ -93,7 +94,9 @@ class _AppHomeScreenState extends State<AppHomeScreen>
                 return;
               }
               setState(() {
-                tabBody = Details();
+                tabBody = const ProjectListScreen(
+                  officeId: 1,
+                );
               });
             } else if (index == 2) {
               if (!mounted) {
