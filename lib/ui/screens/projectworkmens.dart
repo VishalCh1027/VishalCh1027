@@ -1,25 +1,20 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:my_application/bloc/attendance/bloc.dart';
-import 'package:my_application/bloc/attendance/service.dart';
-import 'package:my_application/bloc/attendance/state.dart';
-import 'package:my_application/global/global_variables.dart';
-import 'package:my_application/ui/screens/projectlistscreen.dart';
+import 'package:my_application/apptheme/app_theme.dart';
+import 'package:my_application/bloc/workmen_list/bloc.dart';
+import 'package:my_application/bloc/workmen_list/service.dart';
+import 'package:my_application/bloc/workmen_list/state.dart';
+import 'package:my_application/models/workmen_model.dart';
 
-import '../../Apptheme/app_theme.dart';
-import '../../models/attendance_model.dart';
-
-class AttendanceScreen extends StatefulWidget {
-  const AttendanceScreen({Key? key, required this.project}) : super(key: key);
+class ProjectWorkmensPage extends StatefulWidget {
+  const ProjectWorkmensPage({Key? key, required this.project})
+      : super(key: key);
   final project;
   @override
-  State<AttendanceScreen> createState() => _AttendanceScreenState();
+  State<ProjectWorkmensPage> createState() => _ProjectWorkmensState();
 }
 
-class _AttendanceScreenState extends State<AttendanceScreen> {
+class _ProjectWorkmensState extends State<ProjectWorkmensPage> {
   var projects = ["test project", "new project"];
   Animation<double>? topBarAnimation;
   final ScrollController scrollController = ScrollController();
@@ -94,7 +89,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'ATTENDANCE',
+                              'Workmen',
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontFamily: AppTheme.fontName,
@@ -119,9 +114,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                   color: Colors.blue,
                                 ),
                                 onPressed: () {
-                                  context
-                                      .read<AttendanceCubit>()
-                                      .getWorkmens(1);
+                                  context.read<WorkmenCubit>().getWorkmens(1);
                                 },
                               ),
                               IconButton(
@@ -154,7 +147,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         backgroundColor: Colors.transparent,
         body: BlocProvider(
           create: (_) =>
-              AttendanceCubit(repository: context.read<AttendanceService>())
+              WorkmenCubit(repository: context.read<WorkmenService>())
                 ..getWorkmens(1),
           child: Stack(
             children: <Widget>[
@@ -178,9 +171,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             color: Color.fromRGBO(97, 99, 119, 1),
                           ),
                         ),
-                        _buildHead(
-                          project: projects[0],
-                        )
                       ],
                     ),
                     Column(
@@ -221,8 +211,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                 ),
                               ),
                               Expanded(
-                                  child:
-                                      Column(children: [AttendanceListVIew()]))
+                                  child: Column(children: [WorkmenListVIew()]))
                             ]))
                       ],
                     )
@@ -241,50 +230,18 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   }
 }
 
-class _buildHead extends StatelessWidget {
-  const _buildHead({Key? key, required this.project}) : super(key: key);
-
-  final project;
+class WorkmenListVIew extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return ListTile(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 20),
-          child: Text(project,
-              style: TextStyle(
-                fontFamily: AppTheme.fontName,
-                fontWeight: FontWeight.w700,
-                fontSize: 17,
-                letterSpacing: 1.2,
-                color: AppTheme.darkerText,
-              )),
-        ),
-        trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: Center(
-                child: Text(
-              DateFormat("dd-MM-yyyy").format(DateTime.now()),
-              style: AppTheme.listheading,
-            )),
-          ),
-        ]));
-  }
-}
-
-class AttendanceListVIew extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<AttendanceCubit, AttendanceState>(
+    return BlocBuilder<WorkmenCubit, WorkmenState>(
       buildWhen: (previous, current) => true,
       builder: (context, state) {
-        if (state.status == AttendanceStatus.AttendanceError) {
+        if (state.status == WorkmenStatus.WorkmenError) {
           return const Center(child: Text('Oops something went wrong!'));
-        } else if (state.status == AttendanceStatus.AttendanceLoaded) {
-          return _buildlist(workmens: state.attendance);
-        } else if (state.status == AttendanceStatus.AttendanceEdited) {
-          return _buildlist(workmens: state.attendance);
+        } else if (state.status == WorkmenStatus.WorkmenLoaded) {
+          return _buildlist(workmens: state.workmens);
+        } else if (state.status == WorkmenStatus.WorkmenEdited) {
+          return _buildlist(workmens: state.workmens);
         } else {
           return const Center(child: CircularProgressIndicator());
         }
@@ -298,42 +255,7 @@ class _buildlist extends StatelessWidget {
     Key? key,
     required this.workmens,
   }) : super(key: key);
-  final List<Attendance> workmens;
-  TimeOfDay inTime = const TimeOfDay(hour: 9, minute: 30);
-
-  Future<void> _selectInTime(
-      BuildContext context, Attendance attendance) async {
-    final TimeOfDay? timeOfDay = await showTimePicker(
-      context: context,
-      initialTime: attendance.in_ ?? inTime,
-      initialEntryMode: TimePickerEntryMode.dial,
-    );
-    // ignore: unnecessary_null_comparison
-    if (timeOfDay != null && timeOfDay != attendance.in_) {
-      context.read<AttendanceCubit>().updateInTime(attendance, timeOfDay);
-    }
-  }
-
-  Future _transferWorkmen(Attendance attendance, BuildContext context) async {
-    final result = await Navigator.of(context).push(
-      MaterialPageRoute<bool>(
-          builder: (BuildContext context) {
-            return ProjectListScreen(
-                officeId: currentOffice.id ?? 0,
-                type: PageType.TransferWorkmen,
-                workmenId: attendance.workmen!.id);
-          },
-          fullscreenDialog: true),
-    );
-    if (result == true) {
-      workmens.remove(attendance);
-      context.read<AttendanceCubit>().updateList(workmens);
-    }
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: result == true
-            ? Text("Workmen Transfered")
-            : Text("Something went wrong")));
-  }
+  final List<Workmen> workmens;
 
   @override
   Widget build(BuildContext context) {
@@ -350,74 +272,10 @@ class _buildlist extends StatelessWidget {
               title: SizedBox(
                 width: MediaQuery.of(context).size.width / 1.8,
                 child: Text(
-                  workmens[index].workmen!.firstname,
+                  workmens[index].firstname + workmens[index].lastname,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                IconButton(
-                    onPressed: () {
-                      _transferWorkmen(workmens[index], context);
-                    },
-                    icon: Icon(
-                      Icons.multiple_stop_rounded,
-                      size: 20,
-                      color: AppTheme.nearlyDarkBlue,
-                    )),
-                Padding(
-                  padding: const EdgeInsets.only(right: 35, left: 10),
-                  child: TextButton(
-                    child: Text(
-                        workmens[index].in_?.format(context) ??
-                            inTime.format(context),
-                        style: TextStyle(color: AppTheme.nearlyDarkBlue)),
-                    onPressed: () {
-                      _selectInTime(context, workmens[index]);
-                    },
-                  ),
-                ),
-                Padding(
-                    padding: EdgeInsets.all(5),
-                    child: DropdownButton(
-                        menuMaxHeight: 150,
-                        value: workmens[index].hoursWorked ?? 8,
-                        style: TextStyle(color: Colors.black, fontSize: 15),
-                        onChanged: (int? value) {
-                          context
-                              .read<AttendanceCubit>()
-                              .updatehours(workmens[index], value);
-                        },
-                        items: const [
-                          DropdownMenuItem(
-                            child: Text("0"),
-                            value: 0,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("4"),
-                            value: 4,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("8"),
-                            value: 8,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("12"),
-                            value: 12,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("16"),
-                            value: 16,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("20"),
-                            value: 20,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("24"),
-                            value: 24,
-                          )
-                        ]))
-              ]),
             ),
           ));
         },

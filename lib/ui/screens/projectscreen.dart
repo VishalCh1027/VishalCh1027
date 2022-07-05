@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/models/project_model.dart';
-
-import '../../Apptheme/app_theme.dart';
+import 'package:my_application/ui/screens/projectworkmens.dart';
 
 class ProjectScreen extends StatefulWidget {
-  const ProjectScreen({Key? key, this.project});
-  final Project? project;
+  ProjectScreen({Key? key, required this.project});
+  final Project project;
   @override
   _ProjectScreen createState() => _ProjectScreen(project);
 }
@@ -15,21 +15,13 @@ class _ProjectScreen extends State<ProjectScreen>
     with TickerProviderStateMixin {
   _ProjectScreen(this.project);
 
-  final Project? project;
-  final format = DateFormat("yyyy-MM-dd");
+  final Project project;
   Animation<double>? topBarAnimation;
 
-  var currentproject = Project();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  TextEditingController deliveryDate = TextEditingController();
-
+  final formatDate = DateFormat("dd/MM/yyyy");
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
-  var isdelete = false;
   void initState() {
-    currentproject = project ?? Project();
-
     scrollController.addListener(() {
       if (scrollController.offset >= 24) {
         if (topBarOpacity != 1.0) {
@@ -123,6 +115,391 @@ class _ProjectScreen extends State<ProjectScreen>
     );
   }
 
+  Widget getMainListViewUI() {
+    return FutureBuilder<bool>(
+      future: getData(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (!snapshot.hasData) {
+          return const SizedBox();
+        } else {
+          return ListView.builder(
+            controller: scrollController,
+            padding: EdgeInsets.only(
+              top: AppBar().preferredSize.height +
+                  MediaQuery.of(context).padding.top +
+                  24,
+              bottom: 62 + MediaQuery.of(context).padding.bottom,
+            ),
+            itemCount: 2,
+            scrollDirection: Axis.vertical,
+            itemBuilder: (BuildContext context, int index) {
+              if (index == 0) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
+                          offset: const Offset(1.1, 1.1),
+                          blurRadius: 10.0),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Padding(
+                          padding: EdgeInsets.only(left: 5),
+                          child: Text(
+                            project.name ?? "NA",
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontName,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 25,
+                              letterSpacing: 0.5,
+                              color: AppTheme.nearlyBlack,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Container(
+                          width: 350,
+                          height: 60,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  height: 50,
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.av_timer,
+                                            color: AppTheme.deactivatedText,
+                                            size: 15,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            "Status",
+                                            style: TextStyle(
+                                                color: AppTheme.deactivatedText,
+                                                fontSize: 15),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 20),
+                                            child: Text(
+                                              project.status ?? "NA",
+                                              style: TextStyle(
+                                                  color: AppTheme.nearlyBlack,
+                                                  fontSize: 20),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: SizedBox(
+                                  height: 50,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 30),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: const [
+                                            Icon(
+                                              Icons.av_timer,
+                                              color: AppTheme.deactivatedText,
+                                              size: 15,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              "Start Date",
+                                              style: TextStyle(
+                                                  color:
+                                                      AppTheme.deactivatedText,
+                                                  fontSize: 15),
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 20),
+                                              child: Text(
+                                                project.startDate != null
+                                                    ? formatDate
+                                                        .format(
+                                                            project.startDate ??
+                                                                DateTime.now())
+                                                        .toString()
+                                                    : "NA",
+                                                style: TextStyle(
+                                                    color: AppTheme.nearlyBlack,
+                                                    fontSize: 20),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Container(
+                        width: 350,
+                        height: 60,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Expanded(
+                              child: SizedBox(
+                                height: 50,
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.currency_rupee,
+                                          color: AppTheme.deactivatedText,
+                                          size: 15,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "Total Cost",
+                                          style: TextStyle(
+                                              color: AppTheme.deactivatedText,
+                                              fontSize: 15),
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 20),
+                                          child: Text(
+                                            (project.totalCost ?? "NA")
+                                                .toString(),
+                                            style: TextStyle(
+                                                color: AppTheme.nearlyBlack,
+                                                fontSize: 20),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: SizedBox(
+                                height: 50,
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 30),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.currency_rupee,
+                                            color: AppTheme.deactivatedText,
+                                            size: 15,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            "Estimated Cost",
+                                            style: TextStyle(
+                                                color: AppTheme.deactivatedText,
+                                                fontSize: 15),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 20),
+                                              child: Text(
+                                                (project.estimateCost ?? "NA")
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: AppTheme.nearlyBlack,
+                                                    fontSize: 20),
+                                              ))
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return getSubView(context);
+              }
+            },
+          );
+        }
+      },
+    );
+  }
+
+  Widget getSubView(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: Card(
+                child: ListTile(
+                  dense: true,
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProjectWorkmensPage(
+                                  project: "New Project",
+                                )));
+                  },
+                  leading: Icon(
+                    Icons.supervisor_account,
+                  ),
+                  title: Padding(
+                    padding: EdgeInsets.all(1),
+                    child: Text(
+                      'Personal',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProjectWorkmensPage(
+                                project: "New Project",
+                              )));
+                },
+                child: Card(
+                  child: ListTile(
+                    dense: true,
+                    leading: Icon(
+                      Icons.supervisor_account,
+                    ),
+                    title: Padding(
+                      padding: EdgeInsets.all(1),
+                      child: Text(
+                        'Workmens',
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Expanded(
+              child: Card(
+                child: ListTile(
+                  dense: true,
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProjectWorkmensPage(
+                                  project: "New Project",
+                                )));
+                  },
+                  leading: Icon(
+                    Icons.request_page,
+                  ),
+                  title: Padding(
+                    padding: EdgeInsets.all(1),
+                    child: Text(
+                      'Purchase Requests',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Card(
+                child: ListTile(
+                  dense: true,
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProjectWorkmensPage(
+                                  project: "New Project",
+                                )));
+                  },
+                  leading: Icon(
+                    Icons.request_page,
+                  ),
+                  title: Padding(
+                    padding: EdgeInsets.all(1),
+                    child: Text(
+                      'Items',
+                      style: TextStyle(
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -132,17 +509,16 @@ class _ProjectScreen extends State<ProjectScreen>
         body: Stack(
           children: <Widget>[
             Container(
-              decoration: BoxDecoration(
-                color: AppTheme.background,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                      offset: const Offset(1.1, 1.1),
-                      blurRadius: 10.0),
-                ],
-              ),
-              child: Text("hello"),
-            ),
+                decoration: BoxDecoration(
+                  color: AppTheme.background,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
+                        offset: const Offset(1.1, 1.1),
+                        blurRadius: 10.0),
+                  ],
+                ),
+                child: getMainListViewUI()),
             getAppBarUI(),
             SizedBox(
               height: MediaQuery.of(context).padding.bottom,
@@ -151,99 +527,5 @@ class _ProjectScreen extends State<ProjectScreen>
         ),
       ),
     );
-  }
-
-  Widget _buildorderitemlist() {
-    var orderItems = project;
-    return Expanded(
-      child: Text("hello"),
-    );
-  }
-
-  Future<void> _deliverydatebuild() async {
-    DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(
-            2000), //DateTime.now() - not to allow to choose before today.
-        lastDate: DateTime(2101));
-
-    if (pickedDate != null) {
-      savedeliveryDate(pickedDate);
-    }
-  }
-
-  void savedeliveryDate(pickedDate) {
-    setState(() {});
-  }
-
-  void saveOrderItem(item) {
-    setState(() {});
-  }
-
-  Widget _buildedittile() {
-    return Container(
-        width: 450,
-        child: Card(
-          margin: EdgeInsets.zero,
-          color: Color.fromARGB(255, 222, 222, 224),
-          child: ListTile(
-            dense: true,
-            trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Center(
-                  child: InkWell(
-                    child: Icon(
-                      IconData(0xe1b9, fontFamily: 'MaterialIcons'),
-                      color: AppTheme.nearlyDarkBlue,
-                      size: 20,
-                    ),
-                    onTap: () {
-                      (data) {
-                        setState(
-                          () {},
-                        );
-                      };
-                    },
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 1),
-                child: Center(
-                  child: InkWell(
-                    child: Icon(
-                      Icons.clear_rounded,
-                      color: AppTheme.nearlyDarkBlue,
-                      size: 20,
-                    ),
-                    onTap: () {
-                      (data) {
-                        setState(
-                          () {},
-                        );
-                      };
-                    },
-                  ),
-                ),
-              ),
-            ]),
-            leading: InkWell(
-              child: Icon(
-                Icons.checklist_rounded,
-                color: AppTheme.nearlyDarkBlue,
-                size: 20,
-              ),
-              onTap: () {
-                (data) {
-                  setState(
-                    () {},
-                  );
-                };
-              },
-            ),
-          ),
-        ));
   }
 }

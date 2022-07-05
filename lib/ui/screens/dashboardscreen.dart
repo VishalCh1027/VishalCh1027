@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:my_application/ui/screens/purchasesscreen.dart';
 
 import '../../Apptheme/app_theme.dart';
-import '../../models/project_model.dart';
 import '../widgets/RequestsView.dart';
 import '../widgets/attendance_tile.dart';
-import '../widgets/glass_view.dart';
 import '../widgets/projects_list_view.dart';
-import '../widgets/water_view.dart';
-import '../widgets/wave_view.dart';
 import '../widgets/title_view.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
-
+  const DashboardScreen({Key? key, required this.changeIndex})
+      : super(key: key);
+  final Function(int index) changeIndex;
   @override
   _DashboardScreen createState() => _DashboardScreen();
 }
@@ -56,12 +52,13 @@ class _DashboardScreen extends State<DashboardScreen>
   }
 
   void addAllListData() {
-    const int count = 9;
-
     listViews.add(
       TitleView(
         titleTxt: 'Requests',
-        subTxt: 'Details',
+        subTxt: 'Show All',
+        trailingAction: () {
+          widget.changeIndex(2);
+        },
       ),
     );
     listViews.add(
@@ -71,6 +68,9 @@ class _DashboardScreen extends State<DashboardScreen>
       TitleView(
         titleTxt: 'Projects',
         subTxt: 'Show All',
+        trailingAction: () {
+          widget.changeIndex(0);
+        },
       ),
     );
 
@@ -87,12 +87,6 @@ class _DashboardScreen extends State<DashboardScreen>
 
     listViews.add(
       AttendanceTileView(),
-    );
-    listViews.add(
-      TitleView(
-        titleTxt: 'Account',
-        subTxt: 'Aqua SmartBottle',
-      ),
     );
   }
 

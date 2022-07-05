@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_application/Apptheme/app_theme.dart';
-import 'package:my_application/ui/screens/home_screen.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
   ForgetPasswordPage({Key? key, this.title});

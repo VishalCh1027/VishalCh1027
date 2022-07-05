@@ -2,11 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_application/bloc/attendance/bloc.dart';
-import 'package:my_application/bloc/attendance/service.dart';
 import 'package:my_application/helpers/tabIcon_data.dart';
-import 'package:my_application/ui/screens/Profile_Details.dart';
+import 'package:my_application/ui/screens/accountscreen.dart';
 import 'package:my_application/ui/screens/projectlistscreen.dart';
 import 'package:my_application/ui/screens/purchasesscreen.dart';
 import 'package:my_application/ui/screens/dashboardscreen.dart';
@@ -35,7 +32,9 @@ class _AppHomeScreenState extends State<AppHomeScreen>
       tab.isSelected = false;
     });
 
-    tabBody = DashboardScreen();
+    tabBody = DashboardScreen(
+      changeIndex: changeIndex,
+    );
     super.initState();
   }
 
@@ -67,6 +66,44 @@ class _AppHomeScreenState extends State<AppHomeScreen>
     );
   }
 
+  void changeIndex(int index) {
+    if (index == 0) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        tabBody = const ProjectListScreen(
+          officeId: 1,
+          type: PageType.ProjectList,
+        );
+      });
+    } else if (index == 2) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        tabBody = PurchasesScreen();
+      });
+    } else if (index == 1) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        tabBody = const ProjectListScreen(
+          officeId: 1,
+          type: PageType.MarkAttendance,
+        );
+      });
+    } else if (index == 3) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        tabBody = const AccountScreen();
+      });
+    }
+  }
+
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 200));
     return true;
@@ -85,47 +122,12 @@ class _AppHomeScreenState extends State<AppHomeScreen>
               tabIconsList.forEach((TabIconData tab) {
                 tab.isSelected = false;
               });
-              tabBody = DashboardScreen();
+              tabBody = DashboardScreen(
+                changeIndex: changeIndex,
+              );
             });
           },
-          changeIndex: (int index) {
-            if (index == 0) {
-              if (!mounted) {
-                return;
-              }
-              setState(() {
-                tabBody = const ProjectListScreen(
-                  officeId: 1,
-                );
-              });
-            } else if (index == 2) {
-              if (!mounted) {
-                return;
-              }
-              setState(() {
-                tabBody = PurchasesScreen();
-              });
-            } else if (index == 1) {
-              if (!mounted) {
-                return;
-              }
-              setState(() {
-                tabBody = AttendancePage(
-                  project: "New Project",
-                );
-              });
-            } else if (index == 3) {
-              if (!mounted) {
-                return;
-              }
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AttendancePage(
-                            project: "New Project",
-                          )));
-            }
-          },
+          changeIndex: changeIndex,
         ),
       ],
     );

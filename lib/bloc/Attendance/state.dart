@@ -1,7 +1,4 @@
-import 'package:equatable/equatable.dart';
-
 import '../../models/attendance_model.dart';
-import '../../models/loginmodel.dart';
 
 enum AttendanceStatus {
   AttendanceLoading,

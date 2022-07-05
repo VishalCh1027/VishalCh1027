@@ -1,11 +1,9 @@
 import 'dart:convert';
 
 import 'package:my_application/global/global_variables.dart';
+import 'package:my_application/models/employee_model.dart';
 import 'package:my_application/models/loginmodel.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../helpers/http_helper.dart';
 import '../../helpers/local_helper.dart';
-import '../bloc_service.dart';
 
 class LoginService {
   Future<LoginModel> getCurrentLogin() async {
@@ -20,11 +18,22 @@ class LoginService {
       "password": password
     };
     try {
-      var rs = await HttpHelper.post(Uri.parse(LOGIN_ENDPOINT), accountInput);
-      print(rs.statusCode);
-      if (rs.statusCode == 200) {
-        var jsonObject = jsonDecode(rs.body);
-        var account = LoginModel.fromJson(jsonObject);
+      var account = LoginModel(
+          email: "vishal@gmail.com",
+          password: "1234567",
+          employee: Employee(
+            id: 1,
+            firstName: "Vishal",
+            lastName: "chinta",
+            mobile: "8355952505",
+            email: "vishal@gmail.com",
+          ));
+      //var rs = await HttpHelper.post(Uri.parse(LOGIN_ENDPOINT), accountInput);
+
+      var result = username == account.email && password == account.password;
+      if (result) {
+        // var jsonObject = jsonDecode(rs.body);
+        // var account = LoginModel.fromJson(jsonObject);
         currentLogin = account;
         LocalHelper.saveAccountToLocal(account);
 

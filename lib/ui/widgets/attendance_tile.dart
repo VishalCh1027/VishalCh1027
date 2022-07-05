@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_application/Apptheme/app_theme.dart';
+import 'package:my_application/global/global_variables.dart';
+import 'package:my_application/ui/screens/home_screen.dart';
+import 'package:my_application/ui/screens/projectlistscreen.dart';
 
 class AttendanceTileView extends StatefulWidget {
   AttendanceTileView({Key? key});
@@ -155,15 +158,29 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 4, bottom: 14),
-                            child: Text(
-                              'Mark today\'s attendance',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12,
-                                letterSpacing: 0.0,
-                                color: AppTheme.nearlyDarkBlue,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute<Object>(
+                                      builder: (BuildContext context) {
+                                        return ProjectListScreen(
+                                          officeId: currentOffice.id ?? 0,
+                                          type: PageType.MarkAttendance,
+                                        );
+                                      },
+                                      fullscreenDialog: true),
+                                );
+                              },
+                              child: Text(
+                                'Mark today\'s attendance',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12,
+                                  letterSpacing: 0.0,
+                                  color: AppTheme.nearlyDarkBlue,
+                                ),
                               ),
                             ),
                           ),

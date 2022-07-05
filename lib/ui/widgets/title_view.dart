@@ -6,13 +6,15 @@ class TitleView extends StatelessWidget {
   final String titleTxt;
   final String subTxt;
   final bool istrailing;
+  final Function()? trailingAction;
 
-  const TitleView({
-    Key? key,
-    this.titleTxt: "",
-    this.subTxt: "",
-    this.istrailing = true,
-  }) : super(key: key);
+  const TitleView(
+      {Key? key,
+      this.titleTxt = "",
+      this.subTxt = "",
+      this.istrailing = true,
+      this.trailingAction})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class TitleView extends StatelessWidget {
                 ? InkWell(
                     highlightColor: Colors.transparent,
                     borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                    onTap: () {},
+                    onTap: trailingAction,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 8),
                       child: Row(
@@ -52,15 +54,6 @@ class TitleView extends StatelessWidget {
                               fontSize: 16,
                               letterSpacing: 0.5,
                               color: AppTheme.nearlyDarkBlue,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 38,
-                            width: 26,
-                            child: Icon(
-                              Icons.arrow_forward,
-                              color: AppTheme.darkText,
-                              size: 18,
                             ),
                           ),
                         ],

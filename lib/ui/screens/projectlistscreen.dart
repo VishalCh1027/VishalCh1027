@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:my_application/apptheme/app_theme.dart';
+import 'package:my_application/bloc/attendance/service.dart';
 import 'package:my_application/bloc/project_list/bloc.dart';
 import 'package:my_application/bloc/project_list/service.dart';
 import 'package:my_application/bloc/project_list/state.dart';
-import 'package:my_application/global/global_variables.dart';
 import 'package:my_application/models/project_model.dart';
+import 'package:my_application/ui/screens/attendancescreen.dart';
 import 'package:my_application/ui/screens/projectscreen.dart';
 
+enum PageType { ProjectList, TransferWorkmen, MarkAttendance }
+
 class ProjectListScreen extends StatefulWidget {
-  const ProjectListScreen({
-    Key? key,
-    required this.officeId,
-  }) : super(key: key);
-  final officeId;
+  const ProjectListScreen(
+      {Key? key, required this.officeId, required this.type, this.workmenId})
+      : super(key: key);
+  final int officeId;
+  final PageType type;
+  final int? workmenId;
   @override
   State<ProjectListScreen> createState() => _ProjectListScreenState();
 }
@@ -84,8 +87,8 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                     padding: EdgeInsets.only(
                         left: 16,
                         right: 16,
-                        top: 14 - 8.0 * topBarOpacity,
-                        bottom: 12 - 8.0 * topBarOpacity),
+                        top: 12 - 8.0 * topBarOpacity,
+                        bottom: 10 - 8.0 * topBarOpacity),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -93,7 +96,9 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'Projects',
+                              widget.type == PageType.ProjectList
+                                  ? 'Projects'
+                                  : "Select Project",
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontFamily: AppTheme.fontName,
@@ -199,7 +204,9 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                                 ),
                               ),
                               Expanded(
-                                  child: Column(children: [ProjectlistVIew()]))
+                                  child: Column(children: [
+                                ProjectlistVIew(type: widget.type)
+                              ]))
                             ]))
                       ],
                     )
@@ -256,6 +263,12 @@ class _buildHead extends StatelessWidget {
 }
 
 class ProjectlistVIew extends StatelessWidget {
+  const ProjectlistVIew({Key? key, required this.type, this.workmenId})
+      : super(key: key);
+
+  final PageType type;
+  final int? workmenId;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProjectsCubit, ProjectsState>(
@@ -264,9 +277,11 @@ class ProjectlistVIew extends StatelessWidget {
         if (state.status == ProjectsStatus.projectsError) {
           return const Center(child: Text('Oops something went wrong!'));
         } else if (state.status == ProjectsStatus.projectsLoadedSuccessfully) {
-          return _buildlist(projects: state.projects);
+          return _buildlist(
+              projects: state.projects, type: type, workmenId: workmenId);
         } else if (state.status == ProjectsStatus.projectsEditing) {
-          return _buildlist(projects: state.projects);
+          return _buildlist(
+              projects: state.projects, type: type, workmenId: workmenId);
         } else {
           return const Center(child: CircularProgressIndicator());
         }
@@ -276,19 +291,21 @@ class ProjectlistVIew extends StatelessWidget {
 }
 
 class _buildlist extends StatelessWidget {
-  _buildlist({
-    Key? key,
-    required this.projects,
-  }) : super(key: key);
-  final List<Project> projects;
+  _buildlist(
+      {Key? key, required this.projects, required this.type, this.workmenId})
+      : super(key: key);
 
-  Future _openProject(Project currentRequest, BuildContext context) async {
-    context.read<ProjectsCubit>().unSelectAll();
-    projects;
+  final PageType type;
+  final List<Project> projects;
+  final int? workmenId;
+
+  Future _openProject(Project project, BuildContext context) async {
     Project? request = await Navigator.of(context).push(
       new MaterialPageRoute<Project>(
           builder: (BuildContext context) {
-            return new ProjectScreen();
+            return new ProjectScreen(
+              project: project,
+            );
           },
           fullscreenDialog: true),
     );
@@ -306,7 +323,27 @@ class _buildlist extends StatelessWidget {
               child: Container(
             child: ListTile(
               onTap: () {
-                _openProject(projects[index], context);
+                switch (type) {
+                  case PageType.ProjectList:
+                    _openProject(projects[index], context);
+                    break;
+                  case PageType.MarkAttendance:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AttendanceScreen(
+                                  project: projects[index],
+                                )));
+                    break;
+                  case PageType.TransferWorkmen:
+                    var result = context
+                        .read<AttendanceService>()
+                        .transferWorkmen(
+                            projects[index].id ?? 0, workmenId ?? 0);
+                    Navigator.of(context).pop(result != null);
+                    break;
+                  default:
+                }
               },
               title: SizedBox(
                 width: MediaQuery.of(context).size.width / 1.8,
@@ -319,7 +356,7 @@ class _buildlist extends StatelessWidget {
                 SizedBox(
                   width: 100,
                   child: Center(
-                    child: Text(projects[index].status.toString() ?? "",
+                    child: Text((projects[index].status ?? "").toString(),
                         style: TextStyle(color: AppTheme.nearlyDarkBlue)),
                   ),
                 ),

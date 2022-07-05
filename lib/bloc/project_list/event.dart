@@ -14,7 +14,7 @@ class GetWorkmens extends ProjectsEvent {
 }
 
 class EditProjects extends ProjectsEvent {
-  final List<Project> Projectss;
+  final List<Project> projects;
 
-  EditProjects(this.Projectss);
+  EditProjects(this.projects);
 }

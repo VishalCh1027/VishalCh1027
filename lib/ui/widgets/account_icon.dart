@@ -12,7 +12,7 @@ class AccountIcon extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Icon(
-              IconData(0xf522, fontFamily: 'MaterialIcons'),
+              const IconData(0xf522, fontFamily: 'MaterialIcons'),
               color: bgColor,
               size: 30,
             ),

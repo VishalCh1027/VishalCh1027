@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart';
 import 'package:my_application/models/orderItem_model.dart';
 
 import '../../Apptheme/app_theme.dart';

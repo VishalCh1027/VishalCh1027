@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:my_application/bloc/purchases/bloc.dart';
 import 'package:my_application/bloc/purchases/service.dart';

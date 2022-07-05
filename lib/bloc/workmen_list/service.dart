@@ -1,25 +1,25 @@
 import 'dart:convert';
 
 import 'package:my_application/global/global_variables.dart';
-import 'package:my_application/models/attendance_model.dart';
+import 'package:my_application/models/workmen_model.dart';
 import '../../helpers/http_helper.dart';
 import '../bloc_service.dart';
 
-class AttendanceService extends BlocService<Attendance> {
-  Future<List<Attendance>> getWorkmens(int projectId) async {
+class WorkmenService extends BlocService<Workmen> {
+  Future<List<Workmen>> getWorkmens(int projectId) async {
     // var rs = await HttpHelper.post(Uri.parse(WORKMENS_ENDPOINT), {},
     //     bearerToken: currentLogin.token);
     // print(rs.statusCode);
     // if (rs.statusCode == 200) {
     //   var jsonObject = jsonDecode(rs.body);
-    //   var workmens = List<Attendance>.from(
-    //       [jsonObject].map((e) => Attendance.fromJson(e)));
+    //   var workmens = List<Workmen>.from(
+    //       [jsonObject].map((e) => Workmen.fromJson(e)));
 
     //   return workmens;
     // }
     // return null;
 
-    var workmens = List<Attendance>.from([
+    var workmens = List<Workmen>.from([
       {
         "date": "4/26/2022",
         "in": "",
@@ -436,30 +436,16 @@ class AttendanceService extends BlocService<Attendance> {
         "projectId": 60,
         "overTime": 0,
       }
-    ].map((e) => Attendance.fromJson(e)));
+    ].map((e) => Workmen.fromJson(e)));
 
     return workmens;
   }
 
-  Future<Object?> editAttendance(List<Attendance> attendances) async {
+  Future<Object?> editWorkmen(List<Workmen> Workmens) async {
     try {
-      var rs = await HttpHelper.post(Uri.parse(ATTENDANCE_ENDPOINT), {},
+      var rs = await HttpHelper.post(Uri.parse(WORKMENS_ENDPOINT), {},
           bearerToken: currentLogin.token);
-      if (rs.statusCode == 200) {
-        var jsonObject = jsonDecode(rs.body);
-        return jsonObject;
-      }
-      return null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  Future<Object?> transferWorkmen(int projectId, int workmenId) async {
-    try {
-      var rs = await HttpHelper.post(Uri.parse(WORKMEN_TRANSFER_ENDPOINT),
-          {"project": projectId, "workmenId": workmenId},
-          bearerToken: currentLogin.token);
+      print(rs.statusCode);
       if (rs.statusCode == 200) {
         var jsonObject = jsonDecode(rs.body);
 

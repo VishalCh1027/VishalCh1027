@@ -8,20 +8,10 @@ class ProjectsCubit extends Cubit<ProjectsState> {
   ProjectsCubit({required this.repository})
       : super(const ProjectsState.loading());
 
-  Future<void> getProjects(int projectId) async {
-    var projects = await repository.getProjects(projectId);
+  Future<void> getProjects(int employeeId) async {
+    var projects = await repository.getProjects(employeeId);
     if (projects != null) {
       emit(ProjectsState.success(projects));
-    } else {
-      emit(ProjectsState.failure());
-    }
-  }
-
-  Future<void> editPurchase(Project request) async {
-    var newstate = state.copyWith();
-    newstate.projects.forEach((element) {});
-    if (newstate.projects.isNotEmpty) {
-      emit(ProjectsState.editing(newstate.projects));
     } else {
       emit(ProjectsState.failure());
     }
@@ -31,26 +21,6 @@ class ProjectsCubit extends Cubit<ProjectsState> {
     var projects = await repository.searchproject(search);
     if (projects.isNotEmpty) {
       emit(ProjectsState.editing(projects));
-    } else {
-      emit(ProjectsState.failure());
-    }
-  }
-
-  Future<void> deletePurchase(request) async {
-    var newstate = state.copyWith();
-    newstate.projects.remove(request);
-    if (newstate.projects.isNotEmpty) {
-      emit(ProjectsState.editing(newstate.projects));
-    } else {
-      emit(ProjectsState.listIsEmty());
-    }
-  }
-
-  Future<void> unSelectAll() async {
-    var newstate = state.copyWith();
-    newstate.projects.forEach((element) {});
-    if (newstate.projects.isNotEmpty) {
-      emit(ProjectsState.editing(newstate.projects));
     } else {
       emit(ProjectsState.failure());
     }

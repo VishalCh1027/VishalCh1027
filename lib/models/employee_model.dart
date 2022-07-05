@@ -26,16 +26,29 @@ class Employee {
 
   factory Employee.fromJson(Map<String, dynamic> json) {
     return Employee(
-        id: json['id'] as int,
-        email: json['email'] as String,
-        firstName: json['firstName'] as String,
-        lastName: json['lastName'] as String,
-        mobile: json['mobile'] as String,
-        dOB: json['dOB'] as String,
-        businessId: json['businessId'] as int,
+        id: json['id'],
+        email: json['email'],
+        firstName: json['firstName'],
+        lastName: json['lastName'],
+        mobile: json['mobile'],
+        dOB: json['dOB'],
+        businessId: json['businessId'],
         permissions: List<EmployeePermissions>.from(
-            json['permissions'].map((e) => EmployeeRoles.fromJson(e))));
+            json['permissions']?.map((e) => EmployeeRoles.fromJson(e))));
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> employee = new Map<String, dynamic>();
+    employee['email'] = email;
+    employee['id'] = id;
+    employee['firstName'] = firstName;
+    employee['lastName'] = lastName;
+    employee['mobile'] = mobile;
+    employee['dOB'] = dOB;
+    employee['businessId'] = businessId;
+    return employee;
+  }
+
   @override
   String toString() {
     return 'Employee{firstName: $firstName,lastName: $lastName, email: $email}';
