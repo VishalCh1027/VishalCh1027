@@ -103,8 +103,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppTheme.nearlyDarkBlue,
+    return const Scaffold(
+      backgroundColor: AppTheme.primaryColor,
       body: Center(
         child: Text('Loading...'),
       ),
@@ -112,6 +112,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   Future<bool> load() async {
+    await getGlobal();
     await refreshLogin(context);
     if (currentLogin.email == null) {
       return false;

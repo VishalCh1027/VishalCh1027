@@ -1,8 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:my_application/Apptheme/constatnts.dart';
+import 'package:my_application/apptheme/app_theme.dart';
 
-import '../../Apptheme/app_theme.dart';
 import '../../main.dart';
 import '../../helpers/tabIcon_data.dart';
 
@@ -141,10 +140,10 @@ class _BottomBarViewState extends State<BottomBarView>
                     child: Container(
                       // alignment: Alignment.center,s
                       decoration: BoxDecoration(
-                        color: AppTheme.nearlyDarkBlue,
+                        color: AppTheme.primaryColor,
                         gradient: LinearGradient(
                             colors: [
-                              AppTheme.nearlyDarkBlue,
+                              AppTheme.primaryColor,
                               HexColor('#6A88E5'),
                             ],
                             begin: Alignment.topLeft,
@@ -152,7 +151,7 @@ class _BottomBarViewState extends State<BottomBarView>
                         shape: BoxShape.circle,
                         boxShadow: <BoxShadow>[
                           BoxShadow(
-                              color: AppTheme.nearlyDarkBlue.withOpacity(0.4),
+                              color: AppTheme.primaryColor.withOpacity(0.4),
                               offset: const Offset(8.0, 16.0),
                               blurRadius: 16.0),
                         ],
@@ -258,8 +257,8 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                                 center: Alignment.topLeft,
                                 radius: 2,
                                 colors: <Color>[
-                                  HexColor('#6A88E5'),
-                                  AppTheme.nearlyDarkBlue,
+                                  Color.fromARGB(255, 67, 76, 85),
+                                  AppTheme.primaryColor,
                                 ],
                                 tileMode: TileMode.repeated,
                               ).createShader(bounds);
@@ -287,7 +286,7 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                       width: 8,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: AppTheme.nearlyDarkBlue,
+                        color: AppTheme.primaryColor,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -308,7 +307,7 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                       width: 4,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: AppTheme.nearlyDarkBlue,
+                        color: AppTheme.primaryColor,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -329,7 +328,7 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                       width: 6,
                       height: 6,
                       decoration: BoxDecoration(
-                        color: AppTheme.nearlyDarkBlue,
+                        color: AppTheme.primaryColor,
                         shape: BoxShape.circle,
                       ),
                     ),

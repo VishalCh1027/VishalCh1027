@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_application/Apptheme/app_theme.dart';
+import 'package:my_application/apptheme/app_theme.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
   ForgetPasswordPage({Key? key, this.title});
@@ -22,7 +22,7 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         toolbarHeight: 100,
-        title: Padding(
+        title: const Padding(
             padding: EdgeInsets.only(left: 20),
             child: Text('Forget Password',
                 textAlign: TextAlign.left, style: AppTheme.headline)),
@@ -30,7 +30,7 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
       body: Container(
         decoration: BoxDecoration(
           color: Colors.lightGreen[50],
-          borderRadius: BorderRadius.all(Radius.circular(40)),
+          borderRadius: const BorderRadius.all(const Radius.circular(40)),
         ),
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(50.0),

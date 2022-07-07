@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
         boxShadow: [
-          BoxShadow(
+          const BoxShadow(
             color: Colors.grey,
             blurRadius: 25.0, // soften the shadow
             spreadRadius: 1, //extend the shadow
@@ -65,11 +65,11 @@ class _LoginPageState extends State<LoginPage> {
           child: Stack(
             children: <Widget>[
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(40)),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(30),
+                  padding: const EdgeInsets.all(30),
                   child: Form(
                     key: formKey,
                     child: Column(mainAxisSize: MainAxisSize.min, children: [

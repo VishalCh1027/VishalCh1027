@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/models/orderItem_model.dart';
-
-import '../../Apptheme/app_theme.dart';
 
 class OrderItemUpdatePage extends StatefulWidget {
   OrderItemUpdatePage({Key? key, this.orderItem});
@@ -60,7 +59,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
           Padding(
               padding: EdgeInsets.only(right: 15),
               child: IconButton(
-                  color: AppTheme.nearlyDarkBlue,
+                  color: AppTheme.primaryColor,
                   icon:
                       const Icon(IconData(0xe156, fontFamily: 'MaterialIcons')),
                   onPressed: () {
@@ -100,11 +99,11 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                       decoration: const InputDecoration(
                         icon: Icon(
                           Icons.person,
-                          color: AppTheme.nearlyDarkBlue,
+                          color: AppTheme.primaryColor,
                         ),
                         labelText: 'Name',
                         labelStyle: TextStyle(
-                          color: AppTheme.nearlyDarkBlue,
+                          color: AppTheme.primaryColor,
                         ),
                       ),
                     ),
@@ -116,11 +115,11 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                       decoration: const InputDecoration(
                         icon: Icon(
                           Icons.info_outline_rounded,
-                          color: AppTheme.nearlyDarkBlue,
+                          color: AppTheme.primaryColor,
                         ),
                         labelText: 'Description',
                         labelStyle: TextStyle(
-                          color: AppTheme.nearlyDarkBlue,
+                          color: AppTheme.primaryColor,
                         ),
                       ),
                     ),
@@ -151,11 +150,11 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                         decoration: InputDecoration(
                             icon: Icon(
                               Icons.linear_scale_rounded,
-                              color: AppTheme.nearlyDarkBlue,
+                              color: AppTheme.primaryColor,
                             ),
                             labelText: "Unit",
                             labelStyle:
-                                TextStyle(color: AppTheme.nearlyDarkBlue))),
+                                TextStyle(color: AppTheme.primaryColor))),
                     TextFormField(
                       initialValue: _item.quantity != null
                           ? _item.quantity.toString()
@@ -176,11 +175,11 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                       decoration: const InputDecoration(
                         icon: Icon(
                           Icons.production_quantity_limits_rounded,
-                          color: AppTheme.nearlyDarkBlue,
+                          color: AppTheme.primaryColor,
                         ),
                         labelText: 'Quantity',
                         labelStyle: TextStyle(
-                          color: AppTheme.nearlyDarkBlue,
+                          color: AppTheme.primaryColor,
                         ),
                       ),
                     ),

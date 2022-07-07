@@ -16,7 +16,7 @@ class TabIconData {
 
   static List<TabIconData> tabIconsList = <TabIconData>[
     TabIconData(
-      iconData: IconData(0xee33, fontFamily: 'MaterialIcons'),
+      iconData: IconData(0xee36, fontFamily: 'MaterialIcons'),
       index: 0,
       isSelected: true,
       animationController: null,

@@ -120,7 +120,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                               IconButton(
                                 icon: Icon(
                                   Icons.filter_alt,
-                                  color: AppTheme.nearlyDarkBlue,
+                                  color: AppTheme.primaryColor,
                                 ),
                                 onPressed: () {},
                               )
@@ -357,7 +357,7 @@ class _buildlist extends StatelessWidget {
                   width: 100,
                   child: Center(
                     child: Text((projects[index].status ?? "").toString(),
-                        style: TextStyle(color: AppTheme.nearlyDarkBlue)),
+                        style: TextStyle(color: AppTheme.primaryColor)),
                   ),
                 ),
               ]),

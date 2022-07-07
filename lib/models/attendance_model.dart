@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:my_application/models/workmen_model.dart';
 
@@ -53,7 +53,7 @@ class Attendance {
     attendance['workmenId'] = workmenId;
     attendance['in'] = in_;
     attendance['out'] = out;
-    attendance['workmen'] = workmen;
+    attendance['workmen'] = jsonEncode(workmen);
     return attendance;
   }
 }

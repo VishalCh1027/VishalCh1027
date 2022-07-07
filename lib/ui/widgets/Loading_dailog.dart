@@ -27,7 +27,7 @@ class LoadingDialog {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   CustomDotLoading(
-                    primaryColor: AppTheme.nearlyDarkBlue,
+                    primaryColor: AppTheme.primaryColor,
                   ),
                   SizedBox(
                     height: text == null ? 0 : 10,
@@ -98,7 +98,7 @@ class LoadingDialog {
                   ),
             actions: <Widget>[
               FlatButton(
-                color: AppTheme.nearlyDarkBlue,
+                color: AppTheme.primaryColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 onPressed: () {
@@ -108,7 +108,7 @@ class LoadingDialog {
                 child: Text('No'),
               ),
               FlatButton(
-                color: AppTheme.nearlyDarkBlue,
+                color: AppTheme.primaryColor,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 onPressed: () {

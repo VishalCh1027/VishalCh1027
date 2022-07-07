@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/bloc/purchases/bloc.dart';
 import 'package:my_application/bloc/purchases/service.dart';
 import 'package:my_application/bloc/purchases/state.dart';
 import 'package:my_application/models/purchaserequest_model.dart';
 import 'package:my_application/ui/screens/requestscreen.dart';
-
-import '../../Apptheme/app_theme.dart';
 
 class PurchasesScreen extends StatefulWidget {
   const PurchasesScreen({Key? key}) : super(key: key);
@@ -382,9 +381,9 @@ class _buildlist extends StatelessWidget {
     context.read<PurchasesCubit>().unSelectAll();
     purchases;
     PurchaseRequest? request = await Navigator.of(context).push(
-      new MaterialPageRoute<PurchaseRequest>(
+      MaterialPageRoute<PurchaseRequest>(
           builder: (BuildContext context) {
-            return new RequestScreen(request: currentRequest);
+            return RequestScreen(request: currentRequest);
           },
           fullscreenDialog: true),
     );
@@ -420,7 +419,7 @@ class _buildlist extends StatelessWidget {
                               child: TextButton(
                                 child: Icon(
                                   Icons.create_rounded,
-                                  color: AppTheme.nearlyDarkBlue,
+                                  color: AppTheme.primaryColor,
                                   size: 20,
                                 ),
                                 onPressed: () {
@@ -434,7 +433,7 @@ class _buildlist extends StatelessWidget {
                                 child: TextButton(
                                   child: Icon(
                                     Icons.delete_forever_rounded,
-                                    color: AppTheme.nearlyDarkBlue,
+                                    color: AppTheme.primaryColor,
                                     size: 20,
                                   ),
                                   onPressed: () {

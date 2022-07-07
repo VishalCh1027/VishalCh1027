@@ -2,9 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:my_application/Apptheme/app_theme.dart';
+import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/global/global_variables.dart';
-import 'package:my_application/ui/screens/home_screen.dart';
 import 'package:my_application/ui/screens/projectlistscreen.dart';
 
 class AttendanceTileView extends StatefulWidget {
@@ -108,7 +107,7 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                                 fontFamily: AppTheme.fontName,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 22,
-                                color: AppTheme.nearlyDarkBlue,
+                                color: AppTheme.primaryColor,
                               ),
                             ),
                           ),
@@ -122,7 +121,7 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18,
                                 letterSpacing: -0.2,
-                                color: AppTheme.nearlyDarkBlue,
+                                color: AppTheme.primaryColor,
                               ),
                             ),
                           ),
@@ -179,7 +178,7 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                                   fontWeight: FontWeight.w500,
                                   fontSize: 12,
                                   letterSpacing: 0.0,
-                                  color: AppTheme.nearlyDarkBlue,
+                                  color: AppTheme.primaryColor,
                                 ),
                               ),
                             ),

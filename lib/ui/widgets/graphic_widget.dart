@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_application/apptheme/app_theme.dart';
 
@@ -14,7 +13,7 @@ class CustomDotLoading extends StatefulWidget {
 
   CustomDotLoading(
       {this.speed = _defaultSpeed,
-      this.primaryColor = AppTheme.nearlyDarkBlue,
+      this.primaryColor = AppTheme.primaryColor,
       this.secondaryColor = AppTheme.background,
       this.size = 10});
 

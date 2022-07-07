@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../Apptheme/app_theme.dart';
+import 'package:my_application/apptheme/app_theme.dart';
 
 class TitleView extends StatelessWidget {
   final String titleTxt;
@@ -53,7 +52,7 @@ class TitleView extends StatelessWidget {
                               fontWeight: FontWeight.normal,
                               fontSize: 16,
                               letterSpacing: 0.5,
-                              color: AppTheme.nearlyDarkBlue,
+                              color: AppTheme.primaryColor,
                             ),
                           ),
                         ],

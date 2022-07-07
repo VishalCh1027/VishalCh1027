@@ -3,24 +3,24 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/bloc/attendance/bloc.dart';
 import 'package:my_application/bloc/attendance/service.dart';
 import 'package:my_application/bloc/attendance/state.dart';
 import 'package:my_application/global/global_variables.dart';
+import 'package:my_application/models/project_model.dart';
 import 'package:my_application/ui/screens/projectlistscreen.dart';
 
-import '../../Apptheme/app_theme.dart';
 import '../../models/attendance_model.dart';
 
 class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({Key? key, required this.project}) : super(key: key);
-  final project;
+  final Project project;
   @override
   State<AttendanceScreen> createState() => _AttendanceScreenState();
 }
 
 class _AttendanceScreenState extends State<AttendanceScreen> {
-  var projects = ["test project", "new project"];
   Animation<double>? topBarAnimation;
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
@@ -178,9 +178,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             color: Color.fromRGBO(97, 99, 119, 1),
                           ),
                         ),
-                        _buildHead(
-                          project: projects[0],
-                        )
+                        _buildHead(project: widget.project)
                       ],
                     ),
                     Column(
@@ -251,7 +249,7 @@ class _buildHead extends StatelessWidget {
     return ListTile(
         title: Padding(
           padding: const EdgeInsets.only(left: 20),
-          child: Text(project,
+          child: Text(project.name,
               style: TextStyle(
                 fontFamily: AppTheme.fontName,
                 fontWeight: FontWeight.w700,
@@ -362,7 +360,7 @@ class _buildlist extends StatelessWidget {
                     icon: Icon(
                       Icons.multiple_stop_rounded,
                       size: 20,
-                      color: AppTheme.nearlyDarkBlue,
+                      color: AppTheme.primaryColor,
                     )),
                 Padding(
                   padding: const EdgeInsets.only(right: 35, left: 10),
@@ -370,7 +368,7 @@ class _buildlist extends StatelessWidget {
                     child: Text(
                         workmens[index].in_?.format(context) ??
                             inTime.format(context),
-                        style: TextStyle(color: AppTheme.nearlyDarkBlue)),
+                        style: TextStyle(color: AppTheme.primaryColor)),
                     onPressed: () {
                       _selectInTime(context, workmens[index]);
                     },

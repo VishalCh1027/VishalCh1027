@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/bloc/project_list/bloc.dart';
 import 'package:my_application/bloc/project_list/service.dart';
 import 'package:my_application/global/global_variables.dart';
+import 'package:my_application/main.dart';
 import 'package:my_application/models/project_model.dart';
 import 'package:my_application/ui/screens/projectscreen.dart';
-
-import '../../Apptheme/app_theme.dart';
-import '../../main.dart';
 
 class ProjectListView extends StatefulWidget {
   const ProjectListView({

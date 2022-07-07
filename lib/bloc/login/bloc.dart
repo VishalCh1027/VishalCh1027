@@ -21,6 +21,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   void loginNow(event, emit) async {
     var rs = await LoginService().logIn(event.username, event.password);
+
     if (rs != null) {
       emit(LoginSuccessfully(rs));
     } else {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_application/apptheme/app_theme.dart';
 
-import '../../Apptheme/app_theme.dart';
 import '../widgets/RequestsView.dart';
 import '../widgets/attendance_tile.dart';
 import '../widgets/projects_list_view.dart';
@@ -62,7 +62,7 @@ class _DashboardScreen extends State<DashboardScreen>
       ),
     );
     listViews.add(
-      RequetsView(),
+      const RequetsView(),
     );
     listViews.add(
       TitleView(
@@ -73,18 +73,15 @@ class _DashboardScreen extends State<DashboardScreen>
         },
       ),
     );
-
     listViews.add(
-      ProjectListView(),
+      const ProjectListView(),
     );
-
     listViews.add(
-      TitleView(
+      const TitleView(
         titleTxt: 'Attendance',
         istrailing: false,
       ),
     );
-
     listViews.add(
       AttendanceTileView(),
     );

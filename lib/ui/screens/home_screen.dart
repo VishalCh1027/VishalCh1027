@@ -9,7 +9,6 @@ import 'package:my_application/ui/screens/purchasesscreen.dart';
 import 'package:my_application/ui/screens/dashboardscreen.dart';
 import '../../Apptheme/app_theme.dart';
 import '../bottombar/bottom_bar_view.dart';
-import 'attendancescreen.dart';
 
 class AppHomeScreen extends StatefulWidget {
   @override

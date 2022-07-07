@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:my_application/models/orderItem_model.dart';
-import 'package:my_application/models/priority_enum.dart';
+import 'package:my_application/common/priority_enum.dart';
 import 'package:my_application/models/project_model.dart';
 
 class PurchaseRequest {
@@ -63,11 +65,11 @@ class PurchaseRequest {
     prurchaseRequest['id'] = id;
     prurchaseRequest['amount'] = amount;
     prurchaseRequest['status'] = status;
-    prurchaseRequest['orderItems'] = orderItems;
+    prurchaseRequest['orderItems'] = jsonEncode(orderItems);
     prurchaseRequest['reason'] = reason;
     prurchaseRequest['employeeId'] = employeeId;
     prurchaseRequest['projectId'] = projectId;
-    prurchaseRequest['project'] = project;
+    prurchaseRequest['project'] = jsonEncode(project);
     return prurchaseRequest;
   }
 }

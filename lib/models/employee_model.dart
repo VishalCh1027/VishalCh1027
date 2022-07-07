@@ -34,7 +34,7 @@ class Employee {
         dOB: json['dOB'],
         businessId: json['businessId'],
         permissions: List<EmployeePermissions>.from(
-            json['permissions']?.map((e) => EmployeeRoles.fromJson(e))));
+            json['permissions']?.map((e) => EmployeeRoles.fromJson(e)) ?? []));
   }
 
   Map<String, dynamic> toJson() {

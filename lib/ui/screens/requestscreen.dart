@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/models/purchaserequest_model.dart';
 import 'package:my_application/models/orderItem_model.dart';
-import 'package:my_application/models/priority_enum.dart';
+import 'package:my_application/common/priority_enum.dart';
 import 'package:my_application/models/project_model.dart';
 import 'package:my_application/ui/widgets/orderitemform_dailog.dart';
-
-import '../../Apptheme/app_theme.dart';
 
 class RequestScreen extends StatefulWidget {
   RequestScreen({Key? key, this.request});
@@ -120,7 +119,7 @@ class _RequestScreen extends State<RequestScreen>
                   ),
                 ),
                 IconButton(
-                  color: AppTheme.nearlyDarkBlue,
+                  color: AppTheme.primaryColor,
                   onPressed: () => Navigator.of(context).pop(request),
                   icon:
                       const Icon(IconData(0xe156, fontFamily: 'MaterialIcons')),
@@ -171,7 +170,7 @@ class _RequestScreen extends State<RequestScreen>
                                 orderItems[index].selected
                                     ? Icons.check
                                     : Icons.check_box_outline_blank_rounded,
-                                color: AppTheme.nearlyDarkBlue,
+                                color: AppTheme.primaryColor,
                                 size: 20,
                               )
                             : null,
@@ -261,7 +260,7 @@ class _RequestScreen extends State<RequestScreen>
                   child: InkWell(
                     child: Icon(
                       IconData(0xe1b9, fontFamily: 'MaterialIcons'),
-                      color: AppTheme.nearlyDarkBlue,
+                      color: AppTheme.primaryColor,
                       size: 20,
                     ),
                     onTap: () {
@@ -284,7 +283,7 @@ class _RequestScreen extends State<RequestScreen>
                   child: InkWell(
                     child: Icon(
                       Icons.clear_rounded,
-                      color: AppTheme.nearlyDarkBlue,
+                      color: AppTheme.primaryColor,
                       size: 20,
                     ),
                     onTap: () {
@@ -305,7 +304,7 @@ class _RequestScreen extends State<RequestScreen>
             leading: InkWell(
               child: Icon(
                 Icons.checklist_rounded,
-                color: AppTheme.nearlyDarkBlue,
+                color: AppTheme.primaryColor,
                 size: 20,
               ),
               onTap: () {
@@ -338,7 +337,7 @@ class _RequestScreen extends State<RequestScreen>
             ? null
             : FloatingActionButton(
                 highlightElevation: 5,
-                backgroundColor: AppTheme.nearlyDarkBlue,
+                backgroundColor: AppTheme.primaryColor,
                 elevation: 50,
                 child: Icon(Icons.add),
                 onPressed: () => {_openDialogAddItem(null)},
