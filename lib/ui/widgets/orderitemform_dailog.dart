@@ -165,10 +165,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                         }
                         return null;
                       },
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(
-                            RegExp(r'[0-9]+[.]{0,1}[0-9]*')),
-                      ],
+                      keyboardType: TextInputType.number,
                       onChanged: (value) {
                         _item.quantity = double.tryParse(value);
                       },

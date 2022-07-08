@@ -62,7 +62,11 @@ class _DashboardScreen extends State<DashboardScreen>
       ),
     );
     listViews.add(
-      const RequetsView(),
+      RequetsView(
+        Action: () {
+          widget.changeIndex(2);
+        },
+      ),
     );
     listViews.add(
       TitleView(

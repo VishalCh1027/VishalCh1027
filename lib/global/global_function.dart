@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_application/bloc/login/service.dart';
@@ -9,4 +10,8 @@ refreshLogin(BuildContext context) async {
       .read<LoginService>()
       .logIn(currentLogin.email ?? "", currentLogin.password ?? "");
   currentLogin = account ?? LoginModel();
+}
+
+String GetEnumValue(String value) {
+  return value.split(".").last;
 }

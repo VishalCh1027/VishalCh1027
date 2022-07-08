@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/models/purchaserequest_model.dart';
@@ -7,8 +8,13 @@ import 'package:my_application/common/priority_enum.dart';
 import 'package:my_application/models/project_model.dart';
 import 'package:my_application/ui/widgets/orderitemform_dailog.dart';
 
+enum RequestPageType { requests, technicalrequests, viewOnly }
+
 class RequestScreen extends StatefulWidget {
-  RequestScreen({Key? key, this.request});
+  RequestScreen({Key? key, this.request, required this.type});
+
+  final RequestPageType type;
+
   final PurchaseRequest? request;
   @override
   _RequestScreen createState() => _RequestScreen(request);
@@ -21,6 +27,7 @@ class _RequestScreen extends State<RequestScreen>
   PurchaseRequest? purchaserequest;
   final format = DateFormat("yyyy-MM-dd");
   Animation<double>? topBarAnimation;
+  var isViewOnly = false;
 
   var request = PurchaseRequest();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -38,6 +45,14 @@ class _RequestScreen extends State<RequestScreen>
   void initState() {
     request = purchaserequest ?? PurchaseRequest();
 
+    if (request.deliveryAt != null) {
+      deliveryDate.text =
+          request.deliveryAt.toString().replaceRange(11, null, "");
+    }
+
+    if (widget.type == RequestPageType.viewOnly) {
+      isViewOnly = true;
+    }
     scrollController.addListener(() {
       if (scrollController.offset >= 24) {
         if (topBarOpacity != 1.0) {
@@ -134,97 +149,107 @@ class _RequestScreen extends State<RequestScreen>
 
   Widget _buildorderitemlist() {
     var orderItems = request.orderItems;
-    return Expanded(
-        child: ListView.builder(
-            padding: EdgeInsets.zero,
-            shrinkWrap: true,
-            itemCount: orderItems.length,
-            itemBuilder: (context, index) {
-              return Container(
-                  decoration: BoxDecoration(
-                      border:
-                          Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
-                  child: Card(
-                      margin: EdgeInsets.zero,
-                      elevation: 0,
-                      // color:
-                      //     orderItems[index].selected ? Colors.grey[200] : null,
-                      child: ListTile(
-                        onTap: () {
-                          if (isdelete) {
-                            setState(() {
-                              orderItems[index].selected =
-                                  !orderItems[index].selected;
+    return Column(
+      children: [
+        ListView.builder(
+          scrollDirection: Axis.vertical,
+          padding: EdgeInsets.zero,
+          shrinkWrap: true,
+          itemCount: orderItems.length,
+          itemBuilder: (context, index) {
+            return Container(
+              decoration: const BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
+              child: Card(
+                margin: EdgeInsets.zero,
+                elevation: 0,
+                child: ListTile(
+                  onTap: () {
+                    if (widget.type == RequestPageType.requests) {
+                      if (isdelete) {
+                        setState(() {
+                          orderItems[index].selected =
+                              !orderItems[index].selected;
 
-                              if (!orderItems
-                                  .any((element) => element.selected == true)) {
-                                isdelete = false;
-                              }
-                            });
-                          } else {
-                            _openDialogAddItem(orderItems[index]);
+                          if (!orderItems
+                              .any((element) => element.selected == true)) {
+                            isdelete = false;
                           }
+                        });
+                      } else {
+                        _openDialogAddItem(orderItems[index]);
+                      }
+                    }
+                  },
+                  leading: isdelete
+                      ? Icon(
+                          orderItems[index].selected
+                              ? Icons.check
+                              : Icons.check_box_outline_blank_rounded,
+                          color: AppTheme.primaryColor,
+                          size: 20,
+                        )
+                      : null,
+                  title: Text(orderItems[index].name!),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 26),
+                        child: SizedBox(
+                          width: 60,
+                          child: Center(
+                            child: Text(
+                              orderItems[index].quantity.toString(),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 0),
+                        child: SizedBox(
+                          width: 50,
+                          child: Center(
+                            child: Text(
+                              orderItems[index].unit.toString(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  onLongPress: () {
+                    if (widget.type == RequestPageType.requests) {
+                      setState(
+                        () {
+                          isdelete = true;
+                          orderItems[index].selected = true;
                         },
-                        leading: isdelete
-                            ? Icon(
-                                orderItems[index].selected
-                                    ? Icons.check
-                                    : Icons.check_box_outline_blank_rounded,
-                                color: AppTheme.primaryColor,
-                                size: 20,
-                              )
-                            : null,
-                        title: Text(orderItems[index].name!),
-                        trailing:
-                            Row(mainAxisSize: MainAxisSize.min, children: [
-                          Padding(
-                              padding: const EdgeInsets.only(right: 26),
-                              child: SizedBox(
-                                width: 60,
-                                child: Center(
-                                    child: Text(
-                                  orderItems[index].quantity.toString(),
-                                  overflow: TextOverflow.ellipsis,
-                                )),
-                              )),
-                          Padding(
-                              padding: const EdgeInsets.only(right: 0),
-                              child: SizedBox(
-                                width: 50,
-                                child: Center(
-                                  child: Text(
-                                    orderItems[index].unit.toString(),
-                                  ),
-                                ),
-                              )),
-                        ]),
-                        onLongPress: () {
-                          setState(() {
-                            isdelete = true;
-                            orderItems[index].selected = true;
-                          });
-                        },
-                      )));
-            }));
+                      );
+                    }
+                  },
+                ),
+              ),
+            );
+          },
+        )
+      ],
+    );
   }
 
-  Future<void> _deliverydatebuild() async {
-    DateTime? pickedDate = await showDatePicker(
+  Future<void> _deliverydatebuild(BuildContext context) async {
+    final now = DateTime.now();
+    final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(
-            2000), //DateTime.now() - not to allow to choose before today.
+        initialDate: request.deliveryAt ?? now,
+        firstDate: DateTime(1101),
         lastDate: DateTime(2101));
-
-    if (pickedDate != null) {
-      savedeliveryDate(pickedDate);
+    if (picked != null && picked != request.deliveryAt) {
+      setState(() {
+        request.deliveryAt = picked;
+      });
     }
-  }
-
-  void savedeliveryDate(pickedDate) {
-    setState(() {
-      request.deliveryAt = pickedDate; //set output date to TextField value.
-    });
   }
 
   Future _openDialogAddItem(OrderItem? orderItem) async {
@@ -264,15 +289,13 @@ class _RequestScreen extends State<RequestScreen>
                       size: 20,
                     ),
                     onTap: () {
-                      (data) {
-                        setState(
-                          () {
-                            request.orderItems.removeWhere(
-                                (element) => element.selected == true);
-                            isdelete = false;
-                          },
-                        );
-                      };
+                      setState(
+                        () {
+                          request.orderItems.removeWhere(
+                              (element) => element.selected == true);
+                          isdelete = false;
+                        },
+                      );
                     },
                   ),
                 ),
@@ -287,15 +310,11 @@ class _RequestScreen extends State<RequestScreen>
                       size: 20,
                     ),
                     onTap: () {
-                      (data) {
-                        setState(
-                          () {
-                            request.orderItems
-                                .forEach((element) => element.selected = false);
-                            isdelete = false;
-                          },
-                        );
-                      };
+                      setState(() {
+                        request.orderItems
+                            .forEach((element) => element.selected = false);
+                        isdelete = false;
+                      });
                     },
                   ),
                 ),
@@ -308,20 +327,18 @@ class _RequestScreen extends State<RequestScreen>
                 size: 20,
               ),
               onTap: () {
-                (data) {
-                  setState(
-                    () {
-                      if (request.orderItems
-                          .any((element) => element.selected == false)) {
-                        request.orderItems
-                            .forEach((element) => element.selected = true);
-                      } else {
-                        request.orderItems
-                            .forEach((element) => element.selected = false);
-                      }
-                    },
-                  );
-                };
+                setState(
+                  () {
+                    if (request.orderItems
+                        .any((element) => element.selected == false)) {
+                      request.orderItems
+                          .forEach((element) => element.selected = true);
+                    } else {
+                      request.orderItems
+                          .forEach((element) => element.selected = false);
+                    }
+                  },
+                );
               },
             ),
           ),
@@ -333,224 +350,442 @@ class _RequestScreen extends State<RequestScreen>
     return Container(
       color: AppTheme.background,
       child: Scaffold(
-        floatingActionButton: isdelete
-            ? null
-            : FloatingActionButton(
-                highlightElevation: 5,
-                backgroundColor: AppTheme.primaryColor,
-                elevation: 50,
-                child: Icon(Icons.add),
-                onPressed: () => {_openDialogAddItem(null)},
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Request Detail',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontFamily: AppTheme.fontName,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 28,
+                  letterSpacing: 1.2,
+                  color: AppTheme.darkerText,
+                ),
               ),
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                color: AppTheme.background,
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                      offset: const Offset(1.1, 1.1),
-                      blurRadius: 10.0),
-                ],
-              ),
-              child: ListView.builder(
-                  controller: scrollController,
-                  padding: EdgeInsets.only(
-                    top: AppBar().preferredSize.height +
-                        MediaQuery.of(context).padding.top +
-                        24,
-                    bottom: 62 + MediaQuery.of(context).padding.bottom,
-                  ),
-                  itemCount: 1,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: AppTheme.white,
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                              color: AppTheme.grey
-                                  .withOpacity(0.4 * topBarOpacity),
-                              offset: const Offset(1.1, 1.1),
-                              blurRadius: 10.0),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(30, 30, 30, 0),
-                            child: Column(
-                              children: [
-                                DropdownButtonFormField(
-                                    elevation: 2,
-                                    value: request.projectId != null
-                                        ? request.projectId.toString()
-                                        : null,
-                                    validator: (value) {
-                                      if (value == 0) {
-                                        return 'Please select project';
-                                      }
-                                      return null;
-                                    },
-                                    items: projects.map((item) {
-                                      return new DropdownMenuItem<String>(
-                                        value: item.id.toString(),
-                                        child: new Text(
-                                          item.name ?? "",
-                                        ),
-                                      );
-                                    }).toList(),
-                                    onChanged: (value) {
-                                      setState(() {});
-                                    },
-                                    decoration: InputDecoration(
-                                      labelText: "Project",
-                                    )),
-                                TextFormField(
-                                  initialValue: request.deliveryAt == null
-                                      ? null
-                                      : request.deliveryAt
-                                          .toString()
-                                          .replaceRange(11, null, ""),
-                                  onTap: () {
-                                    _deliverydatebuild();
-                                  },
-                                  readOnly: true,
-                                  validator: (value) {
-                                    if (value == null) {
-                                      return 'Please select Delivery';
-                                    }
-                                    return null;
-                                  },
-                                  decoration: const InputDecoration(
-                                    labelText: 'Delivery',
-                                  ),
-                                ),
-                                DropdownButtonFormField(
-                                  elevation: 2,
-                                  value: request.priority,
-                                  validator: (value) {
-                                    if (value == null) {
-                                      return 'Please select Priority';
-                                    }
-                                    return null;
-                                  },
-                                  items: RequestPriority.values.map((item) {
-                                    return new DropdownMenuItem<String>(
-                                      value: item.name.toString(),
-                                      child: new Text(
-                                        item.name.toString(),
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      request.priority = value
-                                          .toString()
-                                          .replaceFirst(
-                                              RegExp("RequestPriority."), "");
-                                    });
-                                  },
-                                  decoration: const InputDecoration(
-                                    labelText: "Priority",
-                                  ),
-                                ),
-                              ],
-                            ),
+            ),
+          ),
+          actions: isViewOnly
+              ? null
+              : [
+                  Container(
+                    child: widget.type == RequestPageType.requests
+                        ? null
+                        : IconButton(
+                            color: Colors.red,
+                            onPressed: () => Navigator.of(context).pop(request),
+                            icon: const Icon(Icons.close_rounded),
                           ),
-                          const ListTile(
-                            title: Padding(
-                              padding: EdgeInsets.only(left: 20),
-                              child: Text(
-                                "Request Items",
-                                style: TextStyle(
-                                  fontFamily: AppTheme.fontName,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18,
-                                  letterSpacing: 0.5,
-                                  color: AppTheme.lightText,
+                  ),
+                  IconButton(
+                    color: Colors.lightGreenAccent[700],
+                    onPressed: () => Navigator.of(context).pop(request),
+                    icon: const Icon(
+                        IconData(0xe156, fontFamily: 'MaterialIcons')),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  )
+                ],
+        ),
+        floatingActionButton:
+            widget.type == RequestPageType.technicalrequests || isViewOnly
+                ? null
+                : (isdelete
+                    ? null
+                    : FloatingActionButton(
+                        highlightElevation: 5,
+                        backgroundColor: AppTheme.primaryColor,
+                        elevation: 50,
+                        child: Icon(Icons.add),
+                        onPressed: () => {_openDialogAddItem(null)},
+                      )),
+        backgroundColor: Colors.transparent,
+        body: Container(
+          height: MediaQuery.of(context).size.height - 100,
+          child: ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.background,
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
+                        offset: const Offset(1.1, 1.1),
+                        blurRadius: 10.0),
+                  ],
+                ),
+                child: ListView.builder(
+                    padding: EdgeInsets.only(
+                      bottom: 62 + MediaQuery.of(context).padding.bottom,
+                    ),
+                    shrinkWrap: true,
+                    itemCount: 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: AppTheme.white,
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(
+                                color: AppTheme.grey
+                                    .withOpacity(0.4 * topBarOpacity),
+                                offset: const Offset(1.1, 1.1),
+                                blurRadius: 10.0),
+                          ],
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(30, 10, 30, 0),
+                              child: isViewOnly ||
+                                      widget.type ==
+                                          RequestPageType.technicalrequests
+                                  ? Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              IconData(0xe044,
+                                                  fontFamily: 'MaterialIcons'),
+                                              color: AppTheme.deactivatedText,
+                                              size: 15,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              "Project",
+                                              style: TextStyle(
+                                                  color:
+                                                      AppTheme.deactivatedText,
+                                                  fontSize: 15),
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.only(left: 20),
+                                              child: Flexible(
+                                                child: Text(
+                                                  request.project!.name ?? "NA",
+                                                  style: TextStyle(
+                                                      color:
+                                                          AppTheme.nearlyBlack,
+                                                      fontSize: 20),
+                                                  maxLines: 3,
+                                                  overflow:
+                                                      TextOverflow.visible,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Container(
+                                            width: 350,
+                                            height: 60,
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    height: 50,
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons.av_timer,
+                                                              color: AppTheme
+                                                                  .deactivatedText,
+                                                              size: 15,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text(
+                                                              "Delivery date",
+                                                              style: TextStyle(
+                                                                  color: AppTheme
+                                                                      .deactivatedText,
+                                                                  fontSize: 15),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: 20),
+                                                              child: Text(
+                                                                request
+                                                                    .deliveryAt
+                                                                    .toString()
+                                                                    .replaceRange(
+                                                                        11,
+                                                                        null,
+                                                                        ""),
+                                                                style: TextStyle(
+                                                                    color: AppTheme
+                                                                        .nearlyBlack,
+                                                                    fontSize:
+                                                                        20),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: SizedBox(
+                                                    height: 50,
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 30),
+                                                      child: Column(
+                                                        children: [
+                                                          Row(
+                                                            children: const [
+                                                              Icon(
+                                                                Icons.av_timer,
+                                                                color: AppTheme
+                                                                    .deactivatedText,
+                                                                size: 15,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text(
+                                                                "Priority",
+                                                                style: TextStyle(
+                                                                    color: AppTheme
+                                                                        .deactivatedText,
+                                                                    fontSize:
+                                                                        15),
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Padding(
+                                                                padding: EdgeInsets
+                                                                    .only(
+                                                                        left:
+                                                                            20),
+                                                                child: Text(
+                                                                  request
+                                                                      .priority
+                                                                      .toString(),
+                                                                  style: TextStyle(
+                                                                      color: AppTheme
+                                                                          .nearlyBlack,
+                                                                      fontSize:
+                                                                          20),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            )),
+                                      ],
+                                    )
+                                  : Column(
+                                      children: [
+                                        DropdownButtonFormField(
+                                            elevation: 2,
+                                            value: request.projectId != null
+                                                ? request.projectId.toString()
+                                                : null,
+                                            validator: (value) {
+                                              if (value == 0) {
+                                                return 'Please select project';
+                                              }
+                                              return null;
+                                            },
+                                            items: projects.map((item) {
+                                              return new DropdownMenuItem<
+                                                  String>(
+                                                value: item.id.toString(),
+                                                child: new Text(
+                                                  item.name ?? "",
+                                                ),
+                                              );
+                                            }).toList(),
+                                            onChanged: (value) {
+                                              setState(() {});
+                                            },
+                                            decoration: InputDecoration(
+                                              labelText: "Project",
+                                            )),
+                                        TextFormField(
+                                            validator: (value) {
+                                              if (value == null) {
+                                                return 'Please select Delivery';
+                                              }
+                                              return null;
+                                            },
+                                            readOnly: true,
+                                            decoration: const InputDecoration(
+                                              labelText: 'Delivery',
+                                            ),
+                                            controller: deliveryDate,
+                                            onTap: () async {
+                                              // Below line stops keyboard from appearing
+                                              FocusScope.of(context)
+                                                  .requestFocus(
+                                                      new FocusNode());
+                                              // Show Date Picker Here
+                                              await _deliverydatebuild(context);
+                                              deliveryDate.text =
+                                                  DateFormat('yyyy/MM/dd')
+                                                      .format(
+                                                          request.deliveryAt ??
+                                                              DateTime.now());
+                                              setState(() {});
+                                            }),
+                                        DropdownButtonFormField(
+                                          elevation: 2,
+                                          value: request.priority,
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return 'Please select Priority';
+                                            }
+                                            return null;
+                                          },
+                                          items: RequestPriority.values
+                                              .map((item) {
+                                            return new DropdownMenuItem<String>(
+                                              value: item.name.toString(),
+                                              child: new Text(
+                                                item.name.toString(),
+                                              ),
+                                            );
+                                          }).toList(),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              request.priority = value
+                                                  .toString()
+                                                  .replaceFirst(
+                                                      RegExp(
+                                                          "RequestPriority."),
+                                                      "");
+                                            });
+                                          },
+                                          decoration: const InputDecoration(
+                                            labelText: "Priority",
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                            ),
+                            const ListTile(
+                              title: Padding(
+                                padding: EdgeInsets.only(left: 20),
+                                child: Text(
+                                  "Request Items",
+                                  style: TextStyle(
+                                    fontFamily: AppTheme.fontName,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                    letterSpacing: 0.5,
+                                    color: AppTheme.lightText,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height - 100,
-                            width: MediaQuery.of(context).size.width - 40,
-                            child: Column(
-                              children: [
-                                Stack(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        border: Border(
-                                          bottom: BorderSide(
-                                            color: Color(0xFFEEEEEE),
+                            Container(
+                              height: MediaQuery.of(context).size.height - 100,
+                              width: MediaQuery.of(context).size.width - 40,
+                              child: Column(
+                                children: [
+                                  Stack(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          border: Border(
+                                            bottom: BorderSide(
+                                              color: Color(0xFFEEEEEE),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      child: Card(
-                                        margin: EdgeInsets.zero,
-                                        elevation: 0,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: ListTile(
-                                          dense: true,
-                                          title: const Text(
-                                            "Name",
-                                            style: AppTheme.listheading,
+                                        child: Card(
+                                          margin: EdgeInsets.zero,
+                                          elevation: 0,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
                                           ),
-                                          trailing: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: const [
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 40),
-                                                child: Center(
-                                                  child: Text(
-                                                    "Quantity",
-                                                    style: AppTheme.listheading,
+                                          child: ListTile(
+                                            dense: true,
+                                            title: const Text(
+                                              "Name",
+                                              style: AppTheme.listheading,
+                                            ),
+                                            trailing: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: const [
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      right: 40),
+                                                  child: Center(
+                                                    child: Text(
+                                                      "Quantity",
+                                                      style:
+                                                          AppTheme.listheading,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 10),
-                                                child: Center(
-                                                  child: Text("Unit",
-                                                      style:
-                                                          AppTheme.listheading),
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      right: 10),
+                                                  child: Center(
+                                                    child: Text("Unit",
+                                                        style: AppTheme
+                                                            .listheading),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Visibility(
-                                      child: _buildedittile(),
-                                      visible: isdelete,
-                                    ),
-                                  ],
-                                ),
-                                _buildorderitemlist()
-                              ],
+                                      Visibility(
+                                        child: _buildedittile(),
+                                        visible: isdelete,
+                                      ),
+                                    ],
+                                  ),
+                                  _buildorderitemlist(),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
-            ),
-            getAppBarUI(),
-            SizedBox(
-              height: MediaQuery.of(context).padding.bottom,
-            )
-          ],
+                          ],
+                        ),
+                      );
+                    }),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).padding.bottom,
+              )
+            ],
+          ),
         ),
       ),
     );

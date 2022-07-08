@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_application/Apptheme/constatnts.dart';
+import 'package:my_application/apptheme/app_theme.dart';
 
 class AccountIcon extends StatelessWidget {
   @override
@@ -10,10 +10,10 @@ class AccountIcon extends StatelessWidget {
         onTap: () {},
         child: Stack(
           alignment: Alignment.center,
-          children: [
+          children: const [
             Icon(
-              const IconData(0xf522, fontFamily: 'MaterialIcons'),
-              color: bgColor,
+              IconData(0xf522, fontFamily: 'MaterialIcons'),
+              color: AppTheme.primaryColor,
               size: 30,
             ),
           ],

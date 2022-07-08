@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:my_application/Apptheme/constatnts.dart';
 import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/bloc/login/service.dart';
 import 'package:my_application/bloc/project_list/service.dart';
@@ -54,7 +53,7 @@ class MyApp extends StatelessWidget {
                 theme: ThemeData(
                   visualDensity: VisualDensity.adaptivePlatformDensity,
                   textTheme: AppTheme.textTheme,
-                  scaffoldBackgroundColor: bgColor,
+                  scaffoldBackgroundColor: AppTheme.background,
                   appBarTheme: AppBarTheme(
                     elevation: 0.0,
                     color: AppTheme.white,
@@ -89,7 +88,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   void initState() {
     // TODO: implement initState
+
     super.initState();
+
     load().then((value) {
       if (value) {
         Navigator.pushReplacement(
@@ -104,9 +105,9 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: AppTheme.primaryColor,
+      backgroundColor: AppTheme.nearlyWhite,
       body: Center(
-        child: Text('Loading...'),
+        child: CircularProgressIndicator(),
       ),
     );
   }

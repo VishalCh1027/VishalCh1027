@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
+import 'package:my_application/models/employee_model.dart';
 import 'package:my_application/models/orderItem_model.dart';
 import 'package:my_application/common/priority_enum.dart';
 import 'package:my_application/models/project_model.dart';
@@ -18,7 +18,7 @@ class PurchaseRequest {
 
   int? projectId;
 
-  int? status;
+  String? status;
 
   String? reason;
 
@@ -30,6 +30,8 @@ class PurchaseRequest {
 
   bool selected = false;
 
+  Employee? employee;
+
   PurchaseRequest(
       {this.id,
       this.orderNo,
@@ -40,7 +42,8 @@ class PurchaseRequest {
       this.employeeId,
       this.projectId,
       this.project,
-      this.priority})
+      this.priority,
+      this.employee})
       : orderItems = [];
 
   PurchaseRequest.fromJson(Map<String, dynamic> json) {
@@ -58,6 +61,8 @@ class PurchaseRequest {
     priority = RequestPriority.values[json['priority']]
         .toString()
         .replaceFirst(RegExp("RequestPriority."), "");
+    employee =
+        json['employee'] != null ? Employee.fromJson(json['employee']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -70,6 +75,7 @@ class PurchaseRequest {
     prurchaseRequest['employeeId'] = employeeId;
     prurchaseRequest['projectId'] = projectId;
     prurchaseRequest['project'] = jsonEncode(project);
+    prurchaseRequest['employee'] = jsonEncode(employee);
     return prurchaseRequest;
   }
 }

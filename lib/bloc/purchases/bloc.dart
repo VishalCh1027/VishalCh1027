@@ -8,8 +8,17 @@ class PurchasesCubit extends Cubit<PurchasesState> {
   PurchasesCubit({required this.repository})
       : super(const PurchasesState.loading());
 
-  Future<void> getPurchases(int projectId) async {
-    var rs = await repository.getPurchases(projectId);
+  Future<void> getPurchases(int employeeId, String status) async {
+    var rs = await repository.getPurchases(employeeId, status);
+    if (rs != null) {
+      emit(PurchasesState.success(rs));
+    } else {
+      emit(PurchasesState.failure());
+    }
+  }
+
+  Future<void> getTechnicalHeadRequests(int employeeId, String status) async {
+    var rs = await repository.getTechnicalHeadRequests(employeeId, status);
     if (rs != null) {
       emit(PurchasesState.success(rs));
     } else {
