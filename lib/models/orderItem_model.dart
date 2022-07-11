@@ -31,11 +31,10 @@ class OrderItem {
     id = json['id'];
     name = json['name'];
     description = json['description'];
-    unit =
-        Unit.values[json['unit']].toString().replaceFirst(RegExp("Unit."), "");
+    unit = json['unit'];
     orderId = json['orderId'];
     price = json['price'];
-    quantity = json['quantity'];
+    quantity = json['quantity'] == null ? null : json['quantity'].toDouble();
   }
 
   Map<String, dynamic> toJson() {

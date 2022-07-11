@@ -116,67 +116,56 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
                       ],
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(left: 5, right: 5, top: 20),
+                      padding: EdgeInsets.only(left: 5, right: 5, top: 10),
                       child: Container(
                         width: MediaQuery.of(context).size.width - 20,
                         height: MediaQuery.of(context).size.height - 100,
                         child: Column(
                           children: [
-                            Container(
-                              height: MediaQuery.of(context).size.height / 25,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                          primary: Colors.white,
-                                          backgroundColor: AppTheme.dark_grey,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          )),
-                                      child: Text(
-                                        "Requested",
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      onPressed: () {
-                                        context
-                                            .read<PurchasesCubit>()
-                                            .getPurchases(
-                                                1,
-                                                GetEnumValue(PurchaseStatus
-                                                    .Requested.toString()));
-                                      },
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextButton(
+                                    style: TextButton.styleFrom(
+                                      maximumSize: Size(200, 50),
+                                      minimumSize: Size(200, 50),
+                                      primary: AppTheme.primaryColor,
+                                      backgroundColor: AppTheme.background,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                          primary: Colors.white,
-                                          backgroundColor: AppTheme.dark_grey,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          )),
-                                      child: Text(
-                                        "Approved",
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      onPressed: () {
-                                        context
-                                            .read<PurchasesCubit>()
-                                            .getPurchases(
-                                                1,
-                                                GetEnumValue(PurchaseStatus
-                                                    .Approved.toString()));
-                                      },
+                                    child: Text(
+                                      "Requested",
+                                      style: TextStyle(fontSize: 15),
                                     ),
+                                    onPressed: () {
+                                      context
+                                          .read<PurchasesCubit>()
+                                          .getPurchases(1, "Requested");
+                                    },
                                   ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: TextButton(
+                                    style: TextButton.styleFrom(
+                                      maximumSize: Size(200, 50),
+                                      minimumSize: Size(200, 50),
+                                      primary: AppTheme.primaryColor,
+                                      backgroundColor: AppTheme.background,
+                                    ),
+                                    child: Text(
+                                      "Approved",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    onPressed: () {
+                                      context
+                                          .read<PurchasesCubit>()
+                                          .getPurchases(1, "Approved");
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
                             Container(
                               decoration: BoxDecoration(

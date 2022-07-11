@@ -8,6 +8,7 @@ import 'package:my_application/login_page.dart';
 import 'package:my_application/main.dart';
 import 'package:my_application/ui/screens/procurementapprovascreen.dart';
 import 'package:my_application/ui/screens/technicalheadscreen.dart';
+import 'package:my_application/ui/screens/wallet_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -120,7 +121,7 @@ class _AccountScreenState extends State<AccountScreen> {
     );
 
     listViews.add(
-      const OptionsTile(
+      OptionsTile(
         title: const Text(
           "Wallet",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
@@ -130,6 +131,12 @@ class _AccountScreenState extends State<AccountScreen> {
           Icons.arrow_forward_ios_rounded,
           size: 10,
         ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => WalletScreen()),
+          );
+        },
       ),
     );
 

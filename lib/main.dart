@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:my_application/apptheme/app_theme.dart';
+import 'package:my_application/bloc/Wallet/service.dart';
+import 'package:my_application/bloc/billings/service.dart';
 import 'package:my_application/bloc/login/service.dart';
 import 'package:my_application/bloc/project_list/service.dart';
 import 'package:my_application/bloc/purchases/service.dart';
@@ -45,6 +47,8 @@ class MyApp extends StatelessWidget {
               RepositoryProvider<ProjectsService>.value(
                   value: ProjectsService()),
               RepositoryProvider<WorkmenService>.value(value: WorkmenService()),
+              RepositoryProvider<BillingService>.value(value: BillingService()),
+              RepositoryProvider<WalletService>.value(value: WalletService()),
             ],
             child: MaterialApp(
                 debugShowCheckedModeBanner: false,

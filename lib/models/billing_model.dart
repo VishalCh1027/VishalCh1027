@@ -7,23 +7,23 @@ import 'package:my_application/models/project_model.dart';
 import 'package:my_application/models/vendor_model.dart';
 
 class Billing {
-  late int id;
+  late int? id;
 
-  late double amount;
+  late double? amount;
 
   late double? paymentMade;
 
-  late int employeeId;
+  late int? employeeId;
 
-  late int projectId;
+  late int? projectId;
 
-  late String status;
+  late String? status;
 
-  late String reason;
+  late String? reason;
 
-  late int vendorId;
+  late int? vendorId;
 
-  late List<OrderItem>? orderItems;
+  late List<OrderItem> orderItems = [];
 
   late Employee? employee;
 
@@ -32,18 +32,19 @@ class Billing {
   late Project? project;
 
   Billing({
-    required this.id,
-    required this.amount,
+    this.id,
+    this.amount,
     this.paymentMade,
-    required this.employeeId,
-    required this.projectId,
+    this.employeeId,
+    this.projectId,
   });
 
   Billing.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    amount = json['amount'];
-    paymentMade = json['paymentMade'];
-    status = json['orderStatus'];
+    id = json['id'] ?? 0;
+    amount = json['amount'] == null ? 0.0 : json['amount'].toDouble();
+    paymentMade =
+        json['paymentMade'] == null ? null : json['paymentMade'].toDouble();
+    status = json['status'] ?? "";
     orderItems = List<OrderItem>.from(
         (json['orderItems'].map((e) => OrderItem.fromJson(e))));
     reason = json['reason'];

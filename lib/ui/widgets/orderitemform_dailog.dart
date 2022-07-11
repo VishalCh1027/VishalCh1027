@@ -33,17 +33,18 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
       backgroundColor: AppTheme.background,
-      appBar: new AppBar(
+      appBar: AppBar(
         toolbarHeight: 80,
         backgroundColor: AppTheme.background,
         leading: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: Icon(
-              Icons.clear_rounded,
-              color: AppTheme.nearlyBlack,
-            )),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(
+            Icons.clear_rounded,
+            color: AppTheme.nearlyBlack,
+          ),
+        ),
         title: const Text(
           'Request Item',
           textAlign: TextAlign.left,

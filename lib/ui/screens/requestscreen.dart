@@ -149,93 +149,89 @@ class _RequestScreen extends State<RequestScreen>
 
   Widget _buildorderitemlist() {
     var orderItems = request.orderItems;
-    return Column(
-      children: [
-        ListView.builder(
-          scrollDirection: Axis.vertical,
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          itemCount: orderItems.length,
-          itemBuilder: (context, index) {
-            return Container(
-              decoration: const BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
-              child: Card(
-                margin: EdgeInsets.zero,
-                elevation: 0,
-                child: ListTile(
-                  onTap: () {
-                    if (widget.type == RequestPageType.requests) {
-                      if (isdelete) {
-                        setState(() {
-                          orderItems[index].selected =
-                              !orderItems[index].selected;
+    return Expanded(
+        child: ListView.builder(
+      scrollDirection: Axis.vertical,
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
+      itemCount: orderItems.length,
+      itemBuilder: (context, index) {
+        return Container(
+          decoration: const BoxDecoration(
+              border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
+          child: Card(
+            margin: EdgeInsets.zero,
+            elevation: 0,
+            child: ListTile(
+              onTap: () {
+                if (widget.type == RequestPageType.requests) {
+                  if (isdelete) {
+                    setState(() {
+                      orderItems[index].selected = !orderItems[index].selected;
 
-                          if (!orderItems
-                              .any((element) => element.selected == true)) {
-                            isdelete = false;
-                          }
-                        });
-                      } else {
-                        _openDialogAddItem(orderItems[index]);
+                      if (!orderItems
+                          .any((element) => element.selected == true)) {
+                        isdelete = false;
                       }
-                    }
-                  },
-                  leading: isdelete
-                      ? Icon(
-                          orderItems[index].selected
-                              ? Icons.check
-                              : Icons.check_box_outline_blank_rounded,
-                          color: AppTheme.primaryColor,
-                          size: 20,
-                        )
-                      : null,
-                  title: Text(orderItems[index].name!),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 26),
-                        child: SizedBox(
-                          width: 60,
-                          child: Center(
-                            child: Text(
-                              orderItems[index].quantity.toString(),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
+                    });
+                  } else {
+                    _openDialogAddItem(orderItems[index]);
+                  }
+                }
+              },
+              leading: isdelete
+                  ? Icon(
+                      orderItems[index].selected
+                          ? Icons.check
+                          : Icons.check_box_outline_blank_rounded,
+                      color: AppTheme.primaryColor,
+                      size: 20,
+                    )
+                  : null,
+              title: Text(orderItems[index].name!),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 26),
+                    child: SizedBox(
+                      width: 60,
+                      child: Center(
+                        child: Text(
+                          orderItems[index].quantity.toString(),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 0),
-                        child: SizedBox(
-                          width: 50,
-                          child: Center(
-                            child: Text(
-                              orderItems[index].unit.toString(),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                  onLongPress: () {
-                    if (widget.type == RequestPageType.requests) {
-                      setState(
-                        () {
-                          isdelete = true;
-                          orderItems[index].selected = true;
-                        },
-                      );
-                    }
-                  },
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 0),
+                    child: SizedBox(
+                      width: 50,
+                      child: Center(
+                        child: Text(
+                          orderItems[index].unit.toString(),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            );
-          },
-        )
-      ],
-    );
+              onLongPress: () {
+                if (widget.type == RequestPageType.requests) {
+                  setState(
+                    () {
+                      isdelete = true;
+                      orderItems[index].selected = true;
+                    },
+                  );
+                }
+              },
+            ),
+          ),
+        );
+      },
+    ));
   }
 
   Future<void> _deliverydatebuild(BuildContext context) async {
@@ -345,9 +341,22 @@ class _RequestScreen extends State<RequestScreen>
         ));
   }
 
+  void checkForm() {
+    var check = formKey.currentState!.validate();
+    if (check) {
+      if (!request.orderItems.isEmpty) {
+        Navigator.of(context).pop(request);
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text("Add items in request")));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: MediaQuery.of(context).size.height,
       color: AppTheme.background,
       child: Scaffold(
         appBar: AppBar(
@@ -382,7 +391,7 @@ class _RequestScreen extends State<RequestScreen>
                   ),
                   IconButton(
                     color: Colors.lightGreenAccent[700],
-                    onPressed: () => Navigator.of(context).pop(request),
+                    onPressed: () => checkForm(),
                     icon: const Icon(
                         IconData(0xe156, fontFamily: 'MaterialIcons')),
                   ),
@@ -405,9 +414,8 @@ class _RequestScreen extends State<RequestScreen>
                       )),
         backgroundColor: Colors.transparent,
         body: Container(
-          height: MediaQuery.of(context).size.height - 100,
+          height: MediaQuery.of(context).size.height,
           child: ListView(
-            shrinkWrap: true,
             children: <Widget>[
               Container(
                 decoration: BoxDecoration(
@@ -419,367 +427,340 @@ class _RequestScreen extends State<RequestScreen>
                         blurRadius: 10.0),
                   ],
                 ),
-                child: ListView.builder(
-                    padding: EdgeInsets.only(
-                      bottom: 62 + MediaQuery.of(context).padding.bottom,
-                    ),
-                    shrinkWrap: true,
-                    itemCount: 1,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: AppTheme.white,
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: AppTheme.grey
-                                    .withOpacity(0.4 * topBarOpacity),
-                                offset: const Offset(1.1, 1.1),
-                                blurRadius: 10.0),
-                          ],
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(30, 10, 30, 0),
-                              child: isViewOnly ||
-                                      widget.type ==
-                                          RequestPageType.technicalrequests
-                                  ? Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              IconData(0xe044,
-                                                  fontFamily: 'MaterialIcons'),
-                                              color: AppTheme.deactivatedText,
-                                              size: 15,
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              "Project",
-                                              style: TextStyle(
-                                                  color:
-                                                      AppTheme.deactivatedText,
-                                                  fontSize: 15),
-                                            )
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 20),
-                                              child: Flexible(
-                                                child: Text(
-                                                  request.project!.name ?? "NA",
-                                                  style: TextStyle(
-                                                      color:
-                                                          AppTheme.nearlyBlack,
-                                                      fontSize: 20),
-                                                  maxLines: 3,
-                                                  overflow:
-                                                      TextOverflow.visible,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Container(
-                                            width: 350,
-                                            height: 60,
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Expanded(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Icon(
-                                                              Icons.av_timer,
-                                                              color: AppTheme
-                                                                  .deactivatedText,
-                                                              size: 15,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text(
-                                                              "Delivery date",
-                                                              style: TextStyle(
-                                                                  color: AppTheme
-                                                                      .deactivatedText,
-                                                                  fontSize: 15),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      left: 20),
-                                                              child: Text(
-                                                                request
-                                                                    .deliveryAt
-                                                                    .toString()
-                                                                    .replaceRange(
-                                                                        11,
-                                                                        null,
-                                                                        ""),
-                                                                style: TextStyle(
-                                                                    color: AppTheme
-                                                                        .nearlyBlack,
-                                                                    fontSize:
-                                                                        20),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  child: SizedBox(
-                                                    height: 50,
-                                                    child: Padding(
-                                                      padding: EdgeInsets.only(
-                                                          left: 30),
-                                                      child: Column(
-                                                        children: [
-                                                          Row(
-                                                            children: const [
-                                                              Icon(
-                                                                Icons.av_timer,
-                                                                color: AppTheme
-                                                                    .deactivatedText,
-                                                                size: 15,
-                                                              ),
-                                                              SizedBox(
-                                                                width: 5,
-                                                              ),
-                                                              Text(
-                                                                "Priority",
-                                                                style: TextStyle(
-                                                                    color: AppTheme
-                                                                        .deactivatedText,
-                                                                    fontSize:
-                                                                        15),
-                                                              )
-                                                            ],
-                                                          ),
-                                                          Row(
-                                                            children: [
-                                                              Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left:
-                                                                            20),
-                                                                child: Text(
-                                                                  request
-                                                                      .priority
-                                                                      .toString(),
-                                                                  style: TextStyle(
-                                                                      color: AppTheme
-                                                                          .nearlyBlack,
-                                                                      fontSize:
-                                                                          20),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            )),
-                                      ],
-                                    )
-                                  : Column(
-                                      children: [
-                                        DropdownButtonFormField(
-                                            elevation: 2,
-                                            value: request.projectId != null
-                                                ? request.projectId.toString()
-                                                : null,
-                                            validator: (value) {
-                                              if (value == 0) {
-                                                return 'Please select project';
-                                              }
-                                              return null;
-                                            },
-                                            items: projects.map((item) {
-                                              return new DropdownMenuItem<
-                                                  String>(
-                                                value: item.id.toString(),
-                                                child: new Text(
-                                                  item.name ?? "",
-                                                ),
-                                              );
-                                            }).toList(),
-                                            onChanged: (value) {
-                                              setState(() {});
-                                            },
-                                            decoration: InputDecoration(
-                                              labelText: "Project",
-                                            )),
-                                        TextFormField(
-                                            validator: (value) {
-                                              if (value == null) {
-                                                return 'Please select Delivery';
-                                              }
-                                              return null;
-                                            },
-                                            readOnly: true,
-                                            decoration: const InputDecoration(
-                                              labelText: 'Delivery',
-                                            ),
-                                            controller: deliveryDate,
-                                            onTap: () async {
-                                              // Below line stops keyboard from appearing
-                                              FocusScope.of(context)
-                                                  .requestFocus(
-                                                      new FocusNode());
-                                              // Show Date Picker Here
-                                              await _deliverydatebuild(context);
-                                              deliveryDate.text =
-                                                  DateFormat('yyyy/MM/dd')
-                                                      .format(
-                                                          request.deliveryAt ??
-                                                              DateTime.now());
-                                              setState(() {});
-                                            }),
-                                        DropdownButtonFormField(
-                                          elevation: 2,
-                                          value: request.priority,
-                                          validator: (value) {
-                                            if (value == null) {
-                                              return 'Please select Priority';
-                                            }
-                                            return null;
-                                          },
-                                          items: RequestPriority.values
-                                              .map((item) {
-                                            return new DropdownMenuItem<String>(
-                                              value: item.name.toString(),
-                                              child: new Text(
-                                                item.name.toString(),
-                                              ),
-                                            );
-                                          }).toList(),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              request.priority = value
-                                                  .toString()
-                                                  .replaceFirst(
-                                                      RegExp(
-                                                          "RequestPriority."),
-                                                      "");
-                                            });
-                                          },
-                                          decoration: const InputDecoration(
-                                            labelText: "Priority",
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                            ),
-                            const ListTile(
-                              title: Padding(
-                                padding: EdgeInsets.only(left: 20),
-                                child: Text(
-                                  "Request Items",
-                                  style: TextStyle(
-                                    fontFamily: AppTheme.fontName,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18,
-                                    letterSpacing: 0.5,
-                                    color: AppTheme.lightText,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: MediaQuery.of(context).size.height - 100,
-                              width: MediaQuery.of(context).size.width - 40,
-                              child: Column(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppTheme.white,
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
+                          offset: const Offset(1.1, 1.1),
+                          blurRadius: 10.0),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(30, 10, 30, 0),
+                        child: isViewOnly ||
+                                widget.type == RequestPageType.technicalrequests
+                            ? Column(
                                 children: [
-                                  Stack(
+                                  Row(
                                     children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                              color: Color(0xFFEEEEEE),
-                                            ),
-                                          ),
-                                        ),
-                                        child: Card(
-                                          margin: EdgeInsets.zero,
-                                          elevation: 0,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                          ),
-                                          child: ListTile(
-                                            dense: true,
-                                            title: const Text(
-                                              "Name",
-                                              style: AppTheme.listheading,
-                                            ),
-                                            trailing: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: const [
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      right: 40),
-                                                  child: Center(
-                                                    child: Text(
-                                                      "Quantity",
-                                                      style:
-                                                          AppTheme.listheading,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      right: 10),
-                                                  child: Center(
-                                                    child: Text("Unit",
-                                                        style: AppTheme
-                                                            .listheading),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
+                                      Icon(
+                                        IconData(0xe044,
+                                            fontFamily: 'MaterialIcons'),
+                                        color: AppTheme.deactivatedText,
+                                        size: 15,
                                       ),
-                                      Visibility(
-                                        child: _buildedittile(),
-                                        visible: isdelete,
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Text(
+                                        "Project",
+                                        style: TextStyle(
+                                            color: AppTheme.deactivatedText,
+                                            fontSize: 15),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 20),
+                                        child: Flexible(
+                                          child: Text(
+                                            request.project!.name ?? "NA",
+                                            style: TextStyle(
+                                                color: AppTheme.nearlyBlack,
+                                                fontSize: 20),
+                                            maxLines: 3,
+                                            overflow: TextOverflow.visible,
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
-                                  _buildorderitemlist(),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Container(
+                                      width: 350,
+                                      height: 60,
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Expanded(
+                                            child: SizedBox(
+                                              height: 50,
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.av_timer,
+                                                        color: AppTheme
+                                                            .deactivatedText,
+                                                        size: 15,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text(
+                                                        "Delivery date",
+                                                        style: TextStyle(
+                                                            color: AppTheme
+                                                                .deactivatedText,
+                                                            fontSize: 15),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 20),
+                                                        child: Text(
+                                                          request.deliveryAt
+                                                              .toString()
+                                                              .replaceRange(
+                                                                  11, null, ""),
+                                                          style: TextStyle(
+                                                              color: AppTheme
+                                                                  .nearlyBlack,
+                                                              fontSize: 20),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: SizedBox(
+                                              height: 50,
+                                              child: Padding(
+                                                padding:
+                                                    EdgeInsets.only(left: 30),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      children: const [
+                                                        Icon(
+                                                          Icons.av_timer,
+                                                          color: AppTheme
+                                                              .deactivatedText,
+                                                          size: 15,
+                                                        ),
+                                                        SizedBox(
+                                                          width: 5,
+                                                        ),
+                                                        Text(
+                                                          "Priority",
+                                                          style: TextStyle(
+                                                              color: AppTheme
+                                                                  .deactivatedText,
+                                                              fontSize: 15),
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  left: 20),
+                                                          child: Text(
+                                                            request.priority
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                color: AppTheme
+                                                                    .nearlyBlack,
+                                                                fontSize: 20),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )),
                                 ],
+                              )
+                            : Form(
+                                key: formKey,
+                                child: Column(
+                                  children: [
+                                    DropdownButtonFormField(
+                                        elevation: 2,
+                                        value: request.projectId != null
+                                            ? request.projectId.toString()
+                                            : null,
+                                        validator: (value) {
+                                          if (value == null || value == 0) {
+                                            return 'Please select project';
+                                          }
+                                          return null;
+                                        },
+                                        items: projects.map((item) {
+                                          return new DropdownMenuItem<String>(
+                                            value: item.id.toString(),
+                                            child: new Text(
+                                              item.name ?? "",
+                                            ),
+                                          );
+                                        }).toList(),
+                                        onChanged: (value) {
+                                          setState(() {
+                                            request.projectId =
+                                                int.tryParse(value as String);
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                          labelText: "Project",
+                                        )),
+                                    TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value == "") {
+                                            return 'Please select Delivery';
+                                          }
+                                          return null;
+                                        },
+                                        readOnly: true,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Delivery',
+                                        ),
+                                        controller: deliveryDate,
+                                        onTap: () async {
+                                          // Below line stops keyboard from appearing
+                                          FocusScope.of(context)
+                                              .requestFocus(new FocusNode());
+                                          // Show Date Picker Here
+                                          await _deliverydatebuild(context);
+                                          deliveryDate.text =
+                                              DateFormat('yyyy/MM/dd').format(
+                                                  request.deliveryAt ??
+                                                      DateTime.now());
+                                          setState(() {});
+                                        }),
+                                    DropdownButtonFormField(
+                                      elevation: 2,
+                                      value: request.priority,
+                                      validator: (value) {
+                                        if (value == null) {
+                                          return 'Please select Priority';
+                                        }
+                                        return null;
+                                      },
+                                      items: RequestPriority.values.map((item) {
+                                        return new DropdownMenuItem<String>(
+                                          value: item.name.toString(),
+                                          child: new Text(
+                                            item.name.toString(),
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          request.priority = value
+                                              .toString()
+                                              .replaceFirst(
+                                                  RegExp("RequestPriority."),
+                                                  "");
+                                        });
+                                      },
+                                      decoration: const InputDecoration(
+                                        labelText: "Priority",
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
+                      ),
+                      const ListTile(
+                        title: Padding(
+                          padding: EdgeInsets.only(left: 20),
+                          child: Text(
+                            "Request Items",
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontName,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                              letterSpacing: 0.5,
+                              color: AppTheme.lightText,
                             ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height / 1.8,
+                        width: MediaQuery.of(context).size.width - 40,
+                        child: Column(
+                          children: [
+                            Stack(
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                        color: Color(0xFFEEEEEE),
+                                      ),
+                                    ),
+                                  ),
+                                  child: Card(
+                                    margin: EdgeInsets.zero,
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: ListTile(
+                                      dense: true,
+                                      title: const Text(
+                                        "Name",
+                                        style: AppTheme.listheading,
+                                      ),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: const [
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 40),
+                                            child: Center(
+                                              child: Text(
+                                                "Quantity",
+                                                style: AppTheme.listheading,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 10),
+                                            child: Center(
+                                              child: Text("Unit",
+                                                  style: AppTheme.listheading),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  child: _buildedittile(),
+                                  visible: isdelete,
+                                ),
+                              ],
+                            ),
+                            _buildorderitemlist(),
                           ],
                         ),
-                      );
-                    }),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               SizedBox(
                 height: MediaQuery.of(context).padding.bottom,

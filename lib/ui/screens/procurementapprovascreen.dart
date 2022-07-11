@@ -6,6 +6,7 @@ import 'package:my_application/bloc/billings/service.dart';
 import 'package:my_application/bloc/billings/state.dart';
 import 'package:my_application/global/global_function.dart';
 import 'package:my_application/models/billing_model.dart';
+import 'package:my_application/ui/screens/billingScreen.dart';
 
 enum Billingtatus {
   All,
@@ -30,34 +31,6 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
 
   @override
   void initState() {
-    scrollController.addListener(
-      () {
-        if (scrollController.offset >= 24) {
-          if (topBarOpacity != 1.0) {
-            setState(
-              () {
-                topBarOpacity = 1.0;
-              },
-            );
-          }
-        } else if (scrollController.offset <= 24 &&
-            scrollController.offset >= 0) {
-          if (topBarOpacity != scrollController.offset / 24) {
-            setState(() {
-              topBarOpacity = scrollController.offset / 24;
-            });
-          }
-        } else if (scrollController.offset <= 0) {
-          if (topBarOpacity != 0.0) {
-            setState(
-              () {
-                topBarOpacity = 0.0;
-              },
-            );
-          }
-        }
-      },
-    );
     super.initState();
   }
 
@@ -113,63 +86,56 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
                       ],
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(left: 5, right: 5, top: 20),
+                      padding: EdgeInsets.only(left: 5, right: 5),
                       child: Container(
                         width: MediaQuery.of(context).size.width - 20,
                         height: MediaQuery.of(context).size.height - 100,
                         child: Column(
                           children: [
-                            Container(
-                              height: MediaQuery.of(context).size.height / 25,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                          primary: Colors.white,
-                                          backgroundColor: AppTheme.dark_grey,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          )),
-                                      child: Text(
-                                        "Requested",
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      onPressed: () {
-                                        context.read<BillingCubit>().getBilling(
-                                            1,
-                                            GetEnumValue(Billingtatus.Requested
-                                                .toString()));
-                                      },
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextButton(
+                                    style: TextButton.styleFrom(
+                                      maximumSize: Size(200, 50),
+                                      minimumSize: Size(200, 50),
+                                      primary: AppTheme.primaryColor,
+                                      backgroundColor: AppTheme.background,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                          primary: Colors.white,
-                                          backgroundColor: AppTheme.dark_grey,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          )),
-                                      child: Text(
-                                        "Approved",
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      onPressed: () {
-                                        context.read<BillingCubit>().getBilling(
-                                            1,
-                                            GetEnumValue(Billingtatus.Approved
-                                                .toString()));
-                                      },
+                                    child: Text(
+                                      "Requested",
+                                      style: TextStyle(fontSize: 15),
                                     ),
+                                    onPressed: () {
+                                      context
+                                          .read<BillingCubit>()
+                                          .getBilling(1, "Requested");
+                                    },
                                   ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: TextButton(
+                                    style: TextButton.styleFrom(
+                                      maximumSize: Size(200, 50),
+                                      minimumSize: Size(200, 50),
+                                      primary: AppTheme.primaryColor,
+                                      backgroundColor: AppTheme.background,
+                                    ),
+                                    child: Text(
+                                      "Approved",
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    onPressed: () {
+                                      context
+                                          .read<BillingCubit>()
+                                          .getBilling(1, "Approved");
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
                             Container(
                               decoration: BoxDecoration(
@@ -185,14 +151,14 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
                                 child: ListTile(
                                   dense: true,
                                   title: const Text(
-                                    "Project Name",
+                                    "Project name",
                                     style: AppTheme.listheading,
                                   ),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: const [
                                       Padding(
-                                        padding: EdgeInsets.only(right: 10),
+                                        padding: EdgeInsets.only(right: 40),
                                         child: Center(
                                           child: Text(
                                             "Amount",
@@ -258,7 +224,7 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'Billing Requests',
+                          'Requests',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontFamily: AppTheme.fontName,
@@ -341,18 +307,18 @@ class _buildlist extends StatelessWidget {
   List<Billing> billing;
 
   Future _openRequest(Billing currentRequest, BuildContext context) async {
-    // Billing? request = await Navigator.of(context).push(
-    //   MaterialPageRoute<Billing>(
-    //       builder: (BuildContext context) {
-    //         return RequestScreen(
-    //           request: currentRequest,
-    //           type: currentRequest.status != "Approved"
-    //               ? RequestPageType.technicalrequests
-    //               : RequestPageType.viewOnly,
-    //         );
-    //       },
-    //       fullscreenDialog: true),
-    // );
+    Billing? bill = await Navigator.of(context).push(
+      MaterialPageRoute<Billing>(
+          builder: (BuildContext context) {
+            return BillingScreen(
+              billing: currentRequest,
+              type: currentRequest.status != "Approved"
+                  ? billingPageType.proqurementApproval
+                  : billingPageType.viewOnly,
+            );
+          },
+          fullscreenDialog: true),
+    );
   }
 
   @override
@@ -402,7 +368,7 @@ class _buildlist extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Employee : " +
+                    Text("Requested by : " +
                         billing[index].employee!.firstName! +
                         " " +
                         billing[index].employee!.lastName!),

@@ -173,12 +173,14 @@ class _PurchasesScreen extends State<PurchasesScreen>
             child: Icon(Icons.add),
             onPressed: () => {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: ((context) => RequestScreen(
-                            request: PurchaseRequest(),
-                            type: RequestPageType.requests,
-                          ))))
+                context,
+                MaterialPageRoute(
+                  builder: ((context) => RequestScreen(
+                        request: PurchaseRequest(),
+                        type: RequestPageType.requests,
+                      )),
+                ),
+              ),
             },
           ),
         ),
@@ -250,12 +252,13 @@ class _PurchasesScreen extends State<PurchasesScreen>
                                   Expanded(
                                     child: TextButton(
                                       style: TextButton.styleFrom(
-                                          primary: Colors.white,
-                                          backgroundColor: AppTheme.dark_grey,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          )),
+                                        primary: Colors.white,
+                                        backgroundColor: AppTheme.dark_grey,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                        ),
+                                      ),
                                       child: Text(
                                         "Requested",
                                         style: TextStyle(fontSize: 12),
