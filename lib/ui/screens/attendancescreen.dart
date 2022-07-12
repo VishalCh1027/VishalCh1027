@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/bloc/attendance/bloc.dart';
-import 'package:my_application/bloc/attendance/service.dart';
 import 'package:my_application/bloc/attendance/state.dart';
+import 'package:my_application/bloc/workmen_list/service.dart';
 import 'package:my_application/global/global_variables.dart';
 import 'package:my_application/models/project_model.dart';
 import 'package:my_application/ui/screens/projectlistscreen.dart';
@@ -154,7 +154,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         backgroundColor: Colors.transparent,
         body: BlocProvider(
           create: (_) =>
-              AttendanceCubit(repository: context.read<AttendanceService>())
+              AttendanceCubit(repository: context.read<WorkmenService>())
                 ..getWorkmens(1),
           child: Stack(
             children: <Widget>[
@@ -201,17 +201,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: const [
                                         Padding(
-                                          padding: EdgeInsets.only(right: 40),
+                                          padding: EdgeInsets.only(right: 35),
                                           child: Center(
                                               child: Text(
-                                            "In Time",
+                                            "Shift",
                                             style: AppTheme.listheading,
                                           )),
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.only(right: 10),
+                                          padding: EdgeInsets.only(right: 0),
                                           child: Center(
-                                            child: Text("Hours",
+                                            child: Text("Present",
                                                 style: AppTheme.listheading),
                                           ),
                                         ),
@@ -249,14 +249,16 @@ class _buildHead extends StatelessWidget {
     return ListTile(
         title: Padding(
           padding: const EdgeInsets.only(left: 20),
-          child: Text(project.name,
-              style: TextStyle(
-                fontFamily: AppTheme.fontName,
-                fontWeight: FontWeight.w700,
-                fontSize: 17,
-                letterSpacing: 1.2,
-                color: AppTheme.darkerText,
-              )),
+          child: Text(
+            project.name,
+            style: TextStyle(
+              fontFamily: AppTheme.fontName,
+              fontWeight: FontWeight.w700,
+              fontSize: 17,
+              letterSpacing: 1.2,
+              color: AppTheme.darkerText,
+            ),
+          ),
         ),
         trailing: Row(mainAxisSize: MainAxisSize.min, children: [
           Padding(
@@ -299,18 +301,18 @@ class _buildlist extends StatelessWidget {
   final List<Attendance> workmens;
   TimeOfDay inTime = const TimeOfDay(hour: 9, minute: 30);
 
-  Future<void> _selectInTime(
-      BuildContext context, Attendance attendance) async {
-    final TimeOfDay? timeOfDay = await showTimePicker(
-      context: context,
-      initialTime: attendance.in_ ?? inTime,
-      initialEntryMode: TimePickerEntryMode.dial,
-    );
-    // ignore: unnecessary_null_comparison
-    if (timeOfDay != null && timeOfDay != attendance.in_) {
-      context.read<AttendanceCubit>().updateInTime(attendance, timeOfDay);
-    }
-  }
+  // Future<void> _selectInTime(
+  //     BuildContext context, Attendance attendance) async {
+  //   final TimeOfDay? timeOfDay = await showTimePicker(
+  //     context: context,
+  //     initialTime: attendance.in_ ?? inTime,
+  //     initialEntryMode: TimePickerEntryMode.dial,
+  //   );
+  //   // ignore: unnecessary_null_comparison
+  //   if (timeOfDay != null && timeOfDay != attendance.in_) {
+  //     context.read<AttendanceCubit>().updateInTime(attendance, timeOfDay);
+  //   }
+  // }
 
   Future _transferWorkmen(Attendance attendance, BuildContext context) async {
     final result = await Navigator.of(context).push(
@@ -323,6 +325,7 @@ class _buildlist extends StatelessWidget {
           },
           fullscreenDialog: true),
     );
+
     if (result == true) {
       workmens.remove(attendance);
       context.read<AttendanceCubit>().updateList(workmens);
@@ -349,7 +352,8 @@ class _buildlist extends StatelessWidget {
                 width: MediaQuery.of(context).size.width / 1.8,
                 child: Text(
                   workmens[index].workmen!.firstname,
-                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  overflow: TextOverflow.visible,
                 ),
               ),
               trailing: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -363,58 +367,63 @@ class _buildlist extends StatelessWidget {
                       color: AppTheme.primaryColor,
                     )),
                 Padding(
-                  padding: const EdgeInsets.only(right: 35, left: 10),
-                  child: TextButton(
-                    child: Text(
-                        workmens[index].in_?.format(context) ??
-                            inTime.format(context),
-                        style: TextStyle(color: AppTheme.primaryColor)),
-                    onPressed: () {
-                      _selectInTime(context, workmens[index]);
+                  padding: EdgeInsets.all(5),
+                  child: DropdownButton(
+                    menuMaxHeight: 150,
+                    value: workmens[index].shift ?? 1,
+                    style: TextStyle(color: Colors.black, fontSize: 15),
+                    onChanged: (double? value) {
+                      context
+                          .read<AttendanceCubit>()
+                          .updateShift(workmens[index], value);
                     },
+                    items: const [
+                      DropdownMenuItem(
+                        child: Text("0"),
+                        value: 0.0,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("0.25"),
+                        value: 0.25,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("0.5"),
+                        value: 0.5,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("1"),
+                        value: 1.0,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("1.5"),
+                        value: 1.5,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("2"),
+                        value: 2.0,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("2.5"),
+                        value: 2.5,
+                      ),
+                      DropdownMenuItem(
+                        child: Text("3"),
+                        value: 3.0,
+                      )
+                    ],
                   ),
                 ),
                 Padding(
-                    padding: EdgeInsets.all(5),
-                    child: DropdownButton(
-                        menuMaxHeight: 150,
-                        value: workmens[index].hoursWorked ?? 8,
-                        style: TextStyle(color: Colors.black, fontSize: 15),
-                        onChanged: (int? value) {
-                          context
-                              .read<AttendanceCubit>()
-                              .updatehours(workmens[index], value);
-                        },
-                        items: const [
-                          DropdownMenuItem(
-                            child: Text("0"),
-                            value: 0,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("4"),
-                            value: 4,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("8"),
-                            value: 8,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("12"),
-                            value: 12,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("16"),
-                            value: 16,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("20"),
-                            value: 20,
-                          ),
-                          DropdownMenuItem(
-                            child: Text("24"),
-                            value: 24,
-                          )
-                        ]))
+                  padding: const EdgeInsets.only(right: 0, left: 20),
+                  child: Checkbox(
+                    activeColor: AppTheme.primaryColor,
+                    onChanged: (value) {
+                      workmens[index].selected = value;
+                      context.read<AttendanceCubit>().updateList(workmens);
+                    },
+                    value: workmens[index].selected ?? false,
+                  ),
+                ),
               ]),
             ),
           ));

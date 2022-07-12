@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/models/purchaserequest_model.dart';
@@ -82,69 +81,6 @@ class _RequestScreen extends State<RequestScreen>
   @override
   void dispose() {
     super.dispose();
-  }
-
-  Widget getAppBarUI() {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppTheme.white.withOpacity(topBarOpacity),
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(32.0),
-        ),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-              offset: const Offset(1.1, 1.1),
-              blurRadius: 10.0),
-        ],
-      ),
-      child: Column(
-        children: <Widget>[
-          SizedBox(
-            height: MediaQuery.of(context).padding.top,
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: 14 - 8.0 * topBarOpacity,
-                bottom: 12 - 8.0 * topBarOpacity),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(IconData(0xe092,
-                      fontFamily: 'MaterialIcons', matchTextDirection: true)),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Request Detail',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontFamily: AppTheme.fontName,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 22 + 6 - 6 * topBarOpacity,
-                        letterSpacing: 1.2,
-                        color: AppTheme.darkerText,
-                      ),
-                    ),
-                  ),
-                ),
-                IconButton(
-                  color: AppTheme.primaryColor,
-                  onPressed: () => Navigator.of(context).pop(request),
-                  icon:
-                      const Icon(IconData(0xe156, fontFamily: 'MaterialIcons')),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
   }
 
   Widget _buildorderitemlist() {
@@ -377,28 +313,6 @@ class _RequestScreen extends State<RequestScreen>
               ),
             ),
           ),
-          actions: isViewOnly
-              ? null
-              : [
-                  Container(
-                    child: widget.type == RequestPageType.requests
-                        ? null
-                        : IconButton(
-                            color: Colors.red,
-                            onPressed: () => Navigator.of(context).pop(request),
-                            icon: const Icon(Icons.close_rounded),
-                          ),
-                  ),
-                  IconButton(
-                    color: Colors.lightGreenAccent[700],
-                    onPressed: () => checkForm(),
-                    icon: const Icon(
-                        IconData(0xe156, fontFamily: 'MaterialIcons')),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  )
-                ],
         ),
         floatingActionButton:
             widget.type == RequestPageType.technicalrequests || isViewOnly
@@ -682,6 +596,10 @@ class _RequestScreen extends State<RequestScreen>
                                 ),
                               ),
                       ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(30, 10, 30, 0),
+                        child: _buildbuttons(context),
+                      ),
                       const ListTile(
                         title: Padding(
                           padding: EdgeInsets.only(left: 20),
@@ -770,5 +688,129 @@ class _RequestScreen extends State<RequestScreen>
         ),
       ),
     );
+  }
+
+  Widget _buildbuttons(BuildContext context) {
+    if (widget.type == RequestPageType.technicalrequests) {
+      return Row(
+        children: [
+          Expanded(
+            child: TextButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(AppTheme.nearlyDarkBlue),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+              onPressed: () async {},
+              child: const SizedBox(
+                width: 300,
+                height: 25,
+                child: Center(
+                  child: Text(
+                    'Approve',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: TextButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(AppTheme.primaryColor),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                checkForm();
+              },
+              child: const SizedBox(
+                width: 300,
+                height: 25,
+                child: Center(
+                  child: Text(
+                    'Reject',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: TextButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(AppTheme.primaryColor),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                checkForm();
+              },
+              child: const SizedBox(
+                width: 300,
+                height: 25,
+                child: Center(
+                  child: Text(
+                    'Hold',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    } else if (widget.type == RequestPageType.requests) {
+      return Row(
+        children: [
+          Expanded(
+            child: TextButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(AppTheme.nearlyDarkBlue),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                checkForm();
+              },
+              child: const SizedBox(
+                width: 300,
+                height: 25,
+                child: Center(
+                  child: Text(
+                    'Save',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Container();
+    }
   }
 }

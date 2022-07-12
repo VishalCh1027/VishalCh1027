@@ -9,15 +9,15 @@ class Attendance {
 
   TimeOfDay? out;
 
-  late int workmenId;
+  late int? workmenId;
 
-  late int projectId;
+  late int? projectId;
 
   DateTime? date;
 
   bool? selected;
 
-  int? hoursWorked;
+  double? shift;
 
   Attendance(
       {required this.workmenId,
@@ -27,7 +27,7 @@ class Attendance {
       this.date,
       this.workmen,
       this.selected,
-      this.hoursWorked});
+      this.shift});
 
   Attendance.fromJson(Map<String, dynamic> json) {
     workmenId = json['workmenId'];

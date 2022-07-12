@@ -12,36 +12,41 @@ import 'package:my_application/bloc/workmen_list/service.dart';
 import 'package:my_application/global/global_function.dart';
 import 'package:my_application/global/global_variables.dart';
 import 'package:my_application/ui/screens/home_screen.dart';
-import 'bloc/attendance/service.dart';
 import 'login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown
-  ]).then((_) => runApp(MyApp()));
+  await SystemChrome.setPreferredOrientations(
+    <DeviceOrientation>[
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown
+    ],
+  ).then(
+    (_) => runApp(
+      MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.light,
-      systemNavigationBarColor: Colors.white,
-      systemNavigationBarDividerColor: Colors.transparent,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.white,
+        systemNavigationBarDividerColor: Colors.transparent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ),
+    );
     return ScreenUtilInit(
         designSize: Size(375, 812),
         builder: (_) {
           return MultiRepositoryProvider(
             providers: [
               RepositoryProvider<LoginService>.value(value: LoginService()),
-              RepositoryProvider<AttendanceService>.value(
-                  value: AttendanceService()),
               RepositoryProvider<PurchasesService>.value(
                   value: PurchasesService()),
               RepositoryProvider<ProjectsService>.value(

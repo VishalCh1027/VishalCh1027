@@ -215,7 +215,7 @@ class _PurchasesScreen extends State<PurchasesScreen>
                       padding: EdgeInsets.only(left: 30, right: 30, top: 20),
                       child: Container(
                         width: MediaQuery.of(context).size.width - 40,
-                        height: MediaQuery.of(context).size.height - 100,
+                        height: MediaQuery.of(context).size.height - 150,
                         child: Column(
                           children: [
                             Container(

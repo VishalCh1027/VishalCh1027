@@ -258,4 +258,9 @@ class WalletService {
   Future<List<WalletTransaction>?> getTransactions(int employeeId) async {
     return transasctions;
   }
+
+  Future<List<WalletTransaction>?> SaveTransaction(
+      WalletTransaction transaction) async {
+    return null;
+  }
 }

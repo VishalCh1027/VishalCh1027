@@ -197,23 +197,6 @@ class _BillingScreen extends State<BillingScreen>
               ),
             ),
           ),
-          actions: [
-            Container(
-              child: IconButton(
-                color: Colors.red,
-                onPressed: () => Navigator.of(context).pop(billing),
-                icon: const Icon(Icons.close_rounded),
-              ),
-            ),
-            IconButton(
-              color: Colors.lightGreenAccent[700],
-              onPressed: () => Navigator.of(context).pop(billing),
-              icon: const Icon(IconData(0xe156, fontFamily: 'MaterialIcons')),
-            ),
-            SizedBox(
-              width: 10,
-            )
-          ],
         ),
         backgroundColor: Colors.transparent,
         body: Container(
@@ -425,6 +408,10 @@ class _BillingScreen extends State<BillingScreen>
                               ),
                             ],
                           )),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(30, 10, 30, 0),
+                        child: _buildbuttons(context),
+                      ),
                       const ListTile(
                         title: Padding(
                           padding: EdgeInsets.only(left: 20),
@@ -513,5 +500,67 @@ class _BillingScreen extends State<BillingScreen>
         ),
       ),
     );
+  }
+
+  Widget _buildbuttons(BuildContext context) {
+    if (widget.type == billingPageType.proqurementApproval) {
+      return Row(
+        children: [
+          Expanded(
+            child: TextButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(AppTheme.nearlyDarkBlue),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+              onPressed: () async {},
+              child: const SizedBox(
+                width: 300,
+                height: 25,
+                child: Center(
+                  child: Text(
+                    'Approve',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: TextButton(
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(AppTheme.primaryColor),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+              onPressed: () async {},
+              child: const SizedBox(
+                width: 300,
+                height: 25,
+                child: Center(
+                  child: Text(
+                    'Reject',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Container();
+    }
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
 import 'package:my_application/apptheme/app_theme.dart';
+import 'package:my_application/bloc/Wallet/service.dart';
 import 'package:my_application/bloc/project_list/service.dart';
 import 'package:my_application/bloc/workmen_list/service.dart';
 import 'package:my_application/models/orderItem_model.dart';
@@ -23,8 +24,7 @@ class _AddExpensePage extends State<AddExpensePage> {
   _AddExpensePage(this.expense);
 
   final WalletTransaction? expense;
-  bool _canSave = false;
-
+  var isSaving = true;
   WalletTransaction _item = WalletTransaction.empty();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -34,15 +34,12 @@ class _AddExpensePage extends State<AddExpensePage> {
     super.initState();
   }
 
-  void _setCanSave(bool save) {
-    if (save != _canSave) setState(() => _canSave = save);
-  }
-
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
       backgroundColor: AppTheme.background,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         toolbarHeight: 80,
         backgroundColor: AppTheme.background,
@@ -68,18 +65,22 @@ class _AddExpensePage extends State<AddExpensePage> {
         ),
       ),
       body: SingleChildScrollView(
+        reverse: true, // this is new
+        physics: BouncingScrollPhysics(),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: const EdgeInsets.all(25),
+              padding: const EdgeInsets.only(
+                  left: 25, right: 25, top: 25, bottom: 0),
               child: Form(
                 key: formKey,
-                child: ListView(
-                  shrinkWrap: true,
+                child: Column(
                   children: [
                     DropdownSearch<Project>(
-                      mode: Mode.MENU,
+                      popupSafeArea: PopupSafeAreaProps(top: false),
+                      mode: Mode.BOTTOM_SHEET,
                       showSearchBox: true,
                       isFilteredOnline: true,
                       onFind: (String? filter) {
@@ -225,7 +226,7 @@ class _AddExpensePage extends State<AddExpensePage> {
                                 TextStyle(color: AppTheme.primaryColor))),
                     if (_item.projectId != null && _item.category == "Labour")
                       DropdownSearch<Workmen>(
-                        mode: Mode.MENU,
+                        mode: Mode.BOTTOM_SHEET,
                         showSearchBox: true,
                         isFilteredOnline: true,
                         onFind: (String? filter) {
@@ -262,9 +263,17 @@ class _AddExpensePage extends State<AddExpensePage> {
                           ),
                         ),
                       ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _buildSavebutton(context)
                   ],
                 ),
               ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
             ),
           ],
         ),
@@ -272,9 +281,52 @@ class _AddExpensePage extends State<AddExpensePage> {
     );
   }
 
-  void checkForm() {
-    this.setState(() {
-      _setCanSave(formKey.currentState!.validate());
-    });
+  void saveTransaction() async {
+    isSaving = false;
+    var check = formKey.currentState!.validate();
+    if (check) {
+      var response = await RepositoryProvider.of<WalletService>(context)
+          .SaveTransaction(_item);
+
+      if (response != null) {
+        Navigator.of(context).pop(_item);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: const Duration(seconds: 1),
+            content: Text("Failed to save transaction"),
+          ),
+        );
+        isSaving = true;
+      }
+    }
+  }
+
+  Widget _buildSavebutton(BuildContext context) {
+    return TextButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(AppTheme.nearlyDarkBlue),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+        ),
+      ),
+      onPressed: () async {
+        if (isSaving) {
+          saveTransaction();
+        }
+      },
+      child: const SizedBox(
+        width: 300,
+        height: 30,
+        child: Center(
+          child: Text(
+            'Save',
+            style: TextStyle(color: Colors.white, fontSize: 16),
+          ),
+        ),
+      ),
+    );
   }
 }
