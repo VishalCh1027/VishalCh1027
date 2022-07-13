@@ -101,32 +101,6 @@ class _ProjectWorkmensState extends State<ProjectWorkmensPage> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 8,
-                            right: 8,
-                          ),
-                          child: Row(
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(
-                                  IconData(0xe531, fontFamily: 'MaterialIcons'),
-                                  color: Colors.blue,
-                                ),
-                                onPressed: () {
-                                  context.read<WorkmenCubit>().getWorkmens(1);
-                                },
-                              ),
-                              IconButton(
-                                icon: Icon(
-                                  IconData(0xe156, fontFamily: 'MaterialIcons'),
-                                  color: Colors.lightGreenAccent[700],
-                                ),
-                                onPressed: () {},
-                              )
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   )
@@ -165,8 +139,8 @@ class _ProjectWorkmensState extends State<ProjectWorkmensPage> {
                   return Column(children: [
                     Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 18.0),
                           child: Divider(
                             color: Color.fromRGBO(97, 99, 119, 1),
                           ),
@@ -179,35 +153,24 @@ class _ProjectWorkmensState extends State<ProjectWorkmensPage> {
                             height: MediaQuery.of(context).size.height - 100,
                             width: MediaQuery.of(context).size.width - 40,
                             child: Column(children: [
-                              Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: ListTile(
-                                  dense: true,
-                                  title: const Text(
-                                    "Name",
-                                    style: AppTheme.listheading,
+                              Container(
+                                decoration: const BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: Color(0xFFEEEEEE)))),
+                                child: Card(
+                                  margin: EdgeInsets.zero,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                  trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: const [
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 40),
-                                          child: Center(
-                                              child: Text(
-                                            "In Time",
-                                            style: AppTheme.listheading,
-                                          )),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 10),
-                                          child: Center(
-                                            child: Text("Hours",
-                                                style: AppTheme.listheading),
-                                          ),
-                                        ),
-                                      ]),
+                                  elevation: 0,
+                                  child: const ListTile(
+                                    dense: true,
+                                    title: Text(
+                                      "Name",
+                                      style: AppTheme.listheading,
+                                    ),
+                                  ),
                                 ),
                               ),
                               Expanded(
@@ -265,19 +228,24 @@ class _buildlist extends StatelessWidget {
         shrinkWrap: true,
         itemCount: workmens.length,
         itemBuilder: (context, index) {
-          return Card(
-              child: Container(
-            child: ListTile(
-              onTap: () {},
-              title: SizedBox(
-                width: MediaQuery.of(context).size.width / 1.8,
-                child: Text(
-                  workmens[index].firstname + workmens[index].lastname,
-                  overflow: TextOverflow.ellipsis,
+          return Container(
+            decoration: const BoxDecoration(
+                border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
+            child: Card(
+              margin: EdgeInsets.zero,
+              elevation: 0,
+              child: ListTile(
+                onTap: () {},
+                title: SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.8,
+                  child: Text(
+                    workmens[index].firstname + " " + workmens[index].lastname,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ),
-          ));
+          );
         },
       ),
     );

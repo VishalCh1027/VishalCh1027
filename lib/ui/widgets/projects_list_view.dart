@@ -6,7 +6,7 @@ import 'package:my_application/bloc/project_list/service.dart';
 import 'package:my_application/global/global_variables.dart';
 import 'package:my_application/main.dart';
 import 'package:my_application/models/project_model.dart';
-import 'package:my_application/ui/screens/projectscreen.dart';
+import 'package:my_application/ui/screens/project_screens/projectscreen.dart';
 
 class ProjectListView extends StatefulWidget {
   const ProjectListView({
@@ -267,12 +267,12 @@ class ProjectsView extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute<Project>(
-                        builder: (BuildContext context) {
-                          return ProjectScreen(
-                            project: projectsListData,
-                          );
-                        },
-                        fullscreenDialog: true),
+                      builder: (BuildContext context) {
+                        return ProjectScreen(
+                          project: projectsListData,
+                        );
+                      },
+                    ),
                   );
                 },
                 child: Padding(

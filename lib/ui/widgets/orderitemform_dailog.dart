@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/models/orderItem_model.dart';
 
@@ -78,7 +77,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
           ),
           width: MediaQuery.of(context).size.width,
           child: Padding(
-            padding: EdgeInsets.only(left: 30, right: 30, top: 30),
+            padding: EdgeInsets.only(left: 30, right: 30, top: 10),
             child: Container(
               width: MediaQuery.of(context).size.width - 40,
               height: MediaQuery.of(context).size.height - 100,
@@ -98,7 +97,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                         _item.name = value;
                       },
                       decoration: const InputDecoration(
-                        icon: Icon(
+                        prefixIcon: Icon(
                           Icons.person,
                           color: AppTheme.primaryColor,
                         ),
@@ -114,7 +113,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                         _item.description = value;
                       },
                       decoration: const InputDecoration(
-                        icon: Icon(
+                        prefixIcon: Icon(
                           Icons.info_outline_rounded,
                           color: AppTheme.primaryColor,
                         ),
@@ -149,7 +148,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                           });
                         },
                         decoration: InputDecoration(
-                            icon: Icon(
+                            prefixIcon: Icon(
                               Icons.linear_scale_rounded,
                               color: AppTheme.primaryColor,
                             ),
@@ -171,7 +170,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                         _item.quantity = double.tryParse(value);
                       },
                       decoration: const InputDecoration(
-                        icon: Icon(
+                        prefixIcon: Icon(
                           Icons.production_quantity_limits_rounded,
                           color: AppTheme.primaryColor,
                         ),
@@ -181,6 +180,41 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                         ),
                       ),
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  AppTheme.primaryColor),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                            onPressed: () {
+                              checkForm();
+                            },
+                            child: const SizedBox(
+                              width: 300,
+                              height: 25,
+                              child: Center(
+                                child: Text(
+                                  'Save',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),

@@ -8,6 +8,7 @@ import 'package:my_application/bloc/Wallet/state.dart';
 import 'package:my_application/models/wallet_model.dart';
 import 'package:my_application/models/wallettransactions_model.dart';
 import 'package:my_application/ui/widgets/add_expense.dart';
+import 'package:my_application/ui/widgets/drawer.dart';
 
 class WalletScreen extends StatefulWidget {
   const WalletScreen({Key? key}) : super(key: key);
@@ -40,21 +41,18 @@ class _WalletScreen extends State<WalletScreen> with TickerProviderStateMixin {
     return Container(
       color: AppTheme.background,
       child: Scaffold(
+        drawer: NowDrawer(currentPage: "Wallet"),
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Expanded(
-            child: Center(
-              child: Text(
-                'Wallet',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20 + 6,
-                  letterSpacing: 1.2,
-                  color: AppTheme.darkerText,
-                ),
-              ),
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            'Wallet',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontFamily: AppTheme.fontName,
+              fontWeight: FontWeight.w700,
+              fontSize: 20 + 6,
+              letterSpacing: 1.2,
+              color: AppTheme.darkerText,
             ),
           ),
         ),

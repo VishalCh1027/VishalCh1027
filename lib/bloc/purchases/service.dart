@@ -1637,8 +1637,11 @@ class PurchasesService {
     //   var jsonObject = jsonDecode(rs.body);
     //   var requests = List<PurchaseRequest>.from(
     //       [jsonObject].map((e) => PurchaseRequest.fromJson(e)));
-    if (status == "All") {
-      return requests;
+    if (status == "Requested") {
+      return requests
+          .where((element) =>
+              element.status == "Requested" || element.status == "Approved")
+          .toList();
     } else {
       return requests.where((e) => e.status == status).toList();
     }
@@ -1656,11 +1659,7 @@ class PurchasesService {
     //   var requests = List<PurchaseRequest>.from(
     //       [jsonObject].map((e) => PurchaseRequest.fromJson(e)));
 
-    if (status == "All") {
-      return requests;
-    } else {
-      return requests.where((e) => e.status == status).toList();
-    }
+    return requests.where((e) => e.status == status).toList();
     // }
     // return null;
   }

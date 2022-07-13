@@ -1,8 +1,6 @@
-import 'dart:convert';
-import 'package:my_application/global/global_variables.dart';
+import 'package:my_application/models/employee_model.dart';
+import 'package:my_application/models/expense_model.dart';
 import 'package:my_application/models/project_model.dart';
-import '../../helpers/http_helper.dart';
-import '../bloc_service.dart';
 
 class ProjectsService {
   Future<List<Project>> getProjects(int employeeId) async {
@@ -341,5 +339,282 @@ class ProjectsService {
       return projects;
     }
     return [];
+  }
+
+  Future<List<Employee>> getPersonal(int perojectId, String type) async {
+    var employees = List<Employee>.from([
+      {
+        "id": 39,
+        "userId": null,
+        "businessId": 4,
+        "code": null,
+        "addressId": null,
+        "firstName": "vishal",
+        "lastName": "chinta",
+        "email": "vishalchinta27@gmail.com",
+        "mobile": "8355952505",
+        "home": null,
+        "hourlyRate": null,
+        "overtimeRate": null,
+        "dob": null,
+        "startDate": "2022-06-23T00:00:00",
+        "address": null,
+        "permissions": [],
+        "isActive": true,
+        "createdBy": 5,
+        "createdAt": "2022-06-23T15:00:15.153",
+        "updatedBy": 5,
+        "updatedAt": "2022-06-23T15:00:15.153"
+      },
+      {
+        "id": 40,
+        "userId": null,
+        "businessId": 4,
+        "code": null,
+        "addressId": null,
+        "firstName": "vishal",
+        "lastName": "chinta1",
+        "email": "vishalchinta99@gmail.com",
+        "mobile": "9898238928",
+        "home": null,
+        "hourlyRate": null,
+        "overtimeRate": null,
+        "dob": null,
+        "startDate": "2022-06-25T00:00:00",
+        "address": null,
+        "permissions": [],
+        "isActive": true,
+        "createdBy": 39,
+        "createdAt": "2022-06-25T14:52:58.79",
+        "updatedBy": 39,
+        "updatedAt": "2022-06-28T19:00:17.007"
+      },
+      {
+        "id": 41,
+        "userId": null,
+        "businessId": 4,
+        "code": null,
+        "addressId": null,
+        "firstName": "vishal",
+        "lastName": "karoot",
+        "email": "vishal.chinta@karoot.in",
+        "mobile": "9883928928",
+        "home": null,
+        "hourlyRate": null,
+        "overtimeRate": null,
+        "dob": null,
+        "startDate": "2022-06-30T00:00:00",
+        "address": null,
+        "permissions": [],
+        "isActive": true,
+        "createdBy": 39,
+        "createdAt": "2022-06-30T18:37:08.477",
+        "updatedBy": 39,
+        "updatedAt": "2022-06-30T18:37:08.477"
+      }
+    ].map((e) => Employee.fromJson(e)));
+    return employees;
+  }
+
+  Future<List<ProjectExpense>> getExpense(int perojectId) async {
+    var expenses = List<ProjectExpense>.from([
+      {
+        "id": 60,
+        "amount": 100,
+        "type": "DebitCard",
+        "bankId": 87,
+        "vendorId": 6,
+        "employeeId": 40,
+        "invoiceNumber": null,
+        "referenceNumber": "98239898238",
+        "note": null,
+        "projectId": 10,
+        "employee": {
+          "id": 40,
+          "userId": null,
+          "businessId": 4,
+          "code": null,
+          "addressId": null,
+          "firstName": "vishal",
+          "lastName": "chinta1",
+          "email": "vishalchinta99@gmail.com",
+          "mobile": "9898238928",
+          "home": null,
+          "hourlyRate": null,
+          "overtimeRate": null,
+          "dob": null,
+          "startDate": "2022-06-25T00:00:00",
+          "address": null,
+          "permissions": [],
+          "isActive": true,
+          "createdBy": 39,
+          "createdAt": "2022-06-25T14:52:58.79",
+          "updatedBy": 39,
+          "updatedAt": "2022-06-28T19:00:17.007"
+        },
+        "bankDetail": {
+          "id": 87,
+          "name": "Kotak",
+          "branch": "WORLI",
+          "accountNumber": "89238923889238923988",
+          "ifsc": "YES19290129",
+          "type": "Saving",
+          "businessBanks": [],
+          "projectBanks": null
+        },
+        "project": null,
+        "vendor": {
+          "id": 6,
+          "addressId": 46,
+          "businessId": 4,
+          "bankId": 70,
+          "name": "kailash shinde",
+          "contactPerson": "vishal",
+          "gst": "JSDJKS832923982",
+          "email": "kailash@gmail.com",
+          "phone": "9829892389",
+          "address": null,
+          "bank": null,
+          "business": null,
+          "isActive": true,
+          "createdBy": 39,
+          "createdAt": "2022-06-23T15:28:02.367",
+          "updatedBy": 39,
+          "updatedAt": "2022-07-05T12:47:23.163"
+        },
+        "createdBy": 40,
+        "createdAt": "2022-06-29T17:39:49.187",
+        "updatedBy": 39,
+        "updatedAt": "2022-07-05T12:14:53.21"
+      },
+      {
+        "id": 63,
+        "amount": 21000,
+        "type": "NetBanking",
+        "bankId": 87,
+        "vendorId": 6,
+        "employeeId": 40,
+        "invoiceNumber": null,
+        "referenceNumber": "98239898238",
+        "note": null,
+        "projectId": 10,
+        "employee": {
+          "id": 40,
+          "userId": null,
+          "businessId": 4,
+          "code": null,
+          "addressId": null,
+          "firstName": "vishal",
+          "lastName": "chinta1",
+          "email": "vishalchinta99@gmail.com",
+          "mobile": "9898238928",
+          "home": null,
+          "hourlyRate": null,
+          "overtimeRate": null,
+          "dob": null,
+          "startDate": "2022-06-25T00:00:00",
+          "address": null,
+          "permissions": [],
+          "isActive": true,
+          "createdBy": 39,
+          "createdAt": "2022-06-25T14:52:58.79",
+          "updatedBy": 39,
+          "updatedAt": "2022-06-28T19:00:17.007"
+        },
+        "bankDetail": {
+          "id": 87,
+          "name": "Kotak",
+          "branch": "WORLI",
+          "accountNumber": "89238923889238923988",
+          "ifsc": "YES19290129",
+          "type": "Saving",
+          "businessBanks": [],
+          "projectBanks": null
+        },
+        "project": null,
+        "vendor": {
+          "id": 6,
+          "addressId": 46,
+          "businessId": 4,
+          "bankId": 70,
+          "name": "kailash shinde",
+          "contactPerson": "vishal",
+          "gst": "JSDJKS832923982",
+          "email": "kailash@gmail.com",
+          "phone": "9829892389",
+          "address": null,
+          "bank": null,
+          "business": null,
+          "isActive": true,
+          "createdBy": 39,
+          "createdAt": "2022-06-23T15:28:02.367",
+          "updatedBy": 39,
+          "updatedAt": "2022-07-05T12:47:23.163"
+        },
+        "createdBy": 39,
+        "createdAt": "2022-06-30T12:17:15.27",
+        "updatedBy": 39,
+        "updatedAt": "2022-06-30T12:17:15.27"
+      }
+    ].map((e) => ProjectExpense.fromJson(e)));
+    return expenses;
+  }
+
+  Future<List<ProjectItem>> getItems(int perojectId) async {
+    var items = List<ProjectItem>.from(
+      [
+        {
+          "id": 4,
+          "departmentId": 5,
+          "projectId": 10,
+          "name": "tools",
+          "description": "NA",
+          "unit": "CuM",
+          "quantity": 200,
+          "itemPrice": 500,
+          "itemTotalPrice": 100000,
+          "itemCost": 0,
+          "itemTotalCost": 0,
+          "note": null,
+          "department": null,
+          "project": null
+        },
+        {
+          "id": 5,
+          "departmentId": 2,
+          "projectId": 10,
+          "name": "handles",
+          "description": "NA",
+          "unit": "SqFt",
+          "quantity": 100,
+          "itemPrice": 230,
+          "itemTotalPrice": 23000,
+          "itemCost": 0,
+          "itemTotalCost": 0,
+          "note": null,
+          "department": null,
+          "project": null
+        },
+        {
+          "id": 9,
+          "departmentId": 3,
+          "projectId": 10,
+          "name": "hammers",
+          "description": "advance",
+          "unit": "Number",
+          "quantity": 100,
+          "itemPrice": 200,
+          "itemTotalPrice": 20000,
+          "itemCost": 0,
+          "itemTotalCost": 0,
+          "note": null,
+          "department": null,
+          "project": null
+        }
+      ].map(
+        (e) => ProjectItem.fromJson(e),
+      ),
+    );
+    return items;
   }
 }

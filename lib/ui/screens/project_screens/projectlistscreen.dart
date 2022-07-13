@@ -7,7 +7,8 @@ import 'package:my_application/bloc/project_list/state.dart';
 import 'package:my_application/bloc/workmen_list/service.dart';
 import 'package:my_application/models/project_model.dart';
 import 'package:my_application/ui/screens/attendancescreen.dart';
-import 'package:my_application/ui/screens/projectscreen.dart';
+import 'package:my_application/ui/screens/project_screens/projectscreen.dart';
+import 'package:my_application/ui/widgets/drawer.dart';
 
 enum PageType { ProjectList, TransferWorkmen, MarkAttendance }
 
@@ -42,24 +43,23 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
     return Container(
       color: AppTheme.background,
       child: Scaffold(
+        drawer: widget.type == PageType.TransferWorkmen
+            ? null
+            : NowDrawer(
+                currentPage: widget.type == PageType.MarkAttendance
+                    ? "Attendance"
+                    : "Projects"),
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                widget.type == PageType.ProjectList
-                    ? 'Projects'
-                    : "Select Project",
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20 + 6,
-                  letterSpacing: 1.2,
-                  color: AppTheme.darkerText,
-                ),
-              ),
+          iconTheme: const IconThemeData(color: Colors.black),
+          title: Text(
+            widget.type == PageType.ProjectList ? 'Projects' : "Select Project",
+            textAlign: TextAlign.left,
+            style: const TextStyle(
+              fontFamily: AppTheme.fontName,
+              fontWeight: FontWeight.w700,
+              fontSize: 20 + 6,
+              letterSpacing: 1.2,
+              color: AppTheme.darkerText,
             ),
           ),
         ),
@@ -71,8 +71,8 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
           child: Stack(
             children: <Widget>[
               ListView.builder(
-                padding: EdgeInsets.only(
-                  bottom: 100,
+                padding: const EdgeInsets.only(
+                  bottom: 0,
                 ),
                 itemCount: 1,
                 scrollDirection: Axis.vertical,
@@ -89,13 +89,14 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                       ],
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(left: 30, right: 30, top: 0),
+                      padding:
+                          const EdgeInsets.only(left: 30, right: 30, top: 10),
                       child: Container(
                         width: MediaQuery.of(context).size.width - 40,
                         height: MediaQuery.of(context).size.height - 150,
                         child: Column(
                           children: [
-                            _buildHead(),
+                            const _buildHead(),
                             Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -146,17 +147,21 @@ class _buildHead extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return TextFormField(
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.all(0),
           hintText: 'Search...',
           hintStyle: TextStyle(
             color: Colors.black,
-            fontSize: 10,
+            fontSize: 18,
             fontStyle: FontStyle.normal,
           ),
-          border: OutlineInputBorder(),
-          suffixIcon: Icon(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10.0),
+            ),
+          ),
+          prefixIcon: Icon(
             Icons.search,
           ),
         ),
@@ -167,7 +172,7 @@ class _buildHead extends StatelessWidget {
             context.read<ProjectsCubit>().getProjects(1);
           }
         },
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.black,
         ));
   }
@@ -210,18 +215,6 @@ class _buildlist extends StatelessWidget {
   final List<Project> projects;
   final int? workmenId;
 
-  Future _openProject(Project project, BuildContext context) async {
-    Project? request = await Navigator.of(context).push(
-      new MaterialPageRoute<Project>(
-          builder: (BuildContext context) {
-            return new ProjectScreen(
-              project: project,
-            );
-          },
-          fullscreenDialog: true),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -236,7 +229,14 @@ class _buildlist extends StatelessWidget {
               onTap: () {
                 switch (type) {
                   case PageType.ProjectList:
-                    _openProject(projects[index], context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProjectScreen(
+                          project: projects[index],
+                        ),
+                      ),
+                    );
                     break;
                   case PageType.MarkAttendance:
                     Navigator.push(
@@ -268,7 +268,7 @@ class _buildlist extends StatelessWidget {
                   width: 100,
                   child: Center(
                     child: Text((projects[index].status ?? "").toString(),
-                        style: TextStyle(color: AppTheme.primaryColor)),
+                        style: const TextStyle(color: AppTheme.primaryColor)),
                   ),
                 ),
               ]),

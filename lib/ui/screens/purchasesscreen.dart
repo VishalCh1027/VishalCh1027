@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +9,7 @@ import 'package:my_application/bloc/purchases/state.dart';
 import 'package:my_application/global/global_function.dart';
 import 'package:my_application/models/purchaserequest_model.dart';
 import 'package:my_application/ui/screens/requestscreen.dart';
+import 'package:my_application/ui/widgets/drawer.dart';
 
 enum PurchaseStatus {
   All,
@@ -146,8 +148,9 @@ class _PurchasesScreen extends State<PurchasesScreen>
     return Container(
       color: AppTheme.background,
       child: Scaffold(
+        drawer: NowDrawer(currentPage: "Purchase Requests"),
         appBar: AppBar(
-          automaticallyImplyLeading: false,
+          iconTheme: IconThemeData(color: Colors.black),
           title: Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -166,9 +169,9 @@ class _PurchasesScreen extends State<PurchasesScreen>
           ),
         ),
         floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 60.0),
+          padding: const EdgeInsets.only(bottom: 20.0, right: 20),
           child: FloatingActionButton(
-            backgroundColor: AppTheme.nearlyDarkBlue,
+            backgroundColor: AppTheme.primaryColor,
             elevation: 50,
             child: Icon(Icons.add),
             onPressed: () => {
@@ -195,7 +198,7 @@ class _PurchasesScreen extends State<PurchasesScreen>
             children: <Widget>[
               ListView.builder(
                 padding: EdgeInsets.only(
-                  bottom: 62 + MediaQuery.of(context).padding.bottom,
+                  bottom: MediaQuery.of(context).padding.bottom,
                 ),
                 itemCount: 1,
                 scrollDirection: Axis.vertical,
@@ -212,56 +215,27 @@ class _PurchasesScreen extends State<PurchasesScreen>
                       ],
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(left: 30, right: 30, top: 20),
+                      padding: EdgeInsets.only(left: 30, right: 30, top: 10),
                       child: Container(
                         width: MediaQuery.of(context).size.width - 40,
-                        height: MediaQuery.of(context).size.height - 150,
+                        height: MediaQuery.of(context).size.height - 110,
                         child: Column(
                           children: [
                             Container(
-                              height: MediaQuery.of(context).size.height / 25,
+                              height: MediaQuery.of(context).size.height / 18,
                               child: Row(
                                 children: [
                                   Expanded(
-                                      child: Container(
                                     child: TextButton(
                                       style: TextButton.styleFrom(
-                                          primary: Colors.white,
-                                          backgroundColor: AppTheme.dark_grey,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          )),
-                                      child: Text(
-                                        "All",
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                      onPressed: () {
-                                        context
-                                            .read<PurchasesCubit>()
-                                            .getPurchases(
-                                                1,
-                                                GetEnumValue(PurchaseStatus.All
-                                                    .toString()));
-                                      },
-                                    ),
-                                  )),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                        primary: Colors.white,
-                                        backgroundColor: AppTheme.dark_grey,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                        ),
+                                        maximumSize: Size(200, 50),
+                                        minimumSize: Size(200, 50),
+                                        primary: AppTheme.primaryColor,
+                                        backgroundColor: AppTheme.background,
                                       ),
                                       child: Text(
                                         "Requested",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(fontSize: 15),
                                       ),
                                       onPressed: () {
                                         context
@@ -273,21 +247,17 @@ class _PurchasesScreen extends State<PurchasesScreen>
                                       },
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
                                   Expanded(
                                     child: TextButton(
                                       style: TextButton.styleFrom(
-                                          primary: Colors.white,
-                                          backgroundColor: AppTheme.dark_grey,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          )),
+                                        maximumSize: Size(200, 50),
+                                        minimumSize: Size(200, 50),
+                                        primary: AppTheme.primaryColor,
+                                        backgroundColor: AppTheme.background,
+                                      ),
                                       child: Text(
                                         "Hold",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(fontSize: 15),
                                       ),
                                       onPressed: () {
                                         context
@@ -299,21 +269,17 @@ class _PurchasesScreen extends State<PurchasesScreen>
                                       },
                                     ),
                                   ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
                                   Expanded(
                                     child: TextButton(
                                       style: TextButton.styleFrom(
-                                          primary: Colors.white,
-                                          backgroundColor: AppTheme.dark_grey,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          )),
+                                        maximumSize: Size(200, 50),
+                                        minimumSize: Size(200, 50),
+                                        primary: AppTheme.primaryColor,
+                                        backgroundColor: AppTheme.background,
+                                      ),
                                       child: Text(
                                         "Rejected",
-                                        style: TextStyle(fontSize: 12),
+                                        style: TextStyle(fontSize: 15),
                                       ),
                                       onPressed: () {
                                         context

@@ -63,3 +63,44 @@ class Project {
     return project;
   }
 }
+
+class ProjectItem {
+  int? id;
+
+  double? itemPrice;
+
+  double? itemTotalPrice;
+
+  double? quantity;
+
+  String? unit;
+
+  String? name;
+
+  String? description;
+
+  int? projectId;
+
+  int? departmentId;
+
+  ProjectItem(
+      {this.id,
+      this.itemPrice,
+      this.name,
+      this.itemTotalPrice,
+      this.quantity,
+      this.unit,
+      this.description,
+      this.projectId});
+
+  ProjectItem.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    itemPrice = json['itemPrice']?.toDouble();
+    itemTotalPrice = json['itemTotalPrice']?.toDouble();
+    quantity = json['quantity']?.toDouble();
+    unit = json['unit'];
+    description = json['description'];
+    projectId = json['projectId'];
+  }
+}

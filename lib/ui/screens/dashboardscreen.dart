@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:my_application/apptheme/app_theme.dart';
-
-import '../widgets/RequestsView.dart';
-import '../widgets/attendance_tile.dart';
-import '../widgets/projects_list_view.dart';
-import '../widgets/title_view.dart';
+import 'package:my_application/ui/screens/project_screens/projectlistscreen.dart';
+import 'package:my_application/ui/screens/purchasesscreen.dart';
+import 'package:my_application/ui/widgets/RequestsView.dart';
+import 'package:my_application/ui/widgets/attendance_tile.dart';
+import 'package:my_application/ui/widgets/drawer.dart';
+import 'package:my_application/ui/widgets/projects_list_view.dart';
+import 'package:my_application/ui/widgets/title_view.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key, required this.changeIndex})
@@ -57,14 +59,20 @@ class _DashboardScreen extends State<DashboardScreen>
         titleTxt: 'Requests',
         subTxt: 'Show All',
         trailingAction: () {
-          widget.changeIndex(2);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PurchasesScreen()),
+          );
         },
       ),
     );
     listViews.add(
       RequetsView(
         Action: () {
-          widget.changeIndex(2);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PurchasesScreen()),
+          );
         },
       ),
     );
@@ -73,7 +81,12 @@ class _DashboardScreen extends State<DashboardScreen>
         titleTxt: 'Projects',
         subTxt: 'Show All',
         trailingAction: () {
-          widget.changeIndex(0);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    ProjectListScreen(officeId: 1, type: PageType.ProjectList)),
+          );
         },
       ),
     );
@@ -128,7 +141,7 @@ class _DashboardScreen extends State<DashboardScreen>
               top: AppBar().preferredSize.height +
                   MediaQuery.of(context).padding.top +
                   24,
-              bottom: 62 + MediaQuery.of(context).padding.bottom,
+              bottom: MediaQuery.of(context).padding.bottom,
             ),
             itemCount: listViews.length,
             scrollDirection: Axis.vertical,
@@ -170,6 +183,17 @@ class _DashboardScreen extends State<DashboardScreen>
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  IconButton(
+                      icon: Icon(IconData(0xe3dc, fontFamily: 'MaterialIcons')),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NowDrawer(
+                                    currentPage: "Dashboard",
+                                  )),
+                        );
+                      }),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/models/billing_model.dart';
+import 'package:my_application/ui/widgets/drawer.dart';
 
 enum billingPageType { payment, proqurementApproval, viewOnly }
 
@@ -180,7 +181,7 @@ class _BillingScreen extends State<BillingScreen>
       color: AppTheme.background,
       child: Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
+          iconTheme: IconThemeData(color: Colors.black),
           title: const Expanded(
             child: Padding(
               padding: EdgeInsets.all(8.0),
@@ -510,7 +511,7 @@ class _BillingScreen extends State<BillingScreen>
             child: TextButton(
               style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.all(AppTheme.nearlyDarkBlue),
+                    MaterialStateProperty.all(AppTheme.primaryColor),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),

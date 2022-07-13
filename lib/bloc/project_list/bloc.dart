@@ -25,4 +25,31 @@ class ProjectsCubit extends Cubit<ProjectsState> {
       emit(ProjectsState.failure());
     }
   }
+
+  Future<void> getPersonal(int projectId, String type) async {
+    var projects = await repository.getPersonal(projectId, type);
+    if (projects.isNotEmpty) {
+      emit(ProjectsState.personal(projects));
+    } else {
+      emit(ProjectsState.failure());
+    }
+  }
+
+  Future<void> getExpense(int projectId) async {
+    var expenses = await repository.getExpense(projectId);
+    if (expenses.isNotEmpty) {
+      emit(ProjectsState.expense(expenses));
+    } else {
+      emit(ProjectsState.failure());
+    }
+  }
+
+  Future<void> getItems(int projectId) async {
+    var items = await repository.getItems(projectId);
+    if (items.isNotEmpty) {
+      emit(ProjectsState.items(items));
+    } else {
+      emit(ProjectsState.failure());
+    }
+  }
 }

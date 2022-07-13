@@ -278,7 +278,7 @@ class _RequestScreen extends State<RequestScreen>
   }
 
   void checkForm() {
-    var check = formKey.currentState!.validate();
+    var check = formKey.currentState?.validate() ?? true;
     if (check) {
       if (!request.orderItems.isEmpty) {
         Navigator.of(context).pop(request);
@@ -289,6 +289,16 @@ class _RequestScreen extends State<RequestScreen>
     }
   }
 
+  Future openReasonDailog(context) => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text("Reason"),
+            content: TextField(
+              decoration: InputDecoration(hintText: "Enter reason here"),
+            ),
+            actions: [TextButton(onPressed: () {}, child: Text("Save"))],
+          ));
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -296,7 +306,7 @@ class _RequestScreen extends State<RequestScreen>
       color: AppTheme.background,
       child: Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
+          iconTheme: IconThemeData(color: Colors.black),
           title: const Expanded(
             child: Padding(
               padding: EdgeInsets.all(8.0),
@@ -698,14 +708,16 @@ class _RequestScreen extends State<RequestScreen>
             child: TextButton(
               style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.all(AppTheme.nearlyDarkBlue),
+                    MaterialStateProperty.all(AppTheme.primaryColor),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
               ),
-              onPressed: () async {},
+              onPressed: () {
+                checkForm();
+              },
               child: const SizedBox(
                 width: 300,
                 height: 25,
@@ -733,7 +745,7 @@ class _RequestScreen extends State<RequestScreen>
                 ),
               ),
               onPressed: () {
-                checkForm();
+                openReasonDailog(context);
               },
               child: const SizedBox(
                 width: 300,
@@ -762,7 +774,7 @@ class _RequestScreen extends State<RequestScreen>
                 ),
               ),
               onPressed: () {
-                checkForm();
+                openReasonDailog(context);
               },
               child: const SizedBox(
                 width: 300,
@@ -785,7 +797,7 @@ class _RequestScreen extends State<RequestScreen>
             child: TextButton(
               style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.all(AppTheme.nearlyDarkBlue),
+                    MaterialStateProperty.all(AppTheme.primaryColor),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),

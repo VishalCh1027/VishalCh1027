@@ -11,6 +11,7 @@ import 'package:my_application/bloc/purchases/service.dart';
 import 'package:my_application/bloc/workmen_list/service.dart';
 import 'package:my_application/global/global_function.dart';
 import 'package:my_application/global/global_variables.dart';
+import 'package:my_application/ui/screens/dashboardscreen.dart';
 import 'package:my_application/ui/screens/home_screen.dart';
 import 'login_page.dart';
 
@@ -56,19 +57,20 @@ class MyApp extends StatelessWidget {
               RepositoryProvider<WalletService>.value(value: WalletService()),
             ],
             child: MaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: "CPMS UI",
-                themeMode: ThemeMode.system,
-                theme: ThemeData(
-                  visualDensity: VisualDensity.adaptivePlatformDensity,
-                  textTheme: AppTheme.textTheme,
-                  scaffoldBackgroundColor: AppTheme.background,
-                  appBarTheme: AppBarTheme(
-                    elevation: 0.0,
-                    color: AppTheme.white,
-                  ),
+              debugShowCheckedModeBanner: false,
+              title: "CPMS UI",
+              themeMode: ThemeMode.system,
+              theme: ThemeData(
+                visualDensity: VisualDensity.adaptivePlatformDensity,
+                textTheme: AppTheme.textTheme,
+                scaffoldBackgroundColor: AppTheme.background,
+                appBarTheme: AppBarTheme(
+                  elevation: 0.0,
+                  color: AppTheme.white,
                 ),
-                home: LoadingScreen()),
+              ),
+              home: LoadingScreen(),
+            ),
           );
         });
   }
@@ -103,7 +105,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
     load().then((value) {
       if (value) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (b) => AppHomeScreen()));
+          context,
+          MaterialPageRoute(
+            builder: (b) => DashboardScreen(
+              changeIndex: (int i) {},
+            ),
+          ),
+        );
       } else {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (b) => LoginPage()));

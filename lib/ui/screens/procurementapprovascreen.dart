@@ -7,6 +7,7 @@ import 'package:my_application/bloc/billings/state.dart';
 import 'package:my_application/global/global_function.dart';
 import 'package:my_application/models/billing_model.dart';
 import 'package:my_application/ui/screens/billingScreen.dart';
+import 'package:my_application/ui/widgets/drawer.dart';
 
 enum Billingtatus {
   All,
@@ -44,12 +45,16 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
     return Container(
       color: AppTheme.background,
       child: Scaffold(
+        drawer: NowDrawer(
+          currentPage: "Procurement Approvals",
+        ),
         appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
           title: Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'Billing Requests',
+                'Purchase Orders',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontFamily: AppTheme.fontName,
@@ -187,91 +192,6 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
           ),
         ),
       ),
-    );
-  }
-
-  Widget getAppBarUI() {
-    return Column(
-      children: <Widget>[
-        Container(
-          decoration: BoxDecoration(
-            color: AppTheme.white.withOpacity(topBarOpacity),
-            borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(32.0),
-            ),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                  offset: const Offset(1.1, 1.1),
-                  blurRadius: 10.0),
-            ],
-          ),
-          child: Column(
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).padding.top,
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                    left: 16,
-                    right: 16,
-                    top: 16 - 8.0 * topBarOpacity,
-                    bottom: 12 - 8.0 * topBarOpacity),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Requests',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontFamily: AppTheme.fontName,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 20 + 6 - 6 * topBarOpacity,
-                            letterSpacing: 1.2,
-                            color: AppTheme.darkerText,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 38,
-                      width: 38,
-                      child: InkWell(
-                        highlightColor: Colors.transparent,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(32.0)),
-                        onTap: () {},
-                        child: Center(),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8,
-                        right: 8,
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: Icon(
-                              Icons.filter_alt,
-                              color: AppTheme.grey,
-                              size: 25,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

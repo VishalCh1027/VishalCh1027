@@ -36,38 +36,40 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
         padding: const EdgeInsets.all(50.0),
         child: Form(
           key: formKey,
-          child: Column(children: [
-            const SizedBox(
-              height: 50,
-            ),
-            TextFormField(
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter Email';
-                }
-                return null;
-              },
-              controller: usernameCntrlr, //detects the controller
-              decoration: const InputDecoration(
-                  icon: Icon(
-                    Icons.person,
-                    color: AppTheme.nearlyDarkBlue,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 50,
+              ),
+              TextFormField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter Email';
+                  }
+                  return null;
+                },
+                controller: usernameCntrlr, //detects the controller
+                decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.person,
+                      color: AppTheme.nearlyDarkBlue,
+                    ),
+                    labelText: 'Email',
+                    labelStyle: TextStyle(color: AppTheme.nearlyDarkBlue)),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Reset Password',
+                    style: TextStyle(color: Colors.white),
                   ),
-                  labelText: 'Email',
-                  labelStyle: TextStyle(color: AppTheme.nearlyDarkBlue)),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ElevatedButton(
-                onPressed: () {},
-                child: const Text(
-                  'Reset Password',
-                  style: TextStyle(color: Colors.white),
-                ),
-                style:
-                    ElevatedButton.styleFrom(primary: AppTheme.nearlyDarkBlue))
-          ]),
+                  style: ElevatedButton.styleFrom(
+                      primary: AppTheme.nearlyDarkBlue))
+            ],
+          ),
         ),
       ),
     );

@@ -3,8 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:my_application/Apptheme/app_theme.dart';
 import 'package:my_application/bloc/login/service.dart';
 import 'package:my_application/main.dart';
+import 'package:my_application/ui/screens/dashboardscreen.dart';
 import 'package:my_application/ui/screens/forgetpasswordscreen.dart';
-import 'package:my_application/ui/screens/home_screen.dart';
 import 'package:my_application/ui/widgets/Loading_dailog.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -26,9 +26,6 @@ class _LoginPageState extends State<LoginPage> {
   double? padding = 50;
   var obscure = true;
 
-  String userName = 'test@gmail.com';
-  String passWord = '1234567';
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -41,13 +38,6 @@ class _LoginPageState extends State<LoginPage> {
         body: Container(
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
-        boxShadow: [
-          const BoxShadow(
-            color: Colors.grey,
-            blurRadius: 25.0, // soften the shadow
-            spreadRadius: 1, //extend the shadow
-          )
-        ],
         gradient: LinearGradient(
           colors: <HexColor>[
             HexColor("#6899f5"),
@@ -202,7 +192,11 @@ class _LoginPageState extends State<LoginPage> {
             //refreshLogin(context);
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AppHomeScreen()),
+              MaterialPageRoute(
+                builder: (context) => DashboardScreen(
+                  changeIndex: (int i) {},
+                ),
+              ),
             );
           } else {
             Alert(

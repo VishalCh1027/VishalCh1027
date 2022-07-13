@@ -305,7 +305,7 @@ class _AddExpensePage extends State<AddExpensePage> {
   Widget _buildSavebutton(BuildContext context) {
     return TextButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(AppTheme.nearlyDarkBlue),
+        backgroundColor: MaterialStateProperty.all(AppTheme.primaryColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5.0),

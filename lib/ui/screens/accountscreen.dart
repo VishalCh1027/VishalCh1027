@@ -6,9 +6,7 @@ import 'package:my_application/common/roles.dart';
 import 'package:my_application/global/global_variables.dart';
 import 'package:my_application/login_page.dart';
 import 'package:my_application/main.dart';
-import 'package:my_application/ui/screens/procurementapprovascreen.dart';
-import 'package:my_application/ui/screens/technicalheadscreen.dart';
-import 'package:my_application/ui/screens/wallet_screen.dart';
+import 'package:my_application/ui/widgets/drawer.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -81,66 +79,6 @@ class _AccountScreenState extends State<AccountScreen> {
       ),
     );
     listViews.add(
-      OptionsTile(
-        title: Text(
-          "Technical Head Requests",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-        ),
-        leadingIcon: Icons.request_page,
-        trailing: Icon(
-          Icons.arrow_forward_ios_rounded,
-          size: 10,
-        ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => TechnicalHeadScreen()),
-          );
-        },
-      ),
-    );
-
-    listViews.add(
-      OptionsTile(
-        title: Text(
-          "Procurement Approvals",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-        ),
-        leadingIcon: Icons.request_page,
-        trailing: Icon(
-          Icons.arrow_forward_ios_rounded,
-          size: 10,
-        ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ProcurementHeadScreen()),
-          );
-        },
-      ),
-    );
-
-    listViews.add(
-      OptionsTile(
-        title: const Text(
-          "Wallet",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-        ),
-        leadingIcon: Icons.account_balance_wallet,
-        trailing: Icon(
-          Icons.arrow_forward_ios_rounded,
-          size: 10,
-        ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => WalletScreen()),
-          );
-        },
-      ),
-    );
-
-    listViews.add(
       const OptionsTile(
         title: Text(
           "Settings",
@@ -195,7 +133,10 @@ class _AccountScreenState extends State<AccountScreen> {
     return Container(
         color: AppTheme.background,
         child: Scaffold(
-          appBar: AppBar(),
+          drawer: NowDrawer(currentPage: "Account"),
+          appBar: AppBar(
+            iconTheme: const IconThemeData(color: Colors.black),
+          ),
           backgroundColor: Colors.transparent,
           body: Stack(
             children: <Widget>[

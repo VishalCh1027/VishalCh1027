@@ -1,66 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:my_application/apptheme/app_theme.dart';
-import 'package:my_application/bloc/purchases/bloc.dart';
-import 'package:my_application/bloc/purchases/service.dart';
-import 'package:my_application/bloc/purchases/state.dart';
-import 'package:my_application/global/global_function.dart';
-import 'package:my_application/models/purchaserequest_model.dart';
-import 'package:my_application/ui/screens/requestscreen.dart';
-import 'package:my_application/ui/widgets/drawer.dart';
+import 'package:my_application/bloc/project_list/bloc.dart';
+import 'package:my_application/bloc/project_list/service.dart';
+import 'package:my_application/bloc/project_list/state.dart';
+import 'package:my_application/models/employee_model.dart';
 
-enum PurchaseStatus {
-  All,
-  Requested,
-  Approved,
-  Rejected,
-  Hold,
-  Closed,
-}
-
-class TechnicalHeadScreen extends StatefulWidget {
-  const TechnicalHeadScreen({Key? key}) : super(key: key);
+class ProjectPersonalScreen extends StatefulWidget {
+  const ProjectPersonalScreen({Key? key}) : super(key: key);
 
   @override
-  _TechnicalHeadScreen createState() => _TechnicalHeadScreen();
+  _ProjectPersonalScreen createState() => _ProjectPersonalScreen();
 }
 
-class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
+class _ProjectPersonalScreen extends State<ProjectPersonalScreen>
     with TickerProviderStateMixin {
-  final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
 
   @override
   void initState() {
-    scrollController.addListener(
-      () {
-        if (scrollController.offset >= 24) {
-          if (topBarOpacity != 1.0) {
-            setState(
-              () {
-                topBarOpacity = 1.0;
-              },
-            );
-          }
-        } else if (scrollController.offset <= 24 &&
-            scrollController.offset >= 0) {
-          if (topBarOpacity != scrollController.offset / 24) {
-            setState(() {
-              topBarOpacity = scrollController.offset / 24;
-            });
-          }
-        } else if (scrollController.offset <= 0) {
-          if (topBarOpacity != 0.0) {
-            setState(
-              () {
-                topBarOpacity = 0.0;
-              },
-            );
-          }
-        }
-      },
-    );
     super.initState();
   }
 
@@ -74,12 +32,11 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
     return Container(
       color: AppTheme.background,
       child: Scaffold(
-        drawer: NowDrawer(currentPage: "Technical Approvals"),
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
+          iconTheme: const IconThemeData(color: Colors.black),
           title: Expanded(
             child: Text(
-              'Purchase Requests',
+              'Personal',
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontFamily: AppTheme.fontName,
@@ -94,13 +51,12 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
         backgroundColor: Colors.transparent,
         body: BlocProvider(
           create: (_) =>
-              PurchasesCubit(repository: context.read<PurchasesService>())
-                ..getPurchases(
-                    1, GetEnumValue(PurchaseStatus.Requested.toString())),
+              ProjectsCubit(repository: context.read<ProjectsService>())
+                ..getPersonal(1, "Leads"),
           child: Stack(
             children: <Widget>[
               ListView.builder(
-                padding: EdgeInsets.only(),
+                padding: const EdgeInsets.only(),
                 itemCount: 1,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
@@ -116,7 +72,8 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
                       ],
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(left: 5, right: 5, top: 10),
+                      padding:
+                          const EdgeInsets.only(left: 15, right: 15, top: 10),
                       child: Container(
                         width: MediaQuery.of(context).size.width - 20,
                         height: MediaQuery.of(context).size.height - 100,
@@ -127,50 +84,48 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
                                 Expanded(
                                   child: TextButton(
                                     style: TextButton.styleFrom(
-                                      maximumSize: Size(200, 50),
-                                      minimumSize: Size(200, 50),
+                                      maximumSize: const Size(200, 50),
+                                      minimumSize: const Size(200, 50),
                                       primary: AppTheme.primaryColor,
                                       backgroundColor: AppTheme.background,
                                     ),
-                                    child: Text(
-                                      "Requested",
+                                    child: const Text(
+                                      "Leads",
                                       style: TextStyle(fontSize: 15),
                                     ),
                                     onPressed: () {
                                       context
-                                          .read<PurchasesCubit>()
-                                          .getTechnicalHeadRequests(
-                                              1, "Requested");
+                                          .read<ProjectsCubit>()
+                                          .getPersonal(1, "Laeds");
                                     },
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Expanded(
                                   child: TextButton(
                                     style: TextButton.styleFrom(
-                                      maximumSize: Size(200, 50),
-                                      minimumSize: Size(200, 50),
+                                      maximumSize: const Size(200, 50),
+                                      minimumSize: const Size(200, 50),
                                       primary: AppTheme.primaryColor,
                                       backgroundColor: AppTheme.background,
                                     ),
-                                    child: Text(
-                                      "Approved",
+                                    child: const Text(
+                                      "Supervisors",
                                       style: TextStyle(fontSize: 15),
                                     ),
                                     onPressed: () {
                                       context
-                                          .read<PurchasesCubit>()
-                                          .getTechnicalHeadRequests(
-                                              1, "Approved");
+                                          .read<ProjectsCubit>()
+                                          .getPersonal(1, "Supervisors");
                                     },
                                   ),
                                 ),
                               ],
                             ),
                             Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   border: Border(
                                       bottom: BorderSide(
                                           color: Color(0xFFEEEEEE)))),
@@ -183,17 +138,17 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
                                 child: ListTile(
                                   dense: true,
                                   title: const Text(
-                                    "Order Details",
+                                    "Name",
                                     style: AppTheme.listheading,
                                   ),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: const [
                                       Padding(
-                                        padding: EdgeInsets.only(right: 10),
+                                        padding: EdgeInsets.only(right: 40),
                                         child: Center(
                                           child: Text(
-                                            "Employee Name",
+                                            "Email",
                                             style: AppTheme.listheading,
                                           ),
                                         ),
@@ -204,7 +159,7 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
                               ),
                             ),
                             Expanded(
-                                child: Column(children: [PurchaseListVIew()]))
+                                child: Column(children: [PersonalListView()]))
                           ],
                         ),
                       ),
@@ -223,21 +178,16 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
   }
 }
 
-class PurchaseListVIew extends StatelessWidget {
+class PersonalListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PurchasesCubit, PurchasesState>(
+    return BlocBuilder<ProjectsCubit, ProjectsState>(
       buildWhen: (previous, current) => true,
       builder: (context, state) {
-        if (state.status == PurchasesStatus.PurchasesError) {
+        if (state.status == ProjectsStatus.projectsError) {
           return const Center(child: Text('Oops something went wrong!'));
-        } else if (state.status ==
-            PurchasesStatus.PurchasesLoadedSuccessfully) {
-          return _buildlist(purchases: state.purchases);
-        } else if (state.status == PurchasesStatus.PurchasesEditing) {
-          return _buildlist(purchases: state.purchases);
-        } else if (state.status == PurchasesStatus.listIsEmty) {
-          return const Center(child: Text('List is empty'));
+        } else if (state.status == ProjectsStatus.personal) {
+          return _buildlist(employees: state.employees);
         } else {
           return const Center(child: CircularProgressIndicator());
         }
@@ -249,28 +199,10 @@ class PurchaseListVIew extends StatelessWidget {
 class _buildlist extends StatelessWidget {
   _buildlist({
     Key? key,
-    required this.purchases,
+    required this.employees,
   }) : super(key: key);
 
-  List<PurchaseRequest> purchases;
-
-  Future _openRequest(
-      PurchaseRequest currentRequest, BuildContext context) async {
-    context.read<PurchasesCubit>().unSelectAll();
-    purchases;
-    PurchaseRequest? request = await Navigator.of(context).push(
-      MaterialPageRoute<PurchaseRequest>(
-          builder: (BuildContext context) {
-            return RequestScreen(
-              request: currentRequest,
-              type: currentRequest.status != "Approved"
-                  ? RequestPageType.technicalrequests
-                  : RequestPageType.viewOnly,
-            );
-          },
-          fullscreenDialog: true),
-    );
-  }
+  List<Employee> employees;
 
   @override
   Widget build(BuildContext context) {
@@ -278,34 +210,22 @@ class _buildlist extends StatelessWidget {
       child: ListView.builder(
         padding: EdgeInsets.zero,
         shrinkWrap: true,
-        itemCount: purchases.length,
+        itemCount: employees.length,
         itemBuilder: (context, index) {
           return Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
             child: Card(
               margin: EdgeInsets.zero,
               elevation: 0,
-              color: purchases[index].selected
-                  ? Color.fromARGB(255, 248, 248, 250)
-                  : null,
               child: ListTile(
-                onTap: () {
-                  if (purchases.any((element) => element.selected == true)) {
-                    context.read<PurchasesCubit>().unSelectAll();
-                  } else {
-                    _openRequest(purchases[index], context);
-                  }
-                },
-                onLongPress: () {
-                  context.read<PurchasesCubit>().editPurchase(purchases[index]);
-                },
+                onTap: () {},
+                onLongPress: () {},
                 title: SizedBox(
                   child: Text(
-                    purchases[index]
-                        .orderNo
-                        .toString()
-                        .replaceRange(18, null, ""),
+                    employees[index].firstName! +
+                        " " +
+                        employees[index].lastName!,
                     maxLines: 3,
                   ),
                 ),
@@ -313,31 +233,19 @@ class _buildlist extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(right: 0),
+                      padding: const EdgeInsets.only(right: 0),
                       child: Center(
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width / 3,
                           child: Center(
                             child: Text(
-                              (purchases[index].employee!.firstName! +
-                                  " " +
-                                  purchases[index].employee!.lastName!),
+                              (employees[index].email ?? "NA"),
                               overflow: TextOverflow.visible,
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
-                subtitle: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Delivery Date : " +
-                        DateFormat("dd-MM-yyyy")
-                            .format(purchases[index].deliveryAt!)),
-                    Text("Priority : " + purchases[index].priority!),
                   ],
                 ),
               ),

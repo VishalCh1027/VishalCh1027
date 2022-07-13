@@ -1,5 +1,3 @@
-import 'package:equatable/equatable.dart';
-
 import '../../../models/purchaserequest_model.dart';
 
 enum RequestStatus {
