@@ -41,12 +41,12 @@ class _AttendanceTileView extends State<AttendanceTileView> {
       padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 18),
       child: Container(
         decoration: BoxDecoration(
-          color: AppTheme.white,
+          color: AppTheme.secondaryColor,
           borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(8.0),
-              bottomLeft: Radius.circular(8.0),
-              bottomRight: Radius.circular(8.0),
-              topRight: Radius.circular(68.0)),
+              topLeft: Radius.circular(5.0),
+              bottomLeft: Radius.circular(5.0),
+              bottomRight: Radius.circular(5.0),
+              topRight: Radius.circular(5.0)),
           boxShadow: <BoxShadow>[
             BoxShadow(
                 color: AppTheme.grey.withOpacity(0.2),
@@ -72,10 +72,10 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
                           letterSpacing: -0.1,
-                          color: heading ? AppTheme.grey : Colors.red),
+                          color: heading ? AppTheme.primaryColor : Colors.red),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(left: 4, bottom: 8, top: 16),
                     child: Text(
                       'Date',
@@ -85,7 +85,7 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
                           letterSpacing: -0.1,
-                          color: AppTheme.darkText),
+                          color: AppTheme.primaryColor.withOpacity(0.5)),
                     ),
                   ),
                   Row(
@@ -136,7 +136,7 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                             children: <Widget>[
                               Icon(
                                 Icons.access_time,
-                                color: AppTheme.grey.withOpacity(0.5),
+                                color: AppTheme.primaryColor.withOpacity(0.5),
                                 size: 16,
                               ),
                               Padding(
@@ -149,7 +149,8 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                     letterSpacing: 0.0,
-                                    color: AppTheme.grey.withOpacity(0.5),
+                                    color:
+                                        AppTheme.primaryColor.withOpacity(0.5),
                                   ),
                                 ),
                               ),
@@ -161,13 +162,13 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute<Object>(
-                                      builder: (BuildContext context) {
-                                        return ProjectListScreen(
-                                          officeId: currentOffice.id ?? 0,
-                                          type: PageType.MarkAttendance,
-                                        );
-                                      },
-                                      fullscreenDialog: true),
+                                    builder: (BuildContext context) {
+                                      return ProjectListScreen(
+                                        officeId: currentOffice.id ?? 0,
+                                        type: PageType.MarkAttendance,
+                                      );
+                                    },
+                                  ),
                                 );
                               },
                               child: const Text(
@@ -196,7 +197,6 @@ class _AttendanceTileView extends State<AttendanceTileView> {
               child: Container(
                 height: 2,
                 decoration: const BoxDecoration(
-                  color: AppTheme.background,
                   borderRadius: BorderRadius.all(Radius.circular(4.0)),
                 ),
               ),

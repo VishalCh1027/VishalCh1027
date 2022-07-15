@@ -48,7 +48,7 @@ class _AccountScreenState extends State<AccountScreen> {
               child: const Icon(
                 Icons.account_circle_rounded,
                 size: 50,
-                color: AppTheme.white,
+                color: AppTheme.secondaryColor,
               ),
             ),
             title: Text(

@@ -33,8 +33,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
-        toolbarHeight: 80,
-        backgroundColor: AppTheme.background,
+        backgroundColor: AppTheme.secondaryColor,
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop();
@@ -55,35 +54,30 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
             color: AppTheme.darkerText,
           ),
         ),
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 15),
-              child: IconButton(
-                  color: AppTheme.primaryColor,
-                  icon:
-                      const Icon(IconData(0xe156, fontFamily: 'MaterialIcons')),
-                  onPressed: () {
-                    checkForm();
-                    if (_canSave) {
-                      Navigator.of(context).pop(_item);
-                    }
-                  }))
-        ],
       ),
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppTheme.white,
-          ),
-          width: MediaQuery.of(context).size.width,
-          child: Padding(
-            padding: EdgeInsets.only(left: 30, right: 30, top: 10),
-            child: Container(
-              width: MediaQuery.of(context).size.width - 40,
-              height: MediaQuery.of(context).size.height - 100,
+      body: Container(
+        decoration: BoxDecoration(
+          color: AppTheme.background,
+        ),
+        width: MediaQuery.of(context).size.width,
+        child: Padding(
+          padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppTheme.secondaryColor,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(8.0),
+                bottomRight: Radius.circular(8.0),
+                topLeft: Radius.circular(8.0),
+                topRight: Radius.circular(8.0),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
               child: Form(
                 key: formKey,
-                child: Column(
+                child: ListView(
+                  shrinkWrap: true,
                   children: [
                     TextFormField(
                       initialValue: _item.name,
@@ -183,38 +177,44 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                     SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextButton(
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                  AppTheme.primaryColor),
-                              shape: MaterialStateProperty.all<
-                                  RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 10),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextButton(
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    AppTheme.primaryColor),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
                                 ),
                               ),
-                            ),
-                            onPressed: () {
-                              checkForm();
-                            },
-                            child: const SizedBox(
-                              width: 300,
-                              height: 25,
-                              child: Center(
-                                child: Text(
-                                  'Save',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 16),
+                              onPressed: () {
+                                checkForm();
+                                if (_canSave) {
+                                  Navigator.of(context).pop(_item);
+                                }
+                              },
+                              child: const SizedBox(
+                                width: 300,
+                                height: 25,
+                                child: Center(
+                                  child: Text(
+                                    'Save',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 16),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    )
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),

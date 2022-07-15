@@ -114,11 +114,21 @@ class _DashboardScreen extends State<DashboardScreen>
     return Container(
       color: AppTheme.background,
       child: Scaffold(
+        drawer: NowDrawer(currentPage: "Dashboard"),
+        appBar: AppBar(
+          backgroundColor: AppTheme.nearlyWhite,
+          centerTitle: true,
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Image.asset(
+            'assets/alyn logo.png',
+            fit: BoxFit.contain,
+            height: 40,
+          ),
+        ),
         backgroundColor: Colors.transparent,
         body: Stack(
           children: <Widget>[
             getMainListViewUI(),
-            getAppBarUI(),
             SizedBox(
               height: MediaQuery.of(context).padding.bottom,
             )
@@ -138,9 +148,7 @@ class _DashboardScreen extends State<DashboardScreen>
           return ListView.builder(
             controller: scrollController,
             padding: EdgeInsets.only(
-              top: AppBar().preferredSize.height +
-                  MediaQuery.of(context).padding.top +
-                  24,
+              top: 20,
               bottom: MediaQuery.of(context).padding.bottom,
             ),
             itemCount: listViews.length,
@@ -158,7 +166,7 @@ class _DashboardScreen extends State<DashboardScreen>
     return Column(children: <Widget>[
       Container(
         decoration: BoxDecoration(
-          color: AppTheme.white.withOpacity(topBarOpacity),
+          color: AppTheme.secondaryColor.withOpacity(topBarOpacity),
           borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(32.0),
           ),

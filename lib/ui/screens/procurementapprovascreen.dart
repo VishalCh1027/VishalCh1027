@@ -81,7 +81,7 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     decoration: BoxDecoration(
-                      color: AppTheme.white,
+                      color: AppTheme.background,
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                             color:
@@ -91,10 +91,14 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
                       ],
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(left: 5, right: 5),
+                      padding: EdgeInsets.all(20),
                       child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: AppTheme.secondaryColor,
+                        ),
                         width: MediaQuery.of(context).size.width - 20,
-                        height: MediaQuery.of(context).size.height - 100,
+                        height: MediaQuery.of(context).size.height - 120,
                         child: Column(
                           children: [
                             Row(
@@ -105,7 +109,6 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
                                       maximumSize: Size(200, 50),
                                       minimumSize: Size(200, 50),
                                       primary: AppTheme.primaryColor,
-                                      backgroundColor: AppTheme.background,
                                     ),
                                     child: Text(
                                       "Requested",
@@ -118,16 +121,12 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
                                     },
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 10,
-                                ),
                                 Expanded(
                                   child: TextButton(
                                     style: TextButton.styleFrom(
                                       maximumSize: Size(200, 50),
                                       minimumSize: Size(200, 50),
                                       primary: AppTheme.primaryColor,
-                                      backgroundColor: AppTheme.background,
                                     ),
                                     child: Text(
                                       "Approved",
@@ -163,7 +162,7 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
                                     mainAxisSize: MainAxisSize.min,
                                     children: const [
                                       Padding(
-                                        padding: EdgeInsets.only(right: 40),
+                                        padding: EdgeInsets.only(right: 10),
                                         child: Center(
                                           child: Text(
                                             "Amount",
@@ -265,24 +264,9 @@ class _buildlist extends StatelessWidget {
                     maxLines: 3,
                   ),
                 ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 0),
-                      child: Center(
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 3,
-                          child: Center(
-                            child: Text(
-                              billing[index].amount.toString(),
-                              overflow: TextOverflow.visible,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                trailing: Text(
+                  billing[index].amount.toString(),
+                  overflow: TextOverflow.visible,
                 ),
                 subtitle: Column(
                   mainAxisAlignment: MainAxisAlignment.start,

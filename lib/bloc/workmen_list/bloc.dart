@@ -12,10 +12,15 @@ class WorkmenCubit extends Cubit<WorkmenState> {
 
 //You should not use Equatable if you want the same state back-to-back to trigger multiple transitions.
   Future<void> getWorkmens(int projectId) async {
-    var rs = await repository.getWorkmens(projectId);
-    if (rs != null) {
-      emit(WorkmenState.success(rs));
-    } else {
+    if (state.hasReachedMax) return;
+    try {
+      var rs = await repository.getWorkmens(projectId, state.workmens.length);
+      rs.isEmpty
+          ? emit(
+              WorkmenState.success(List.of(state.workmens)..addAll(rs), true))
+          : emit(
+              WorkmenState.success(List.of(state.workmens)..addAll(rs), false));
+    } catch (e) {
       emit(WorkmenState.failure());
     }
   }

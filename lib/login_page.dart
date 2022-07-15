@@ -35,87 +35,89 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: <HexColor>[
-            HexColor("#6899f5"),
-            HexColor("#d173bb"),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: <HexColor>[
+              HexColor("#6899f5"),
+              HexColor("#d173bb"),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
-      ),
-      width: MediaQuery.of(context).size.width,
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: CustomPaint(
-          painter: CurvedPainter(),
-          child: Stack(
-            children: <Widget>[
-              Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(40)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(30),
-                  child: Form(
-                    key: formKey,
-                    child: Column(mainAxisSize: MainAxisSize.min, children: [
-                      const SizedBox(
-                        height: 70,
-                      ),
-                      Text(
-                        'Login',
-                        textAlign: TextAlign.left,
-                        style: GoogleFonts.fredokaOne(
-                          fontSize: 31,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      TextFormField(
-                        validator: (value) {
-                          var regexp = !RegExp(
-                                  "^[a-zA-Z0-9.!#\$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*\$")
-                              .hasMatch(value ?? "");
-                          if (value!.isEmpty) {
-                            return 'Please enter username';
-                          } else if (regexp) {
-                            return 'Please enter valid email';
-                          }
-                          return null;
-                        },
-                        controller: usernameCntrlr, //detects the controller
-                        decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.all(0.0),
-                            prefixIcon: Icon(
-                              Icons.person,
-                              color: AppTheme.nearlyDarkBlue,
+        width: MediaQuery.of(context).size.width,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: CustomPaint(
+            painter: CurvedPainter(),
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(40)),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(
+                            height: 70,
+                          ),
+                          Text(
+                            'Login',
+                            textAlign: TextAlign.left,
+                            style: GoogleFonts.fredokaOne(
+                              fontSize: 31,
                             ),
-                            labelText: 'Username',
-                            labelStyle:
-                                TextStyle(color: AppTheme.nearlyDarkBlue)),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please enter password';
-                          } else if (value.length < 6) {
-                            return 'Please enter password with atleast 6 charaters';
-                          }
-                          return null;
-                        },
-                        controller: passwordCntrlr, //detects the controller
-                        obscureText: obscure,
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(0),
-                            suffixIcon: Padding(
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              var regexp = !RegExp(
+                                      "^[a-zA-Z0-9.!#\$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*\$")
+                                  .hasMatch(value ?? "");
+                              if (value!.isEmpty) {
+                                return 'Please enter username';
+                              } else if (regexp) {
+                                return 'Please enter valid email';
+                              }
+                              return null;
+                            },
+                            controller: usernameCntrlr, //detects the controller
+                            decoration: const InputDecoration(
+                                contentPadding: EdgeInsets.all(0.0),
+                                prefixIcon: Icon(
+                                  Icons.person,
+                                  color: AppTheme.nearlyDarkBlue,
+                                ),
+                                labelText: 'Username',
+                                labelStyle:
+                                    TextStyle(color: AppTheme.nearlyDarkBlue)),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter password';
+                              } else if (value.length < 6) {
+                                return 'Please enter password with atleast 6 charaters';
+                              }
+                              return null;
+                            },
+                            controller: passwordCntrlr, //detects the controller
+                            obscureText: obscure,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(0),
+                              suffixIcon: Padding(
                                 padding: EdgeInsets.only(top: 20, left: 10),
                                 child: InkWell(
                                   child: Icon(
@@ -127,60 +129,69 @@ class _LoginPageState extends State<LoginPage> {
                                       obscure = !obscure;
                                     });
                                   },
-                                )),
-                            prefixIcon: Icon(
-                              Icons.lock,
-                              color: AppTheme.nearlyDarkBlue,
+                                ),
+                              ),
+                              prefixIcon: Icon(
+                                Icons.lock,
+                                color: AppTheme.nearlyDarkBlue,
+                              ),
+                              labelText: 'Password',
+                              labelStyle: TextStyle(
+                                color: AppTheme.nearlyDarkBlue,
+                              ),
                             ),
-                            labelText: 'Password',
-                            labelStyle: TextStyle(
-                              color: AppTheme.nearlyDarkBlue,
-                            )),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Align(
-                          alignment: Alignment.centerRight,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ForgetPasswordPage()),
-                              );
-                            },
-                            child: Text(
-                              "Forget Password ?",
-                              style: TextStyle(color: AppTheme.nearlyDarkBlue),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ForgetPasswordPage()),
+                                );
+                              },
+                              child: Text(
+                                "Forget Password ?",
+                                style:
+                                    TextStyle(color: AppTheme.nearlyDarkBlue),
+                              ),
                             ),
-                          )),
-                      const SizedBox(
-                        height: 23,
+                          ),
+                          const SizedBox(
+                            height: 23,
+                          ),
+                          _buildloginbutton(),
+                          SizedBox(
+                            height: padding,
+                          ),
+                        ],
                       ),
-                      _buildloginbutton(),
-                      SizedBox(
-                        height: padding,
-                      ),
-                    ]),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
-    ));
+    );
   }
 
   Widget _buildloginbutton() {
     return TextButton(
       style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(AppTheme.nearlyDarkBlue),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
+        backgroundColor: MaterialStateProperty.all(AppTheme.nearlyDarkBlue),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5.0),
-          ))),
+          ),
+        ),
+      ),
       onPressed: () async {
         if (formKey.currentState!.validate()) {
           LoadingDialog.showLoadingDialog(context);

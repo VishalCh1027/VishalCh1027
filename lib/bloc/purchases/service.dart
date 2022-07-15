@@ -1,8 +1,8 @@
-import 'dart:convert';
-import 'package:my_application/global/global_variables.dart';
-import '../../helpers/http_helper.dart';
-import '../../models/purchaserequest_model.dart';
-import '../bloc_service.dart';
+import 'dart:math';
+
+import 'package:my_application/models/purchaserequest_model.dart';
+
+const _postLimit = 10;
 
 class PurchasesService {
   var requests = List<PurchaseRequest>.from([
@@ -1628,8 +1628,8 @@ class PurchasesService {
     },
   ].map((e) => PurchaseRequest.fromJson(e)));
 
-  Future<List<PurchaseRequest>?> getPurchases(
-      int employeeId, String status) async {
+  Future<List<PurchaseRequest>> getPurchases(int employeeId, String status,
+      [int startindex = 0]) async {
     // var rs = await HttpHelper.get(Uri.parse(PURCHASE_REQUEST_ENDPOINT),
     //     bearerToken: currentLogin.token);
     // print(rs.statusCode);
@@ -1637,20 +1637,26 @@ class PurchasesService {
     //   var jsonObject = jsonDecode(rs.body);
     //   var requests = List<PurchaseRequest>.from(
     //       [jsonObject].map((e) => PurchaseRequest.fromJson(e)));
+    List<PurchaseRequest> returnObj;
     if (status == "Requested") {
-      return requests
+      returnObj = requests
           .where((element) =>
               element.status == "Requested" || element.status == "Approved")
           .toList();
     } else {
-      return requests.where((e) => e.status == status).toList();
+      returnObj = requests.where((e) => e.status == status).toList();
     }
+
+    return returnObj
+        .getRange(startindex, min(returnObj.length, startindex + _postLimit))
+        .toList();
     // }
     // return null;
   }
 
-  Future<List<PurchaseRequest>?> getTechnicalHeadRequests(
-      int employeeId, String status) async {
+  Future<List<PurchaseRequest>> getTechnicalHeadRequests(
+      int employeeId, String status,
+      [int startindex = 0]) async {
     // var rs = await HttpHelper.get(Uri.parse(PURCHASE_REQUEST_ENDPOINT),
     //     bearerToken: currentLogin.token);
     // print(rs.statusCode);
@@ -1659,7 +1665,12 @@ class PurchasesService {
     //   var requests = List<PurchaseRequest>.from(
     //       [jsonObject].map((e) => PurchaseRequest.fromJson(e)));
 
-    return requests.where((e) => e.status == status).toList();
+    List<PurchaseRequest> returnObj =
+        requests.where((e) => e.status == status).toList();
+
+    return returnObj
+        .getRange(startindex, min(returnObj.length, startindex + _postLimit))
+        .toList();
     // }
     // return null;
   }

@@ -62,7 +62,7 @@ class _ProjectItemScreen extends State<ProjectItemScreen>
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     decoration: BoxDecoration(
-                      color: AppTheme.white,
+                      color: AppTheme.secondaryColor,
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                             color:

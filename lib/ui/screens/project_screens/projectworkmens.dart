@@ -5,6 +5,7 @@ import 'package:my_application/bloc/workmen_list/bloc.dart';
 import 'package:my_application/bloc/workmen_list/service.dart';
 import 'package:my_application/bloc/workmen_list/state.dart';
 import 'package:my_application/models/workmen_model.dart';
+import 'package:my_application/ui/widgets/bottom_loader.dart';
 
 class ProjectWorkmensPage extends StatefulWidget {
   const ProjectWorkmensPage({Key? key, required this.project})
@@ -17,33 +18,10 @@ class ProjectWorkmensPage extends StatefulWidget {
 class _ProjectWorkmensState extends State<ProjectWorkmensPage> {
   var projects = ["test project", "new project"];
   Animation<double>? topBarAnimation;
-  final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
 
   @override
   void initState() {
-    scrollController.addListener(() {
-      if (scrollController.offset >= 24) {
-        if (topBarOpacity != 1.0) {
-          setState(() {
-            topBarOpacity = 1.0;
-          });
-        }
-      } else if (scrollController.offset <= 24 &&
-          scrollController.offset >= 0) {
-        if (topBarOpacity != scrollController.offset / 24) {
-          setState(() {
-            topBarOpacity = scrollController.offset / 24;
-          });
-        }
-      } else if (scrollController.offset <= 0) {
-        if (topBarOpacity != 0.0) {
-          setState(() {
-            topBarOpacity = 0.0;
-          });
-        }
-      }
-    });
     super.initState();
   }
 
@@ -53,71 +31,30 @@ class _ProjectWorkmensState extends State<ProjectWorkmensPage> {
     super.dispose();
   }
 
-  Widget getAppBarUI() {
-    return Builder(
-      builder: (context) {
-        return Column(
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                color: AppTheme.white.withOpacity(topBarOpacity),
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(32.0),
-                ),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                      offset: const Offset(1.1, 1.1),
-                      blurRadius: 10.0),
-                ],
-              ),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: MediaQuery.of(context).padding.top,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: 16,
-                        right: 16,
-                        top: 14 - 8.0 * topBarOpacity,
-                        bottom: 12 - 8.0 * topBarOpacity),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Workmen',
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontFamily: AppTheme.fontName,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 22 + 6 - 6 * topBarOpacity,
-                                letterSpacing: 1.2,
-                                color: AppTheme.darkerText,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       color: AppTheme.background,
       child: Scaffold(
+        appBar: AppBar(
+          iconTheme: IconThemeData(color: Colors.black),
+          title: const Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Workmen',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontFamily: AppTheme.fontName,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20 + 6,
+                  letterSpacing: 1.2,
+                  color: AppTheme.darkerText,
+                ),
+              ),
+            ),
+          ),
+        ),
         backgroundColor: Colors.transparent,
         body: BlocProvider(
           create: (_) =>
@@ -126,26 +63,16 @@ class _ProjectWorkmensState extends State<ProjectWorkmensPage> {
           child: Stack(
             children: <Widget>[
               ListView.builder(
-                controller: scrollController,
-                padding: EdgeInsets.only(
-                  top: AppBar().preferredSize.height +
-                      MediaQuery.of(context).padding.top +
-                      24,
-                  bottom: 100,
-                ),
+                padding: const EdgeInsets.only(),
                 itemCount: 1,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
                   return Column(children: [
-                    Column(
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 18.0),
-                          child: Divider(
-                            color: Color.fromRGBO(97, 99, 119, 1),
-                          ),
-                        ),
-                      ],
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 18.0),
+                      child: Divider(
+                        color: Color.fromRGBO(97, 99, 119, 1),
+                      ),
                     ),
                     Column(
                       children: [
@@ -157,7 +84,7 @@ class _ProjectWorkmensState extends State<ProjectWorkmensPage> {
                                 decoration: const BoxDecoration(
                                     border: Border(
                                         bottom: BorderSide(
-                                            color: Color(0xFFEEEEEE)))),
+                                            color: AppTheme.primaryColor))),
                                 child: Card(
                                   margin: EdgeInsets.zero,
                                   shape: RoundedRectangleBorder(
@@ -181,7 +108,6 @@ class _ProjectWorkmensState extends State<ProjectWorkmensPage> {
                   ]);
                 },
               ),
-              getAppBarUI(),
               SizedBox(
                 height: MediaQuery.of(context).padding.bottom,
               )
@@ -193,7 +119,39 @@ class _ProjectWorkmensState extends State<ProjectWorkmensPage> {
   }
 }
 
-class WorkmenListVIew extends StatelessWidget {
+class WorkmenListVIew extends StatefulWidget {
+  @override
+  State<WorkmenListVIew> createState() => _buildlist();
+}
+
+class _buildlist extends State<WorkmenListVIew> {
+  ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isBottom) context.read<WorkmenCubit>().getWorkmens(1);
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WorkmenCubit, WorkmenState>(
@@ -201,53 +159,48 @@ class WorkmenListVIew extends StatelessWidget {
       builder: (context, state) {
         if (state.status == WorkmenStatus.WorkmenError) {
           return const Center(child: Text('Oops something went wrong!'));
-        } else if (state.status == WorkmenStatus.WorkmenLoaded) {
-          return _buildlist(workmens: state.workmens);
-        } else if (state.status == WorkmenStatus.WorkmenEdited) {
-          return _buildlist(workmens: state.workmens);
+        } else if (state.status == WorkmenStatus.WorkmenLoaded ||
+            state.status == WorkmenStatus.WorkmenEdited) {
+          return Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              controller: _scrollController,
+              itemCount: state.hasReachedMax
+                  ? state.workmens.length
+                  : state.workmens.length + 1,
+              itemBuilder: (context, index) {
+                return index >= state.workmens.length
+                    ? BottomLoader()
+                    : Container(
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom:
+                                    BorderSide(color: AppTheme.primaryColor))),
+                        child: Card(
+                          margin: EdgeInsets.zero,
+                          elevation: 0,
+                          child: ListTile(
+                            onTap: () {},
+                            title: SizedBox(
+                              width: MediaQuery.of(context).size.width / 1.8,
+                              child: Text(
+                                state.workmens[index].firstname +
+                                    " " +
+                                    state.workmens[index].lastname,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+              },
+            ),
+          );
         } else {
           return const Center(child: CircularProgressIndicator());
         }
       },
-    );
-  }
-}
-
-class _buildlist extends StatelessWidget {
-  _buildlist({
-    Key? key,
-    required this.workmens,
-  }) : super(key: key);
-  final List<Workmen> workmens;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        itemCount: workmens.length,
-        itemBuilder: (context, index) {
-          return Container(
-            decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
-            child: Card(
-              margin: EdgeInsets.zero,
-              elevation: 0,
-              child: ListTile(
-                onTap: () {},
-                title: SizedBox(
-                  width: MediaQuery.of(context).size.width / 1.8,
-                  child: Text(
-                    workmens[index].firstname + " " + workmens[index].lastname,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
     );
   }
 }

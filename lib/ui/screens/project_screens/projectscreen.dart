@@ -207,12 +207,13 @@ class _ProjectScreen extends State<ProjectScreen>
         ),
         backgroundColor: Colors.transparent,
         body: Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.all(20),
           child: ListView(
             children: <Widget>[
               Container(
                 decoration: BoxDecoration(
-                  color: AppTheme.white,
+                  borderRadius: BorderRadius.circular(20),
+                  color: AppTheme.secondaryColor,
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                         color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),

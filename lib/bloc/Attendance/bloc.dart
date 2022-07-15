@@ -8,17 +8,22 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   final WorkmenService repository;
   AttendanceCubit({required this.repository})
       : super(const AttendanceState.loading());
-
 //You should not use Equatable if you want the same state back-to-back to trigger multiple transitions.
   Future<void> getWorkmens(int projectId) async {
-    var rs = await repository.getWorkmens(projectId);
-    var attendance = rs
-        .map((e) =>
-            new Attendance(workmenId: e.id, projectId: projectId, workmen: e))
-        .toList();
-    if (rs != null) {
-      emit(AttendanceState.success(attendance));
-    } else {
+    if (state.hasReachedMax) return;
+    try {
+      var rs = await repository.getWorkmens(projectId, state.attendance.length);
+
+      rs.isEmpty
+          ? emit(AttendanceState.success(state.attendance, true))
+          : emit(AttendanceState.success(
+              List.of(state.attendance)
+                ..addAll(rs
+                    .map((e) => new Attendance(
+                        workmenId: e.id, projectId: projectId, workmen: e))
+                    .toList()),
+              false));
+    } catch (e) {
       emit(AttendanceState.failure());
     }
   }
@@ -27,7 +32,7 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     final attendance = state.attendance;
     var rs = await repository.editAttendance(attendance);
     if (rs != null) {
-      emit(AttendanceState.success(attendance));
+      emit(AttendanceState.success(attendance, false));
     } else {
       emit(AttendanceState.failure());
     }

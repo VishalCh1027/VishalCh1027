@@ -23,24 +23,27 @@ class DrawerTile extends StatelessWidget {
           margin: const EdgeInsets.only(top: 6),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                    color: isSelected
-                        ? AppTheme.dark_grey.withOpacity(0.07)
-                        : Colors.transparent,
-                    offset: const Offset(0, 0.5),
-                    spreadRadius: 3,
-                    blurRadius: 10)
-              ],
-              color: isSelected ? AppTheme.white : AppTheme.primaryColor,
-              borderRadius: const BorderRadius.all(Radius.circular(54))),
+            boxShadow: [
+              BoxShadow(
+                  color: isSelected
+                      ? AppTheme.dark_grey.withOpacity(0.07)
+                      : Colors.transparent,
+                  offset: const Offset(0, 0.5),
+                  spreadRadius: 3,
+                  blurRadius: 10)
+            ],
+            color: isSelected ? AppTheme.primaryColor : AppTheme.secondaryColor,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(54),
+            ),
+          ),
           child: Row(
             children: [
               Icon(icon,
                   size: 18,
                   color: isSelected
-                      ? AppTheme.primaryColor
-                      : AppTheme.white.withOpacity(0.6)),
+                      ? AppTheme.secondaryColor
+                      : AppTheme.primaryColor.withOpacity(0.6)),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Text(title,
@@ -49,8 +52,8 @@ class DrawerTile extends StatelessWidget {
                         fontSize: 15,
                         fontWeight: FontWeight.w200,
                         color: isSelected
-                            ? AppTheme.primaryColor
-                            : AppTheme.white.withOpacity(0.8))),
+                            ? AppTheme.secondaryColor
+                            : AppTheme.primaryColor.withOpacity(0.8))),
               )
             ],
           )),

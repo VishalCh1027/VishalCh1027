@@ -216,7 +216,7 @@ class _BillingScreen extends State<BillingScreen>
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppTheme.white,
+                    color: AppTheme.secondaryColor,
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                           color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),

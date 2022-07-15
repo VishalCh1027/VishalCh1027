@@ -9,17 +9,21 @@ enum WorkmenStatus {
 }
 
 class WorkmenState {
-  const WorkmenState._({
-    this.status = WorkmenStatus.WorkmenLoading,
-    this.workmens = const <Workmen>[],
-  });
+  const WorkmenState._(
+      {this.status = WorkmenStatus.WorkmenLoading,
+      this.workmens = const <Workmen>[],
+      this.hasReachedMax = false});
   final WorkmenStatus status;
   final List<Workmen> workmens;
+  final bool hasReachedMax;
 
   const WorkmenState.loading() : this._();
 
-  const WorkmenState.success(List<Workmen> workmens)
-      : this._(status: WorkmenStatus.WorkmenLoaded, workmens: workmens);
+  const WorkmenState.success(List<Workmen> workmens, bool hasReachedMax)
+      : this._(
+            status: WorkmenStatus.WorkmenLoaded,
+            workmens: workmens,
+            hasReachedMax: hasReachedMax);
 
   const WorkmenState.edited(List<Workmen> workmens)
       : this._(status: WorkmenStatus.WorkmenLoaded, workmens: workmens);
@@ -27,14 +31,17 @@ class WorkmenState {
   const WorkmenState.failure() : this._(status: WorkmenStatus.WorkmenError);
 
   WorkmenState copyWith({
+    WorkmenStatus? status,
     List<Workmen>? workmens,
+    bool? hasReachedMax,
   }) {
     return WorkmenState._(
-      workmens: workmens ?? this.workmens,
-    );
+        status: status ?? this.status,
+        workmens: workmens ?? this.workmens,
+        hasReachedMax: hasReachedMax ?? this.hasReachedMax);
   }
 
   @override
   // TODO: implement props
-  List<Object?> get props => [status, workmens];
+  List<Object?> get props => [status, workmens, hasReachedMax];
 }

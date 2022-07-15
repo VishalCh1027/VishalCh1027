@@ -19,7 +19,7 @@ class NowDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
         child: Container(
-      color: AppTheme.primaryColor,
+      color: AppTheme.secondaryColor,
       child: Column(children: [
         //Header Section
         Container(
@@ -34,15 +34,18 @@ class NowDrawer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
-                    Expanded(
-                      flex: 9,
-                      child: Container(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: Expanded(
+                        flex: 9,
+                        child: Container(),
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
                       child: IconButton(
                           icon: Icon(Icons.menu,
-                              color: AppTheme.white.withOpacity(0.82),
+                              color: AppTheme.primaryColor.withOpacity(0.82),
                               size: 24.0),
                           onPressed: () {
                             Navigator.of(context).pop();
@@ -60,7 +63,7 @@ class NowDrawer extends StatelessWidget {
             padding: const EdgeInsets.only(top: 36, left: 8, right: 16),
             children: [
               DrawerTile(
-                  icon: FontAwesomeIcons.home,
+                  icon: FontAwesomeIcons.house,
                   onTap: () {
                     if (currentPage != "Dashboard") {
                       Navigator.pushReplacement(
@@ -82,14 +85,15 @@ class NowDrawer extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const ProjectListScreen(
-                                  officeId: 1,
-                                  type: PageType.MarkAttendance,
-                                )),
+                          builder: (context) => const ProjectListScreen(
+                            officeId: 1,
+                            type: PageType.MarkAttendance,
+                          ),
+                        ),
                       );
                     }
                   },
-                  iconColor: AppTheme.primaryColor,
+                  iconColor: AppTheme.secondaryColor,
                   title: "Attendance",
                   isSelected: currentPage == "Attendance" ? true : false),
               DrawerTile(
@@ -198,20 +202,20 @@ class NowDrawer extends StatelessWidget {
                   Divider(
                       height: 4,
                       thickness: 0,
-                      color: AppTheme.white.withOpacity(0.8)),
+                      color: AppTheme.primaryColor.withOpacity(0.8)),
                   Padding(
                     padding:
                         const EdgeInsets.only(top: 16.0, left: 16, bottom: 8),
                     child: Text("More",
                         style: TextStyle(
-                          color: AppTheme.white.withOpacity(0.8),
+                          color: AppTheme.primaryColor.withOpacity(0.8),
                           fontSize: 13,
                         )),
                   ),
                   DrawerTile(
                       icon: FontAwesomeIcons.satellite,
                       onTap: () {},
-                      iconColor: AppTheme.lightText,
+                      iconColor: AppTheme.primaryColor,
                       title: "About Us",
                       isSelected: currentPage == "About Us" ? true : false),
                 ],

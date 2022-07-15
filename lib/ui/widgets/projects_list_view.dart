@@ -236,25 +236,19 @@ class ProjectsView extends StatelessWidget {
                 const EdgeInsets.only(top: 32, left: 8, right: 8, bottom: 16),
             child: Container(
               decoration: BoxDecoration(
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                      color: HexColor("#6F72CA").withOpacity(0.6),
-                      offset: const Offset(1.1, 4.0),
-                      blurRadius: 8.0),
-                ],
                 gradient: LinearGradient(
-                  colors: <HexColor>[
-                    HexColor("#1E1466"),
-                    HexColor("#6F72CA"),
+                  colors: [
+                    AppTheme.secondaryColor,
+                    AppTheme.secondaryColor,
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(8.0),
-                  bottomLeft: Radius.circular(8.0),
-                  topLeft: Radius.circular(8.0),
-                  topRight: Radius.circular(54.0),
+                  bottomRight: Radius.circular(5.0),
+                  bottomLeft: Radius.circular(5.0),
+                  topLeft: Radius.circular(5.0),
+                  topRight: Radius.circular(5.0),
                 ),
               ),
               child: InkWell(
@@ -277,7 +271,7 @@ class ProjectsView extends StatelessWidget {
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      top: 20, left: 16, right: 16, bottom: 0),
+                      top: 0, left: 16, right: 16, bottom: 0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -291,7 +285,7 @@ class ProjectsView extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                           letterSpacing: 0.2,
-                          color: AppTheme.white,
+                          color: AppTheme.primaryColor,
                         ),
                       ),
                     ],
@@ -307,7 +301,6 @@ class ProjectsView extends StatelessWidget {
               width: 84,
               height: 84,
               decoration: BoxDecoration(
-                color: AppTheme.nearlyWhite.withOpacity(0.2),
                 shape: BoxShape.circle,
               ),
             ),
@@ -324,8 +317,8 @@ class ProjectsView extends StatelessWidget {
                     center: Alignment.topLeft,
                     radius: 0.5,
                     colors: <Color>[
+                      Color.fromARGB(255, 255, 68, 68),
                       Color.fromARGB(255, 226, 240, 105),
-                      Color.fromARGB(255, 255, 68, 68)
                     ],
                     tileMode: TileMode.repeated,
                   ).createShader(bounds);

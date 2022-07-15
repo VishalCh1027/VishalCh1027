@@ -16,12 +16,12 @@ class RequetsView extends StatelessWidget {
         onTap: Action,
         child: Container(
           decoration: BoxDecoration(
-            color: AppTheme.white,
+            color: AppTheme.secondaryColor,
             borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(8.0),
-                bottomLeft: Radius.circular(8.0),
-                bottomRight: Radius.circular(8.0),
-                topRight: Radius.circular(68.0)),
+                topLeft: Radius.circular(5.0),
+                bottomLeft: Radius.circular(5.0),
+                bottomRight: Radius.circular(5.0),
+                topRight: Radius.circular(5.0)),
             boxShadow: <BoxShadow>[
               BoxShadow(
                   color: AppTheme.grey.withOpacity(0.2),
@@ -70,8 +70,8 @@ class RequetsView extends StatelessWidget {
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16,
                                             letterSpacing: -0.1,
-                                            color:
-                                                AppTheme.grey.withOpacity(0.5),
+                                            color: AppTheme.nearlyWhite
+                                                .withOpacity(0.5),
                                           ),
                                         ),
                                       ),
@@ -99,7 +99,7 @@ class RequetsView extends StatelessWidget {
                                                 fontFamily: AppTheme.fontName,
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 16,
-                                                color: AppTheme.darkerText,
+                                                color: AppTheme.nearlyWhite,
                                               ),
                                             ),
                                           ),
@@ -114,7 +114,7 @@ class RequetsView extends StatelessWidget {
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 12,
                                                 letterSpacing: -0.2,
-                                                color: AppTheme.grey
+                                                color: AppTheme.nearlyWhite
                                                     .withOpacity(0.5),
                                               ),
                                             ),
@@ -158,8 +158,8 @@ class RequetsView extends StatelessWidget {
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16,
                                             letterSpacing: -0.1,
-                                            color:
-                                                AppTheme.grey.withOpacity(0.5),
+                                            color: AppTheme.nearlyWhite
+                                                .withOpacity(0.5),
                                           ),
                                         ),
                                       ),
@@ -188,7 +188,7 @@ class RequetsView extends StatelessWidget {
                                                 fontFamily: AppTheme.fontName,
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 16,
-                                                color: AppTheme.darkerText,
+                                                color: AppTheme.nearlyWhite,
                                               ),
                                             ),
                                           ),
@@ -203,7 +203,7 @@ class RequetsView extends StatelessWidget {
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 12,
                                                 letterSpacing: -0.2,
-                                                color: AppTheme.grey
+                                                color: AppTheme.nearlyWhite
                                                     .withOpacity(0.5),
                                               ),
                                             ),
@@ -244,8 +244,8 @@ class RequetsView extends StatelessWidget {
                                             fontWeight: FontWeight.w500,
                                             fontSize: 16,
                                             letterSpacing: -0.1,
-                                            color:
-                                                AppTheme.grey.withOpacity(0.5),
+                                            color: AppTheme.nearlyWhite
+                                                .withOpacity(0.5),
                                           ),
                                         ),
                                       ),
@@ -274,7 +274,7 @@ class RequetsView extends StatelessWidget {
                                                 fontFamily: AppTheme.fontName,
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 16,
-                                                color: AppTheme.darkerText,
+                                                color: AppTheme.nearlyWhite,
                                               ),
                                             ),
                                           ),
@@ -317,7 +317,7 @@ class RequetsView extends StatelessWidget {
                                 width: 100,
                                 height: 100,
                                 decoration: BoxDecoration(
-                                  color: AppTheme.white,
+                                  color: AppTheme.secondaryColor,
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(100.0),
                                   ),
@@ -349,7 +349,8 @@ class RequetsView extends StatelessWidget {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 12,
                                         letterSpacing: 0.0,
-                                        color: AppTheme.grey.withOpacity(0.5),
+                                        color: AppTheme.nearlyWhite
+                                            .withOpacity(0.5),
                                       ),
                                     ),
                                   ],
@@ -361,9 +362,9 @@ class RequetsView extends StatelessWidget {
                               child: CustomPaint(
                                 painter: CurvePainter(colors: [
                                   AppTheme.primaryColor,
-                                  HexColor("#8A98E8"),
-                                  HexColor("#8A98E8")
-                                ], angle: 140 + (360 - 140) * (1.0 - 1)),
+                                  AppTheme.primaryColor,
+                                  AppTheme.primaryColor,
+                                ], angle: 360),
                                 child: SizedBox(
                                   width: 108,
                                   height: 108,
@@ -398,8 +399,16 @@ class RequetsView extends StatelessWidget {
 class CurvePainter extends CustomPainter {
   final double? angle;
   final List<Color>? colors;
+  final double? approved;
+  final double? rejected;
+  final double? hold;
 
-  CurvePainter({this.colors, this.angle = 140});
+  CurvePainter(
+      {this.colors,
+      this.angle = 140,
+      this.approved = 0,
+      this.rejected = 0,
+      this.hold = 0});
 
   @override
   void paint(Canvas canvas, Size size) {

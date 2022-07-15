@@ -12,7 +12,6 @@ import 'package:my_application/bloc/workmen_list/service.dart';
 import 'package:my_application/global/global_function.dart';
 import 'package:my_application/global/global_variables.dart';
 import 'package:my_application/ui/screens/dashboardscreen.dart';
-import 'package:my_application/ui/screens/home_screen.dart';
 import 'login_page.dart';
 
 void main() async {
@@ -43,36 +42,36 @@ class MyApp extends StatelessWidget {
       ),
     );
     return ScreenUtilInit(
-        designSize: Size(375, 812),
-        builder: (_) {
-          return MultiRepositoryProvider(
-            providers: [
-              RepositoryProvider<LoginService>.value(value: LoginService()),
-              RepositoryProvider<PurchasesService>.value(
-                  value: PurchasesService()),
-              RepositoryProvider<ProjectsService>.value(
-                  value: ProjectsService()),
-              RepositoryProvider<WorkmenService>.value(value: WorkmenService()),
-              RepositoryProvider<BillingService>.value(value: BillingService()),
-              RepositoryProvider<WalletService>.value(value: WalletService()),
-            ],
-            child: MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: "CPMS UI",
-              themeMode: ThemeMode.system,
-              theme: ThemeData(
-                visualDensity: VisualDensity.adaptivePlatformDensity,
-                textTheme: AppTheme.textTheme,
-                scaffoldBackgroundColor: AppTheme.background,
-                appBarTheme: AppBarTheme(
-                  elevation: 0.0,
-                  color: AppTheme.white,
-                ),
+      designSize: Size(375, 812),
+      builder: (_) {
+        return MultiRepositoryProvider(
+          providers: [
+            RepositoryProvider<LoginService>.value(value: LoginService()),
+            RepositoryProvider<PurchasesService>.value(
+                value: PurchasesService()),
+            RepositoryProvider<ProjectsService>.value(value: ProjectsService()),
+            RepositoryProvider<WorkmenService>.value(value: WorkmenService()),
+            RepositoryProvider<BillingService>.value(value: BillingService()),
+            RepositoryProvider<WalletService>.value(value: WalletService()),
+          ],
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: "CPMS UI",
+            themeMode: ThemeMode.system,
+            theme: ThemeData(
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              textTheme: AppTheme.textTheme,
+              scaffoldBackgroundColor: AppTheme.background,
+              appBarTheme: AppBarTheme(
+                elevation: 0.0,
+                color: AppTheme.secondaryColor,
               ),
-              home: LoadingScreen(),
             ),
-          );
-        });
+            home: LoadingScreen(),
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -114,7 +113,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
         );
       } else {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (b) => LoginPage()));
+          context,
+          MaterialPageRoute(
+            builder: (b) => LoginPage(),
+          ),
+        );
       }
     });
   }

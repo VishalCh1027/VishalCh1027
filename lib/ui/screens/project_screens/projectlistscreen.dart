@@ -79,7 +79,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     decoration: BoxDecoration(
-                      color: AppTheme.white,
+                      color: AppTheme.background,
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                             color:
@@ -90,7 +90,7 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                     ),
                     child: Padding(
                       padding:
-                          const EdgeInsets.only(left: 30, right: 30, top: 10),
+                          const EdgeInsets.only(left: 30, right: 30, top: 20),
                       child: Container(
                         width: MediaQuery.of(context).size.width - 40,
                         height: MediaQuery.of(context).size.height - 150,
@@ -173,7 +173,7 @@ class _buildHead extends StatelessWidget {
           }
         },
         style: const TextStyle(
-          color: Colors.black,
+          color: AppTheme.secondaryColor,
         ));
   }
 }

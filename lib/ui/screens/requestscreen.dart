@@ -94,7 +94,7 @@ class _RequestScreen extends State<RequestScreen>
       itemBuilder: (context, index) {
         return Container(
           decoration: const BoxDecoration(
-              border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
+              border: Border(bottom: BorderSide(color: AppTheme.background))),
           child: Card(
             margin: EdgeInsets.zero,
             elevation: 0,
@@ -331,7 +331,7 @@ class _RequestScreen extends State<RequestScreen>
                     ? null
                     : FloatingActionButton(
                         highlightElevation: 5,
-                        backgroundColor: AppTheme.primaryColor,
+                        backgroundColor: AppTheme.dark_green,
                         elevation: 50,
                         child: Icon(Icons.add),
                         onPressed: () => {_openDialogAddItem(null)},
@@ -353,7 +353,7 @@ class _RequestScreen extends State<RequestScreen>
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppTheme.white,
+                    color: AppTheme.background,
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                           color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
@@ -364,250 +364,281 @@ class _RequestScreen extends State<RequestScreen>
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(30, 10, 30, 0),
-                        child: isViewOnly ||
-                                widget.type == RequestPageType.technicalrequests
-                            ? Column(
-                                children: [
-                                  Row(
+                        padding:
+                            const EdgeInsets.only(left: 8.0, right: 8, top: 20),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppTheme.secondaryColor,
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(8.0),
+                                topRight: Radius.circular(8.0)),
+                          ),
+                          width: MediaQuery.of(context).size.width / 1.1,
+                          child: Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(30, 20, 30, 0),
+                            child: isViewOnly ||
+                                    widget.type ==
+                                        RequestPageType.technicalrequests
+                                ? Column(
                                     children: [
-                                      Icon(
-                                        IconData(0xe044,
-                                            fontFamily: 'MaterialIcons'),
-                                        color: AppTheme.deactivatedText,
-                                        size: 15,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        "Project",
-                                        style: TextStyle(
-                                            color: AppTheme.deactivatedText,
-                                            fontSize: 15),
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 20),
-                                        child: Flexible(
-                                          child: Text(
-                                            request.project!.name ?? "NA",
-                                            style: TextStyle(
-                                                color: AppTheme.nearlyBlack,
-                                                fontSize: 20),
-                                            maxLines: 3,
-                                            overflow: TextOverflow.visible,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                      width: 350,
-                                      height: 60,
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
+                                      Row(
                                         children: [
-                                          Expanded(
-                                            child: SizedBox(
-                                              height: 50,
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.av_timer,
-                                                        color: AppTheme
-                                                            .deactivatedText,
-                                                        size: 15,
-                                                      ),
-                                                      SizedBox(
-                                                        width: 5,
-                                                      ),
-                                                      Text(
-                                                        "Delivery date",
-                                                        style: TextStyle(
-                                                            color: AppTheme
-                                                                .deactivatedText,
-                                                            fontSize: 15),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            EdgeInsets.only(
-                                                                left: 20),
-                                                        child: Text(
-                                                          request.deliveryAt
-                                                              .toString()
-                                                              .replaceRange(
-                                                                  11, null, ""),
-                                                          style: TextStyle(
-                                                              color: AppTheme
-                                                                  .nearlyBlack,
-                                                              fontSize: 20),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
-                                            ),
+                                          Icon(
+                                            IconData(0xe044,
+                                                fontFamily: 'MaterialIcons'),
+                                            color: AppTheme.deactivatedText,
+                                            size: 15,
                                           ),
-                                          Expanded(
-                                            child: SizedBox(
-                                              height: 50,
-                                              child: Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 30),
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      children: const [
-                                                        Icon(
-                                                          Icons.av_timer,
-                                                          color: AppTheme
-                                                              .deactivatedText,
-                                                          size: 15,
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Text(
-                                                          "Priority",
-                                                          style: TextStyle(
-                                                              color: AppTheme
-                                                                  .deactivatedText,
-                                                              fontSize: 15),
-                                                        )
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  left: 20),
-                                                          child: Text(
-                                                            request.priority
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                                color: AppTheme
-                                                                    .nearlyBlack,
-                                                                fontSize: 20),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ],
-                                                ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            "Project",
+                                            style: TextStyle(
+                                                color: AppTheme.deactivatedText,
+                                                fontSize: 15),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(left: 20),
+                                            child: Flexible(
+                                              child: Text(
+                                                request.project!.name ?? "NA",
+                                                style: TextStyle(
+                                                    color: AppTheme.nearlyBlack,
+                                                    fontSize: 20),
+                                                maxLines: 3,
+                                                overflow: TextOverflow.visible,
                                               ),
                                             ),
                                           ),
                                         ],
-                                      )),
-                                ],
-                              )
-                            : Form(
-                                key: formKey,
-                                child: Column(
-                                  children: [
-                                    DropdownButtonFormField(
-                                        elevation: 2,
-                                        value: request.projectId != null
-                                            ? request.projectId.toString()
-                                            : null,
-                                        validator: (value) {
-                                          if (value == null || value == 0) {
-                                            return 'Please select project';
-                                          }
-                                          return null;
-                                        },
-                                        items: projects.map((item) {
-                                          return new DropdownMenuItem<String>(
-                                            value: item.id.toString(),
-                                            child: new Text(
-                                              item.name ?? "",
-                                            ),
-                                          );
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            request.projectId =
-                                                int.tryParse(value as String);
-                                          });
-                                        },
-                                        decoration: InputDecoration(
-                                          labelText: "Project",
-                                        )),
-                                    TextFormField(
-                                        validator: (value) {
-                                          if (value == null || value == "") {
-                                            return 'Please select Delivery';
-                                          }
-                                          return null;
-                                        },
-                                        readOnly: true,
-                                        decoration: const InputDecoration(
-                                          labelText: 'Delivery',
-                                        ),
-                                        controller: deliveryDate,
-                                        onTap: () async {
-                                          // Below line stops keyboard from appearing
-                                          FocusScope.of(context)
-                                              .requestFocus(new FocusNode());
-                                          // Show Date Picker Here
-                                          await _deliverydatebuild(context);
-                                          deliveryDate.text =
-                                              DateFormat('yyyy/MM/dd').format(
-                                                  request.deliveryAt ??
-                                                      DateTime.now());
-                                          setState(() {});
-                                        }),
-                                    DropdownButtonFormField(
-                                      elevation: 2,
-                                      value: request.priority,
-                                      validator: (value) {
-                                        if (value == null) {
-                                          return 'Please select Priority';
-                                        }
-                                        return null;
-                                      },
-                                      items: RequestPriority.values.map((item) {
-                                        return new DropdownMenuItem<String>(
-                                          value: item.name.toString(),
-                                          child: new Text(
-                                            item.name.toString(),
-                                          ),
-                                        );
-                                      }).toList(),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          request.priority = value
-                                              .toString()
-                                              .replaceFirst(
-                                                  RegExp("RequestPriority."),
-                                                  "");
-                                        });
-                                      },
-                                      decoration: const InputDecoration(
-                                        labelText: "Priority",
                                       ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Container(
+                                          width: 350,
+                                          height: 60,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Expanded(
+                                                child: SizedBox(
+                                                  height: 50,
+                                                  child: Column(
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons.av_timer,
+                                                            color: AppTheme
+                                                                .deactivatedText,
+                                                            size: 15,
+                                                          ),
+                                                          SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Text(
+                                                            "Delivery date",
+                                                            style: TextStyle(
+                                                                color: AppTheme
+                                                                    .deactivatedText,
+                                                                fontSize: 15),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 20),
+                                                            child: Text(
+                                                              request.deliveryAt
+                                                                  .toString()
+                                                                  .replaceRange(
+                                                                      11,
+                                                                      null,
+                                                                      ""),
+                                                              style: TextStyle(
+                                                                  color: AppTheme
+                                                                      .nearlyBlack,
+                                                                  fontSize: 20),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: SizedBox(
+                                                  height: 50,
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                        left: 30),
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          children: const [
+                                                            Icon(
+                                                              Icons.av_timer,
+                                                              color: AppTheme
+                                                                  .deactivatedText,
+                                                              size: 15,
+                                                            ),
+                                                            SizedBox(
+                                                              width: 5,
+                                                            ),
+                                                            Text(
+                                                              "Priority",
+                                                              style: TextStyle(
+                                                                  color: AppTheme
+                                                                      .deactivatedText,
+                                                                  fontSize: 15),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        Row(
+                                                          children: [
+                                                            Padding(
+                                                              padding: EdgeInsets
+                                                                  .only(
+                                                                      left: 20),
+                                                              child: Text(
+                                                                request.priority
+                                                                    .toString(),
+                                                                style: TextStyle(
+                                                                    color: AppTheme
+                                                                        .nearlyBlack,
+                                                                    fontSize:
+                                                                        20),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )),
+                                    ],
+                                  )
+                                : Form(
+                                    key: formKey,
+                                    child: Column(
+                                      children: [
+                                        DropdownButtonFormField(
+                                            elevation: 2,
+                                            value: request.projectId != null
+                                                ? request.projectId.toString()
+                                                : null,
+                                            validator: (value) {
+                                              if (value == null || value == 0) {
+                                                return 'Please select project';
+                                              }
+                                              return null;
+                                            },
+                                            items: projects.map((item) {
+                                              return new DropdownMenuItem<
+                                                  String>(
+                                                value: item.id.toString(),
+                                                child: new Text(
+                                                  item.name ?? "",
+                                                ),
+                                              );
+                                            }).toList(),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                request.projectId =
+                                                    int.tryParse(
+                                                        value as String);
+                                              });
+                                            },
+                                            decoration: InputDecoration(
+                                              labelText: "Project",
+                                            )),
+                                        TextFormField(
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value == "") {
+                                                return 'Please select Delivery';
+                                              }
+                                              return null;
+                                            },
+                                            readOnly: true,
+                                            decoration: const InputDecoration(
+                                              labelText: 'Delivery',
+                                            ),
+                                            controller: deliveryDate,
+                                            onTap: () async {
+                                              // Below line stops keyboard from appearing
+                                              FocusScope.of(context)
+                                                  .requestFocus(
+                                                      new FocusNode());
+                                              // Show Date Picker Here
+                                              await _deliverydatebuild(context);
+                                              deliveryDate.text =
+                                                  DateFormat('yyyy/MM/dd')
+                                                      .format(
+                                                          request.deliveryAt ??
+                                                              DateTime.now());
+                                              setState(() {});
+                                            }),
+                                        DropdownButtonFormField(
+                                          elevation: 2,
+                                          value: request.priority,
+                                          validator: (value) {
+                                            if (value == null) {
+                                              return 'Please select Priority';
+                                            }
+                                            return null;
+                                          },
+                                          items: RequestPriority.values
+                                              .map((item) {
+                                            return new DropdownMenuItem<String>(
+                                              value: item.name.toString(),
+                                              child: new Text(
+                                                item.name.toString(),
+                                              ),
+                                            );
+                                          }).toList(),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              request.priority = value
+                                                  .toString()
+                                                  .replaceFirst(
+                                                      RegExp(
+                                                          "RequestPriority."),
+                                                      "");
+                                            });
+                                          },
+                                          decoration: const InputDecoration(
+                                            labelText: "Priority",
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              ),
+                                  ),
+                          ),
+                        ),
                       ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(30, 10, 30, 0),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: AppTheme.secondaryColor,
+                          borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(8.0),
+                              bottomRight: Radius.circular(8.0)),
+                        ),
+                        width: MediaQuery.of(context).size.width / 1.1,
                         child: _buildbuttons(context),
                       ),
                       const ListTile(
@@ -636,7 +667,7 @@ class _RequestScreen extends State<RequestScreen>
                                   decoration: BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(
-                                        color: Color(0xFFEEEEEE),
+                                        color: AppTheme.background,
                                       ),
                                     ),
                                   ),
@@ -702,127 +733,135 @@ class _RequestScreen extends State<RequestScreen>
 
   Widget _buildbuttons(BuildContext context) {
     if (widget.type == RequestPageType.technicalrequests) {
-      return Row(
-        children: [
-          Expanded(
-            child: TextButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(AppTheme.primaryColor),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+      return Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(30, 10, 30, 20),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(AppTheme.primaryColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                 ),
-              ),
-              onPressed: () {
-                checkForm();
-              },
-              child: const SizedBox(
-                width: 300,
-                height: 25,
-                child: Center(
-                  child: Text(
-                    'Approve',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Expanded(
-            child: TextButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(AppTheme.primaryColor),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-              ),
-              onPressed: () {
-                openReasonDailog(context);
-              },
-              child: const SizedBox(
-                width: 300,
-                height: 25,
-                child: Center(
-                  child: Text(
-                    'Reject',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                onPressed: () {
+                  checkForm();
+                },
+                child: const SizedBox(
+                  width: 300,
+                  height: 25,
+                  child: Center(
+                    child: Text(
+                      'Approve',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Expanded(
-            child: TextButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(AppTheme.primaryColor),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+            SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(AppTheme.primaryColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                 ),
-              ),
-              onPressed: () {
-                openReasonDailog(context);
-              },
-              child: const SizedBox(
-                width: 300,
-                height: 25,
-                child: Center(
-                  child: Text(
-                    'Hold',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                onPressed: () {
+                  openReasonDailog(context);
+                },
+                child: const SizedBox(
+                  width: 300,
+                  height: 25,
+                  child: Center(
+                    child: Text(
+                      'Reject',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+            SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(AppTheme.primaryColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                ),
+                onPressed: () {
+                  openReasonDailog(context);
+                },
+                child: const SizedBox(
+                  width: 300,
+                  height: 25,
+                  child: Center(
+                    child: Text(
+                      'Hold',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       );
     } else if (widget.type == RequestPageType.requests) {
-      return Row(
-        children: [
-          Expanded(
-            child: TextButton(
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(AppTheme.primaryColor),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+      return Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(30, 30, 30, 20),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(AppTheme.primaryColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                 ),
-              ),
-              onPressed: () {
-                checkForm();
-              },
-              child: const SizedBox(
-                width: 300,
-                height: 25,
-                child: Center(
-                  child: Text(
-                    'Save',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
+                onPressed: () {
+                  checkForm();
+                },
+                child: const SizedBox(
+                  width: 300,
+                  height: 25,
+                  child: Center(
+                    child: Text(
+                      'Save',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     } else {
-      return Container();
+      return SizedBox(
+        height: 10,
+      );
     }
   }
 }
