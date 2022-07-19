@@ -7,11 +7,10 @@ import 'package:my_application/ui/widgets/attendance_tile.dart';
 import 'package:my_application/ui/widgets/drawer.dart';
 import 'package:my_application/ui/widgets/projects_list_view.dart';
 import 'package:my_application/ui/widgets/title_view.dart';
+import 'package:my_application/ui/widgets/wallet_tile.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key, required this.changeIndex})
-      : super(key: key);
-  final Function(int index) changeIndex;
+  const DashboardScreen({Key? key}) : super(key: key);
   @override
   _DashboardScreen createState() => _DashboardScreen();
 }
@@ -56,8 +55,16 @@ class _DashboardScreen extends State<DashboardScreen>
   void addAllListData() {
     listViews.add(
       TitleView(
+        titleTxt: 'Wallet',
+      ),
+    );
+    listViews.add(
+      WalletTileView(),
+    );
+    listViews.add(
+      TitleView(
         titleTxt: 'Requests',
-        subTxt: 'Show All',
+        subTxt: 'View All',
         trailingAction: () {
           Navigator.push(
             context,
@@ -79,7 +86,7 @@ class _DashboardScreen extends State<DashboardScreen>
     listViews.add(
       TitleView(
         titleTxt: 'Projects',
-        subTxt: 'Show All',
+        subTxt: 'View All',
         trailingAction: () {
           Navigator.push(
             context,
@@ -160,70 +167,5 @@ class _DashboardScreen extends State<DashboardScreen>
         }
       },
     );
-  }
-
-  Widget getAppBarUI() {
-    return Column(children: <Widget>[
-      Container(
-        decoration: BoxDecoration(
-          color: AppTheme.secondaryColor.withOpacity(topBarOpacity),
-          borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(32.0),
-          ),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                offset: const Offset(1.1, 1.1),
-                blurRadius: 10.0),
-          ],
-        ),
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: MediaQuery.of(context).padding.top,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: 16,
-                  right: 16,
-                  top: 16 - 8.0 * topBarOpacity,
-                  bottom: 12 - 8.0 * topBarOpacity),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  IconButton(
-                      icon: Icon(IconData(0xe3dc, fontFamily: 'MaterialIcons')),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NowDrawer(
-                                    currentPage: "Dashboard",
-                                  )),
-                        );
-                      }),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'My App',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 22 + 6 - 6 * topBarOpacity,
-                          letterSpacing: 1.2,
-                          color: AppTheme.darkerText,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    ]);
   }
 }

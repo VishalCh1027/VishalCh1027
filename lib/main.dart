@@ -59,14 +59,14 @@ class MyApp extends StatelessWidget {
             title: "CPMS UI",
             themeMode: ThemeMode.system,
             theme: ThemeData(
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-              textTheme: AppTheme.textTheme,
-              scaffoldBackgroundColor: AppTheme.background,
-              appBarTheme: AppBarTheme(
-                elevation: 0.0,
-                color: AppTheme.secondaryColor,
-              ),
-            ),
+                focusColor: AppTheme.secondaryColor,
+                visualDensity: VisualDensity.adaptivePlatformDensity,
+                textTheme: AppTheme.textTheme,
+                scaffoldBackgroundColor: AppTheme.background,
+                appBarTheme: AppBarTheme(
+                  elevation: 0.0,
+                  color: AppTheme.background,
+                )),
             home: LoadingScreen(),
           ),
         );
@@ -101,31 +101,30 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
     super.initState();
 
-    load().then((value) {
-      if (value) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (b) => DashboardScreen(
-              changeIndex: (int i) {},
+    load().then(
+      (value) {
+        if (value) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (b) => DashboardScreen(),
             ),
-          ),
-        );
-      } else {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (b) => LoginPage(),
-          ),
-        );
-      }
-    });
+          );
+        } else {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (b) => LoginPage(),
+            ),
+          );
+        }
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      backgroundColor: AppTheme.nearlyWhite,
       body: Center(
         child: CircularProgressIndicator(),
       ),

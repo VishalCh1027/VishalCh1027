@@ -18,7 +18,7 @@ class AppTheme {
   static const Color darkText = Color(0xFF37454F);
   static const Color darkerText = Color(0xFF17262A);
   static const Color lightText = Color(0xFFF37454F);
-  static const Color deactivatedText = Color(0xFF767676);
+  static const Color deactivatedText = Color.fromARGB(255, 86, 107, 122);
   static const Color dismissibleBackground = Color(0xFF364A54);
   static const Color spacer = Color(0xFFF2F2F2);
   static const String fontName = 'Roboto';
@@ -39,7 +39,7 @@ class AppTheme {
     fontSize: 36,
     letterSpacing: 0.4,
     height: 0.9,
-    color: darkerText,
+    color: darkText,
   );
 
   static const TextStyle headline = TextStyle(
@@ -47,15 +47,15 @@ class AppTheme {
     fontWeight: FontWeight.bold,
     fontSize: 24,
     letterSpacing: 0.27,
-    color: darkerText,
+    color: darkText,
   );
 
   static const TextStyle title = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
-    fontSize: 16,
+    fontSize: 17,
     letterSpacing: 0.18,
-    color: darkerText,
+    color: darkText,
   );
 
   static const TextStyle subtitle = TextStyle(
@@ -69,18 +69,25 @@ class AppTheme {
   static const TextStyle body2 = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.w400,
-    fontSize: 14,
+    fontSize: 16,
     letterSpacing: 0.2,
     color: darkText,
   );
 
-  static const TextStyle body1 = TextStyle(
+  static const TextStyle body2Light = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.w400,
     fontSize: 16,
-    letterSpacing: -0.05,
-    color: darkText,
+    letterSpacing: 0.2,
+    color: deactivatedText,
   );
+
+  static const TextStyle body1 = TextStyle(
+      fontFamily: fontName,
+      letterSpacing: .3,
+      fontSize: 15,
+      fontWeight: FontWeight.w200,
+      color: darkText);
 
   static const TextStyle caption = TextStyle(
     fontFamily: fontName,

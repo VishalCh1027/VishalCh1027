@@ -33,18 +33,13 @@ class _ProjectExpenseScreen extends State<ProjectExpenseScreen>
       color: AppTheme.background,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: AppTheme.background,
           iconTheme: const IconThemeData(color: Colors.black),
           title: Expanded(
             child: Text(
               'Expenses',
               textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: AppTheme.fontName,
-                fontWeight: FontWeight.w700,
-                fontSize: 20 + 6 - 6 * topBarOpacity,
-                letterSpacing: 1.2,
-                color: AppTheme.darkerText,
-              ),
+              style: AppTheme.headline,
             ),
           ),
         ),
@@ -62,7 +57,7 @@ class _ProjectExpenseScreen extends State<ProjectExpenseScreen>
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     decoration: BoxDecoration(
-                      color: AppTheme.secondaryColor,
+                      color: AppTheme.primaryColor,
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                             color:
@@ -182,6 +177,7 @@ class _buildlist extends StatelessWidget {
                         " " +
                         expenses[index].employee!.lastName!,
                     maxLines: 3,
+                    style: AppTheme.body1,
                   ),
                 ),
                 trailing: Row(
@@ -197,8 +193,7 @@ class _buildlist extends StatelessWidget {
                             child: Text(
                               expenses[index].amount?.toString() ?? "NA",
                               overflow: TextOverflow.visible,
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500),
+                              style: AppTheme.body1,
                             ),
                           ),
                         ),

@@ -80,16 +80,13 @@ class _ProjectScreen extends State<ProjectScreen>
                       ),
                     );
                   },
-                  leading: const Icon(
-                    FontAwesomeIcons.users,
-                  ),
+                  leading: const Icon(FontAwesomeIcons.users,
+                      color: AppTheme.secondaryColor),
                   title: const Padding(
                     padding: EdgeInsets.all(1),
                     child: Text(
                       'Personal',
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
+                      style: AppTheme.body2,
                     ),
                   ),
                 ),
@@ -109,14 +106,13 @@ class _ProjectScreen extends State<ProjectScreen>
                       ),
                     );
                   },
-                  leading: const Icon(FontAwesomeIcons.helmetSafety),
+                  leading: const Icon(FontAwesomeIcons.helmetSafety,
+                      color: AppTheme.secondaryColor),
                   title: const Padding(
                     padding: EdgeInsets.all(1),
                     child: Text(
                       'Workmen',
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
+                      style: AppTheme.body2,
                     ),
                   ),
                 ),
@@ -139,14 +135,13 @@ class _ProjectScreen extends State<ProjectScreen>
                       ),
                     );
                   },
-                  leading: const Icon(FontAwesomeIcons.fileInvoiceDollar),
+                  leading: const Icon(FontAwesomeIcons.fileInvoiceDollar,
+                      color: AppTheme.secondaryColor),
                   title: const Padding(
                     padding: EdgeInsets.all(1),
                     child: Text(
-                      'Expnenses',
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
+                      'Expenses',
+                      style: AppTheme.body2,
                     ),
                   ),
                 ),
@@ -162,16 +157,13 @@ class _ProjectScreen extends State<ProjectScreen>
                         MaterialPageRoute(
                             builder: (context) => const ProjectItemScreen()));
                   },
-                  leading: const Icon(
-                    Icons.shopping_cart,
-                  ),
+                  leading: const Icon(Icons.shopping_cart,
+                      color: AppTheme.secondaryColor),
                   title: const Padding(
                     padding: EdgeInsets.all(1),
                     child: Text(
                       'Items',
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
+                      style: AppTheme.body2,
                     ),
                   ),
                 ),
@@ -190,18 +182,13 @@ class _ProjectScreen extends State<ProjectScreen>
       color: AppTheme.background,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: AppTheme.background,
           iconTheme: const IconThemeData(color: Colors.black),
           title: const Expanded(
             child: Text(
               'Project Overview',
               textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: AppTheme.fontName,
-                fontWeight: FontWeight.w700,
-                fontSize: 28,
-                letterSpacing: 1.2,
-                color: AppTheme.darkerText,
-              ),
+              style: AppTheme.headline,
             ),
           ),
         ),
@@ -212,8 +199,8 @@ class _ProjectScreen extends State<ProjectScreen>
             children: <Widget>[
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: AppTheme.secondaryColor,
+                  borderRadius: BorderRadius.circular(5),
+                  color: AppTheme.secondaryColor.withOpacity(0.1),
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                         color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
@@ -225,221 +212,216 @@ class _ProjectScreen extends State<ProjectScreen>
                   children: [
                     ListTile(
                       title: Padding(
-                        padding: const EdgeInsets.only(left: 5),
+                        padding: const EdgeInsets.only(left: 5, top: 10),
                         child: Text(
                           project.name ?? "NA",
-                          style: const TextStyle(
-                            fontFamily: AppTheme.fontName,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 25,
-                            letterSpacing: 0.5,
-                            color: AppTheme.nearlyBlack,
-                          ),
+                          style: AppTheme.headline,
                         ),
                       ),
                     ),
                     const SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     Container(
                         width: 350,
-                        height: 60,
-                        child: Row(
+                        height: 140,
+                        child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Expanded(
-                              child: SizedBox(
-                                height: 50,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
                                 child: Column(
                                   children: [
                                     Row(
                                       children: [
-                                        const Icon(
-                                          Icons.av_timer,
-                                          color: AppTheme.deactivatedText,
-                                          size: 15,
+                                        SizedBox(
+                                          width: 30,
+                                          child: const Icon(
+                                            Icons.person,
+                                            color: AppTheme.deactivatedText,
+                                            size: 16,
+                                          ),
                                         ),
                                         const SizedBox(
-                                          width: 5,
+                                          width: 125,
+                                          child: const Text(
+                                            "Client",
+                                            style: AppTheme.body2,
+                                          ),
                                         ),
-                                        const Text(
-                                          "Status",
-                                          style: TextStyle(
-                                              color: AppTheme.deactivatedText,
-                                              fontSize: 15),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
                                         Padding(
                                           padding:
-                                              const EdgeInsets.only(left: 20),
+                                              const EdgeInsets.only(left: 0),
                                           child: Text(
-                                            project.status ?? "NA",
-                                            style: const TextStyle(
-                                                color: AppTheme.nearlyBlack,
-                                                fontSize: 20),
+                                            project.clientName ?? "NA",
+                                            style: AppTheme.body2,
                                           ),
                                         ),
                                       ],
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
                             Expanded(
-                              child: SizedBox(
-                                height: 50,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 30),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: const [
-                                          Icon(
-                                            Icons.av_timer,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 30,
+                                          child: const Icon(
+                                            Icons.timer,
                                             color: AppTheme.deactivatedText,
-                                            size: 15,
+                                            size: 16,
                                           ),
-                                          SizedBox(
-                                            width: 5,
+                                        ),
+                                        const SizedBox(
+                                          width: 125,
+                                          child: const Text(
+                                            "Status",
+                                            style: AppTheme.body2,
                                           ),
-                                          Text(
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 0),
+                                          child: Text(
+                                            project.status ?? "NA",
+                                            style: AppTheme.body2,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 30,
+                                          child: const Icon(
+                                            Icons.calendar_month,
+                                            color: AppTheme.deactivatedText,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 125,
+                                          child: Text(
                                             "Start Date",
-                                            style: TextStyle(
-                                                color: AppTheme.deactivatedText,
-                                                fontSize: 15),
-                                          )
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 20),
-                                            child: Text(
-                                              project.startDate != null
-                                                  ? formatDate
-                                                      .format(
-                                                          project.startDate ??
-                                                              DateTime.now())
-                                                      .toString()
-                                                  : "NA",
-                                              style: const TextStyle(
-                                                  color: AppTheme.nearlyBlack,
-                                                  fontSize: 20),
-                                            ),
+                                            style: AppTheme.body2,
                                           ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 0),
+                                          child: Text(
+                                            project.startDate != null
+                                                ? formatDate
+                                                    .format(project.startDate ??
+                                                        DateTime.now())
+                                                    .toString()
+                                                : "NA",
+                                            style: AppTheme.body2,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 30,
+                                          child: const Icon(
+                                            Icons.currency_rupee,
+                                            color: AppTheme.deactivatedText,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 125,
+                                          child: Text(
+                                            "Total Cost",
+                                            style: AppTheme.body2,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 0),
+                                          child: Text(
+                                            (project.totalCost ?? "NA")
+                                                .toString(),
+                                            style: AppTheme.body2,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 30,
+                                          child: const Icon(
+                                            Icons.currency_rupee,
+                                            color: AppTheme.deactivatedText,
+                                            size: 16,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 125,
+                                          child: Text(
+                                            "Estimated Cost",
+                                            style: AppTheme.body2,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 0),
+                                          child: Text(
+                                            (project.estimateCost ?? "NA")
+                                                .toString(),
+                                            style: AppTheme.body2,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                           ],
                         )),
                     const SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      width: 350,
-                      height: 60,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: 50,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.currency_rupee,
-                                        color: AppTheme.deactivatedText,
-                                        size: 15,
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      const Text(
-                                        "Total Cost",
-                                        style: TextStyle(
-                                            color: AppTheme.deactivatedText,
-                                            fontSize: 15),
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 20),
-                                        child: Text(
-                                          (project.totalCost ?? "NA")
-                                              .toString(),
-                                          style: const TextStyle(
-                                              color: AppTheme.nearlyBlack,
-                                              fontSize: 20),
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: SizedBox(
-                              height: 50,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 30),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.currency_rupee,
-                                          color: AppTheme.deactivatedText,
-                                          size: 15,
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        const Text(
-                                          "Estimated Cost",
-                                          style: TextStyle(
-                                              color: AppTheme.deactivatedText,
-                                              fontSize: 15),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 20),
-                                            child: Text(
-                                              (project.estimateCost ?? "NA")
-                                                  .toString(),
-                                              style: const TextStyle(
-                                                  color: AppTheme.nearlyBlack,
-                                                  fontSize: 20),
-                                            ))
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      height: 10,
                     ),
                   ],
                 ),
+              ),
+              SizedBox(
+                height: 20,
               ),
               getSubView(context),
               SizedBox(

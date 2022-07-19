@@ -16,7 +16,7 @@ class ProjectPersonalScreen extends StatefulWidget {
 class _ProjectPersonalScreen extends State<ProjectPersonalScreen>
     with TickerProviderStateMixin {
   double topBarOpacity = 0.0;
-
+  List<String> tabs = ["Leads", "supervisors"];
   @override
   void initState() {
     super.initState();
@@ -29,149 +29,120 @@ class _ProjectPersonalScreen extends State<ProjectPersonalScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.background,
-      child: Scaffold(
-        appBar: AppBar(
-          iconTheme: const IconThemeData(color: Colors.black),
-          title: Expanded(
-            child: Text(
-              'Personal',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: AppTheme.fontName,
-                fontWeight: FontWeight.w700,
-                fontSize: 20 + 6 - 6 * topBarOpacity,
-                letterSpacing: 1.2,
-                color: AppTheme.darkerText,
-              ),
-            ),
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        body: BlocProvider(
-          create: (_) =>
-              ProjectsCubit(repository: context.read<ProjectsService>())
-                ..getPersonal(1, "Leads"),
-          child: Stack(
-            children: <Widget>[
-              ListView.builder(
-                padding: const EdgeInsets.only(),
-                itemCount: 1,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: AppTheme.secondaryColor,
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color:
-                                AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                            offset: const Offset(1.1, 1.1),
-                            blurRadius: 10.0),
-                      ],
+    return BlocProvider(
+      create: (_) => ProjectsCubit(repository: context.read<ProjectsService>())
+        ..getPersonal(1, tabs[0]),
+      child: DefaultTabController(
+        length: 2,
+        child: Builder(
+          builder: (BuildContext context) {
+            final TabController tabController =
+                DefaultTabController.of(context)!;
+            tabController.addListener(() {
+              if (!tabController.indexIsChanging) {
+                context
+                    .read<ProjectsCubit>()
+                    .getPersonal(1, tabs[tabController.index]);
+              }
+            });
+            return Container(
+              color: AppTheme.background,
+              child: Scaffold(
+                appBar: AppBar(
+                  backgroundColor: AppTheme.background,
+                  iconTheme: const IconThemeData(color: Colors.black),
+                  bottom:
+                      TabBar(indicatorColor: AppTheme.secondaryColor, tabs: [
+                    Tab(
+                      child: Text(tabs[0], style: AppTheme.title),
                     ),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, right: 15, top: 10),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width - 20,
-                        height: MediaQuery.of(context).size.height - 100,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      maximumSize: const Size(200, 50),
-                                      minimumSize: const Size(200, 50),
-                                      primary: AppTheme.primaryColor,
-                                      backgroundColor: AppTheme.background,
-                                    ),
-                                    child: const Text(
-                                      "Leads",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    onPressed: () {
-                                      context
-                                          .read<ProjectsCubit>()
-                                          .getPersonal(1, "Laeds");
-                                    },
+                    Tab(
+                      child: Text(tabs[1], style: AppTheme.title),
+                    ),
+                  ]),
+                  title: Expanded(
+                    child: Text(
+                      'Personal',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontFamily: AppTheme.fontName,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20 + 6 - 6 * topBarOpacity,
+                        letterSpacing: 1.2,
+                        color: AppTheme.darkerText,
+                      ),
+                    ),
+                  ),
+                ),
+                backgroundColor: Colors.transparent,
+                body: Stack(
+                  children: <Widget>[
+                    Container(
+                      decoration: BoxDecoration(
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              color: AppTheme.grey
+                                  .withOpacity(0.4 * topBarOpacity),
+                              offset: const Offset(1.1, 1.1),
+                              blurRadius: 10.0),
+                        ],
+                      ),
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 10, right: 10, top: 10),
+                        child: Container(
+                          height: MediaQuery.of(context).size.height,
+                          child: Column(
+                            children: [
+                              Container(
+                                decoration: const BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color: AppTheme.secondaryColor))),
+                                child: Card(
+                                  margin: EdgeInsets.zero,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      maximumSize: const Size(200, 50),
-                                      minimumSize: const Size(200, 50),
-                                      primary: AppTheme.primaryColor,
-                                      backgroundColor: AppTheme.background,
+                                  elevation: 0,
+                                  child: ListTile(
+                                    dense: true,
+                                    title: const Text(
+                                      "Name",
+                                      style: AppTheme.listheading,
                                     ),
-                                    child: const Text(
-                                      "Supervisors",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    onPressed: () {
-                                      context
-                                          .read<ProjectsCubit>()
-                                          .getPersonal(1, "Supervisors");
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              decoration: const BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: Color(0xFFEEEEEE)))),
-                              child: Card(
-                                margin: EdgeInsets.zero,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: 0,
-                                child: ListTile(
-                                  dense: true,
-                                  title: const Text(
-                                    "Name",
-                                    style: AppTheme.listheading,
-                                  ),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: const [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 40),
-                                        child: Center(
-                                          child: Text(
-                                            "Email",
-                                            style: AppTheme.listheading,
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: const [
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 40),
+                                          child: Center(
+                                            child: Text(
+                                              "Email",
+                                              style: AppTheme.listheading,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Expanded(
-                                child: Column(children: [PersonalListView()]))
-                          ],
+                              Expanded(
+                                  child: Column(children: [PersonalListView()]))
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  );
-                },
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.bottom,
+                    )
+                  ],
+                ),
               ),
-              SizedBox(
-                height: MediaQuery.of(context).padding.bottom,
-              )
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
@@ -213,8 +184,10 @@ class _buildlist extends StatelessWidget {
         itemCount: employees.length,
         itemBuilder: (context, index) {
           return Container(
-            decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        color: AppTheme.secondaryColor.withOpacity(0.2)))),
             child: Card(
               margin: EdgeInsets.zero,
               elevation: 0,
@@ -227,6 +200,7 @@ class _buildlist extends StatelessWidget {
                         " " +
                         employees[index].lastName!,
                     maxLines: 3,
+                    style: AppTheme.body1,
                   ),
                 ),
                 trailing: Row(
@@ -241,6 +215,7 @@ class _buildlist extends StatelessWidget {
                             child: Text(
                               (employees[index].email ?? "NA"),
                               overflow: TextOverflow.visible,
+                              style: AppTheme.body1,
                             ),
                           ),
                         ),

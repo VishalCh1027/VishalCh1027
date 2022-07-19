@@ -41,18 +41,13 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
       child: Scaffold(
         drawer: NowDrawer(currentPage: "Technical Approvals"),
         appBar: AppBar(
+          backgroundColor: AppTheme.background,
           iconTheme: IconThemeData(color: Colors.black),
           title: Expanded(
             child: Text(
               'Purchase Requests',
               textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: AppTheme.fontName,
-                fontWeight: FontWeight.w700,
-                fontSize: 20 + 6 - 6 * topBarOpacity,
-                letterSpacing: 1.2,
-                color: AppTheme.darkerText,
-              ),
+              style: AppTheme.headline,
             ),
           ),
         ),
@@ -86,7 +81,7 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
                         child: Column(
                           children: [
                             Container(
-                              color: AppTheme.secondaryColor,
+                              color: AppTheme.background,
                               child: Row(
                                 children: [
                                   Expanded(
@@ -94,11 +89,11 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
                                       style: TextButton.styleFrom(
                                         maximumSize: Size(200, 50),
                                         minimumSize: Size(200, 50),
-                                        primary: AppTheme.primaryColor,
+                                        primary: AppTheme.background,
                                       ),
                                       child: Text(
                                         "Requested",
-                                        style: TextStyle(fontSize: 15),
+                                        style: AppTheme.title,
                                       ),
                                       onPressed: () {
                                         setState(() {
@@ -126,7 +121,7 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
                                       ),
                                       child: Text(
                                         "Approved",
-                                        style: TextStyle(fontSize: 15),
+                                        style: AppTheme.title,
                                       ),
                                       onPressed: () {
                                         setState(() {

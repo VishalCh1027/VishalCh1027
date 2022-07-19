@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Project {
   late int? id;
 
@@ -35,6 +33,8 @@ class Project {
 
   late String? orderAttachment;
 
+  late String? clientName;
+
   Project(
       {this.id,
       this.name,
@@ -42,7 +42,8 @@ class Project {
       this.startDate,
       this.totalCost,
       this.estimateCost,
-      this.agreement});
+      this.agreement,
+      this.clientName});
 
   Project.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -52,6 +53,7 @@ class Project {
     totalCost = json['totalCost']?.toDouble();
     estimateCost = json['estimateCost']?.toDouble();
     agreement = json['agreement'];
+    clientName = json['client.name'];
   }
 
   Map<String, dynamic> toJson() {

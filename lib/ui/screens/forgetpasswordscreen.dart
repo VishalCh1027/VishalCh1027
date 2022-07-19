@@ -25,7 +25,7 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
         title: const Padding(
             padding: EdgeInsets.only(left: 20),
             child: Text('Forget Password',
-                textAlign: TextAlign.left, style: AppTheme.headline)),
+                textAlign: TextAlign.left, style: AppTheme.title)),
       ),
       body: Container(
         decoration: BoxDecoration(

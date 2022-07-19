@@ -32,7 +32,7 @@ class DrawerTile extends StatelessWidget {
                   spreadRadius: 3,
                   blurRadius: 10)
             ],
-            color: isSelected ? AppTheme.primaryColor : AppTheme.secondaryColor,
+            color: isSelected ? AppTheme.secondaryColor : AppTheme.background,
             borderRadius: const BorderRadius.all(
               Radius.circular(54),
             ),
@@ -42,8 +42,8 @@ class DrawerTile extends StatelessWidget {
               Icon(icon,
                   size: 18,
                   color: isSelected
-                      ? AppTheme.secondaryColor
-                      : AppTheme.primaryColor.withOpacity(0.6)),
+                      ? AppTheme.background
+                      : AppTheme.secondaryColor.withOpacity(0.6)),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: Text(title,
@@ -52,8 +52,8 @@ class DrawerTile extends StatelessWidget {
                         fontSize: 15,
                         fontWeight: FontWeight.w200,
                         color: isSelected
-                            ? AppTheme.secondaryColor
-                            : AppTheme.primaryColor.withOpacity(0.8))),
+                            ? AppTheme.background
+                            : AppTheme.secondaryColor.withOpacity(0.8))),
               )
             ],
           )),

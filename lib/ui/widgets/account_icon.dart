@@ -13,7 +13,7 @@ class AccountIcon extends StatelessWidget {
           children: const [
             Icon(
               IconData(0xf522, fontFamily: 'MaterialIcons'),
-              color: AppTheme.primaryColor,
+              color: AppTheme.secondaryColor,
               size: 30,
             ),
           ],

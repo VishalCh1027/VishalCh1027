@@ -1,7 +1,8 @@
-import 'dart:convert';
-import 'package:my_application/global/global_variables.dart';
+import 'dart:math';
+
 import 'package:my_application/models/billing_model.dart';
-import '../../helpers/http_helper.dart';
+
+const _requestsLimit = 10;
 
 class BillingService {
   var requests = List<Billing>.from([
@@ -836,8 +837,8 @@ class BillingService {
     // return null;
   }
 
-  Future<List<Billing>?> getProcurementApprovals(
-      int employeeId, String status) async {
+  Future<List<Billing>> getProcurementApprovals(int employeeId, String status,
+      [startIndex = 0]) async {
     // var rs = await HttpHelper.get(Uri.parse(Billing_REQUEST_ENDPOINT),
     //     bearerToken: currentLogin.token);
     // print(rs.statusCode);
@@ -845,12 +846,12 @@ class BillingService {
     //   var jsonObject = jsonDecode(rs.body);
     //   var requests = List<BillingRequest>.from(
     //       [jsonObject].map((e) => BillingRequest.fromJson(e)));
+    var approved = requests.where((e) => e.status == status).toList();
 
-    if (status == "All") {
-      return requests;
-    } else {
-      return requests.where((e) => e.status == status).toList();
-    }
+    return approved
+        .getRange(startIndex, min(approved.length, startIndex + _requestsLimit))
+        .toList();
+    ;
     // }
     // return null;
   }

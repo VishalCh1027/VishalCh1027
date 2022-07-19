@@ -3,12 +3,10 @@ import 'dart:ffi';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart';
 import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/bloc/Wallet/service.dart';
 import 'package:my_application/bloc/project_list/service.dart';
 import 'package:my_application/bloc/workmen_list/service.dart';
-import 'package:my_application/models/orderItem_model.dart';
 import 'package:my_application/models/project_model.dart';
 import 'package:my_application/models/wallettransactions_model.dart';
 import 'package:my_application/models/workmen_model.dart';
@@ -104,11 +102,11 @@ class _AddExpensePage extends State<AddExpensePage> {
                       dropdownSearchDecoration: const InputDecoration(
                         icon: Icon(
                           Icons.person,
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.secondaryColor,
                         ),
                         labelText: 'Select Project',
                         labelStyle: TextStyle(
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.secondaryColor,
                         ),
                       ),
                     ),
@@ -129,11 +127,11 @@ class _AddExpensePage extends State<AddExpensePage> {
                       decoration: const InputDecoration(
                         icon: Icon(
                           Icons.production_quantity_limits_rounded,
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.secondaryColor,
                         ),
                         labelText: 'Amount',
                         labelStyle: TextStyle(
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.secondaryColor,
                         ),
                       ),
                     ),
@@ -184,11 +182,11 @@ class _AddExpensePage extends State<AddExpensePage> {
                         decoration: InputDecoration(
                             icon: Icon(
                               Icons.linear_scale_rounded,
-                              color: AppTheme.primaryColor,
+                              color: AppTheme.secondaryColor,
                             ),
                             labelText: "Payment Type",
                             labelStyle:
-                                TextStyle(color: AppTheme.primaryColor))),
+                                TextStyle(color: AppTheme.secondaryColor))),
                     DropdownButtonFormField(
                         elevation: 2,
                         validator: (value) {
@@ -255,11 +253,11 @@ class _AddExpensePage extends State<AddExpensePage> {
                         dropdownSearchDecoration: const InputDecoration(
                           icon: Icon(
                             Icons.person,
-                            color: AppTheme.primaryColor,
+                            color: AppTheme.secondaryColor,
                           ),
                           labelText: 'Select Workmen',
                           labelStyle: TextStyle(
-                            color: AppTheme.primaryColor,
+                            color: AppTheme.secondaryColor,
                           ),
                         ),
                       ),
@@ -305,7 +303,7 @@ class _AddExpensePage extends State<AddExpensePage> {
   Widget _buildSavebutton(BuildContext context) {
     return TextButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(AppTheme.primaryColor),
+        backgroundColor: MaterialStateProperty.all(AppTheme.secondaryColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5.0),

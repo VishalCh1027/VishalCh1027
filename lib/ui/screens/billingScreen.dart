@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/models/billing_model.dart';
 import 'package:my_application/ui/widgets/drawer.dart';
@@ -89,7 +90,7 @@ class _BillingScreen extends State<BillingScreen>
                       size: 20,
                     )
                   : null,
-              title: Text(orderItems[index].name!),
+              title: Text(orderItems[index].name!, style: AppTheme.body1),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -98,10 +99,9 @@ class _BillingScreen extends State<BillingScreen>
                     child: SizedBox(
                       width: 60,
                       child: Center(
-                        child: Text(
-                          orderItems[index].quantity.toString(),
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        child: Text(orderItems[index].quantity.toString(),
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTheme.body1),
                       ),
                     ),
                   ),
@@ -110,9 +110,8 @@ class _BillingScreen extends State<BillingScreen>
                     child: SizedBox(
                       width: 50,
                       child: Center(
-                        child: Text(
-                          orderItems[index].unit.toString(),
-                        ),
+                        child: Text(orderItems[index].unit.toString(),
+                            style: AppTheme.body1),
                       ),
                     ),
                   ),
@@ -188,13 +187,7 @@ class _BillingScreen extends State<BillingScreen>
               child: Text(
                 'Request Detail',
                 textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 28,
-                  letterSpacing: 1.2,
-                  color: AppTheme.darkerText,
-                ),
+                style: AppTheme.headline,
               ),
             ),
           ),
@@ -216,7 +209,6 @@ class _BillingScreen extends State<BillingScreen>
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppTheme.secondaryColor,
                     boxShadow: <BoxShadow>[
                       BoxShadow(
                           color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
@@ -229,185 +221,158 @@ class _BillingScreen extends State<BillingScreen>
                       Padding(
                           padding:
                               EdgeInsetsDirectional.fromSTEB(30, 10, 30, 0),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    IconData(0xe044,
-                                        fontFamily: 'MaterialIcons'),
-                                    color: AppTheme.deactivatedText,
-                                    size: 15,
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Project",
-                                    style: TextStyle(
-                                        color: AppTheme.deactivatedText,
-                                        fontSize: 15),
-                                  ),
-                                ],
-                              ),
-                              ListTile(
-                                title: Padding(
-                                  padding: EdgeInsets.only(left: 0),
-                                  child: Text(
-                                    billing?.project?.name ?? "NA",
-                                    style: TextStyle(
-                                        color: AppTheme.nearlyBlack,
-                                        fontSize: 20),
+                          child: Container(
+                            height: 200,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 15,
+                                    ),
+                                    Icon(
+                                      IconData(0xe044,
+                                          fontFamily: 'MaterialIcons'),
+                                      color: AppTheme.secondaryColor,
+                                      size: 15,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      "Project",
+                                      style: TextStyle(
+                                          color: AppTheme.deactivatedText,
+                                          fontSize: 15),
+                                    ),
+                                  ],
+                                ),
+                                ListTile(
+                                  title: Padding(
+                                    padding: EdgeInsets.only(left: 0),
+                                    child: Text(
+                                      billing?.project?.name ?? "NA",
+                                      style: TextStyle(
+                                          color: AppTheme.nearlyBlack,
+                                          fontSize: 20),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Expanded(
-                                    child: SizedBox(
-                                      height: 50,
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                Icons.av_timer,
-                                                color: AppTheme.deactivatedText,
-                                                size: 15,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                "Vendor",
-                                                style: TextStyle(
-                                                    color: AppTheme
-                                                        .deactivatedText,
-                                                    fontSize: 15),
-                                              )
-                                            ],
-                                          ),
-                                          Row(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 20),
-                                                child: Text(
-                                                  billing?.vendor?.name
-                                                          .toString() ??
-                                                      "NA",
-                                                  style: TextStyle(
-                                                      color:
-                                                          AppTheme.nearlyBlack,
-                                                      fontSize: 20),
-                                                ),
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: SizedBox(
-                                      height: 50,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(left: 30),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              children: const [
-                                                Icon(
-                                                  Icons.av_timer,
-                                                  color:
-                                                      AppTheme.deactivatedText,
-                                                  size: 15,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Text(
-                                                  "Requested by",
-                                                  style: TextStyle(
-                                                      color: AppTheme
-                                                          .deactivatedText,
-                                                      fontSize: 15),
-                                                )
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      EdgeInsets.only(left: 20),
-                                                  child: Text(
-                                                    billing!.employee
-                                                            ?.firstName ??
-                                                        "NA".toString(),
-                                                    style: TextStyle(
-                                                        color: AppTheme
-                                                            .nearlyBlack,
-                                                        fontSize: 20),
-                                                  ),
-                                                ),
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Container(
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 0),
                                     child: Column(
                                       children: [
                                         Row(
                                           children: [
-                                            Icon(
-                                              Icons.av_timer,
-                                              color: AppTheme.deactivatedText,
-                                              size: 15,
+                                            SizedBox(
+                                              width: 30,
+                                              child: const Icon(
+                                                Icons.person,
+                                                color: AppTheme.secondaryColor,
+                                                size: 16,
+                                              ),
                                             ),
                                             SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              "Amount",
-                                              style: TextStyle(
-                                                  color:
-                                                      AppTheme.deactivatedText,
-                                                  fontSize: 15),
-                                            )
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  EdgeInsets.only(left: 20),
+                                              width: 115,
                                               child: Text(
-                                                billing!.amount.toString(),
-                                                style: TextStyle(
-                                                    color: AppTheme.nearlyBlack,
-                                                    fontSize: 20),
+                                                "Vendor",
+                                                style: AppTheme.body2,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: 0),
+                                              child: Text(
+                                                billing?.vendor?.name
+                                                        .toString() ??
+                                                    "NA",
+                                                style: AppTheme.body2,
                                               ),
                                             ),
                                           ],
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ],
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 30,
+                                              child: const Icon(
+                                                Icons.person,
+                                                color: AppTheme.secondaryColor,
+                                                size: 16,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 115,
+                                              child: Text(
+                                                "Requested By",
+                                                style: AppTheme.body2,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: 0),
+                                              child: Text(
+                                                (billing!.employee?.firstName ??
+                                                        "NA")
+                                                    .toString(),
+                                                style: AppTheme.body2,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 30,
+                                              child: const Icon(
+                                                FontAwesomeIcons.moneyBill,
+                                                color: AppTheme.secondaryColor,
+                                                size: 16,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 115,
+                                              child: Text(
+                                                "Total Amount",
+                                                style: AppTheme.body2,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.only(left: 0),
+                                              child: Text(
+                                                "₹" +
+                                                    billing!.amount.toString(),
+                                                style: AppTheme.body2,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           )),
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(30, 10, 30, 0),
@@ -418,13 +383,7 @@ class _BillingScreen extends State<BillingScreen>
                           padding: EdgeInsets.only(left: 20),
                           child: Text(
                             "billing Items",
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              letterSpacing: 0.5,
-                              color: AppTheme.lightText,
-                            ),
+                            style: AppTheme.title,
                           ),
                         ),
                       ),
@@ -511,7 +470,7 @@ class _BillingScreen extends State<BillingScreen>
             child: TextButton(
               style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.all(AppTheme.primaryColor),
+                    MaterialStateProperty.all(AppTheme.secondaryColor),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
@@ -538,7 +497,7 @@ class _BillingScreen extends State<BillingScreen>
             child: TextButton(
               style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.all(AppTheme.primaryColor),
+                    MaterialStateProperty.all(AppTheme.secondaryColor),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),

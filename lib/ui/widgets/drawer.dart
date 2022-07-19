@@ -19,7 +19,7 @@ class NowDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
         child: Container(
-      color: AppTheme.secondaryColor,
+      color: AppTheme.background,
       child: Column(children: [
         //Header Section
         Container(
@@ -45,7 +45,7 @@ class NowDrawer extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10.0),
                       child: IconButton(
                           icon: Icon(Icons.menu,
-                              color: AppTheme.primaryColor.withOpacity(0.82),
+                              color: AppTheme.secondaryColor.withOpacity(0.82),
                               size: 24.0),
                           onPressed: () {
                             Navigator.of(context).pop();
@@ -69,13 +69,11 @@ class NowDrawer extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DashboardScreen(
-                                  changeIndex: (int i) {},
-                                )),
+                            builder: (context) => DashboardScreen()),
                       );
                     }
                   },
-                  iconColor: AppTheme.primaryColor,
+                  iconColor: AppTheme.secondaryColor,
                   title: "Dashboard",
                   isSelected: currentPage == "Dashboard" ? true : false),
               DrawerTile(
@@ -93,7 +91,7 @@ class NowDrawer extends StatelessWidget {
                       );
                     }
                   },
-                  iconColor: AppTheme.secondaryColor,
+                  iconColor: AppTheme.background,
                   title: "Attendance",
                   isSelected: currentPage == "Attendance" ? true : false),
               DrawerTile(
@@ -107,7 +105,7 @@ class NowDrawer extends StatelessWidget {
                       );
                     }
                   },
-                  iconColor: AppTheme.background,
+                  iconColor: AppTheme.secondaryColor,
                   title: "Purchase Requests",
                   isSelected:
                       currentPage == "Purchase Requests" ? true : false),
@@ -122,7 +120,7 @@ class NowDrawer extends StatelessWidget {
                       );
                     }
                   },
-                  iconColor: AppTheme.background,
+                  iconColor: AppTheme.secondaryColor,
                   title: "Technical Approvals",
                   isSelected:
                       currentPage == "Technical Approvals" ? true : false),
@@ -138,7 +136,7 @@ class NowDrawer extends StatelessWidget {
                       );
                     }
                   },
-                  iconColor: AppTheme.background,
+                  iconColor: AppTheme.secondaryColor,
                   title: "Procurement Approvals",
                   isSelected:
                       currentPage == "Procurement Approvals" ? true : false),
@@ -154,7 +152,7 @@ class NowDrawer extends StatelessWidget {
                       );
                     }
                   },
-                  iconColor: AppTheme.background,
+                  iconColor: AppTheme.secondaryColor,
                   title: "Projects",
                   isSelected: currentPage == "Projects" ? true : false),
               DrawerTile(
@@ -169,7 +167,7 @@ class NowDrawer extends StatelessWidget {
                       );
                     }
                   },
-                  iconColor: AppTheme.background,
+                  iconColor: AppTheme.secondaryColor,
                   title: "Wallet",
                   isSelected: currentPage == "Wallet" ? true : false),
               DrawerTile(
@@ -183,7 +181,7 @@ class NowDrawer extends StatelessWidget {
                       );
                     }
                   },
-                  iconColor: AppTheme.primaryColor,
+                  iconColor: AppTheme.secondaryColor,
                   title: "Account",
                   isSelected: currentPage == "Account" ? true : false),
             ],
@@ -202,20 +200,20 @@ class NowDrawer extends StatelessWidget {
                   Divider(
                       height: 4,
                       thickness: 0,
-                      color: AppTheme.primaryColor.withOpacity(0.8)),
+                      color: AppTheme.secondaryColor.withOpacity(0.8)),
                   Padding(
                     padding:
                         const EdgeInsets.only(top: 16.0, left: 16, bottom: 8),
                     child: Text("More",
                         style: TextStyle(
-                          color: AppTheme.primaryColor.withOpacity(0.8),
+                          color: AppTheme.secondaryColor.withOpacity(0.8),
                           fontSize: 13,
                         )),
                   ),
                   DrawerTile(
                       icon: FontAwesomeIcons.satellite,
                       onTap: () {},
-                      iconColor: AppTheme.primaryColor,
+                      iconColor: AppTheme.secondaryColor,
                       title: "About Us",
                       isSelected: currentPage == "About Us" ? true : false),
                 ],

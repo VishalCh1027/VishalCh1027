@@ -55,7 +55,7 @@ class _AccountScreenState extends State<AccountScreen> {
               currentLogin.employee!.firstName! +
                   " " +
                   currentLogin.employee!.lastName!,
-              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+              style: AppTheme.headline,
             ),
             trailing: const Icon(
               Icons.arrow_forward_ios_rounded,
@@ -69,7 +69,7 @@ class _AccountScreenState extends State<AccountScreen> {
       const OptionsTile(
         title: Text(
           "Select Office",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+          style: AppTheme.title,
         ),
         leadingIcon: Icons.store,
         trailing: Icon(
@@ -82,7 +82,7 @@ class _AccountScreenState extends State<AccountScreen> {
       const OptionsTile(
         title: Text(
           "Settings",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+          style: AppTheme.title,
         ),
         leadingIcon: Icons.settings,
         trailing: Icon(
@@ -96,7 +96,7 @@ class _AccountScreenState extends State<AccountScreen> {
       OptionsTile(
         title: const Text(
           "Logout",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+          style: AppTheme.title,
         ),
         leadingIcon: Icons.logout,
         trailing: const Icon(
@@ -137,7 +137,7 @@ class _AccountScreenState extends State<AccountScreen> {
           appBar: AppBar(
             iconTheme: const IconThemeData(color: Colors.black),
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: AppTheme.primaryColor,
           body: Stack(
             children: <Widget>[
               getMainListViewUI(),

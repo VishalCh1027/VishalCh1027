@@ -50,17 +50,12 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                     ? "Attendance"
                     : "Projects"),
         appBar: AppBar(
+          backgroundColor: AppTheme.background,
           iconTheme: const IconThemeData(color: Colors.black),
           title: Text(
             widget.type == PageType.ProjectList ? 'Projects' : "Select Project",
             textAlign: TextAlign.left,
-            style: const TextStyle(
-              fontFamily: AppTheme.fontName,
-              fontWeight: FontWeight.w700,
-              fontSize: 20 + 6,
-              letterSpacing: 1.2,
-              color: AppTheme.darkerText,
-            ),
+            style: AppTheme.headline,
           ),
         ),
         backgroundColor: Colors.transparent,
@@ -70,66 +65,45 @@ class _ProjectListScreenState extends State<ProjectListScreen> {
                 ..getProjects(1),
           child: Stack(
             children: <Widget>[
-              ListView.builder(
-                padding: const EdgeInsets.only(
-                  bottom: 0,
-                ),
-                itemCount: 1,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: AppTheme.background,
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color:
-                                AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                            offset: const Offset(1.1, 1.1),
-                            blurRadius: 10.0),
-                      ],
-                    ),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 30, right: 30, top: 20),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width - 40,
-                        height: MediaQuery.of(context).size.height - 150,
-                        child: Column(
-                          children: [
-                            const _buildHead(),
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: ListTile(
-                                dense: true,
-                                title: const Text(
-                                  "Name",
-                                  style: AppTheme.listheading,
-                                ),
-                                trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: const [
-                                      SizedBox(
-                                        width: 100,
-                                        child: Center(
-                                          child: Text("Status",
-                                              style: AppTheme.listheading),
-                                        ),
-                                      ),
-                                    ]),
-                              ),
-                            ),
-                            Expanded(
-                                child: Column(children: [
-                              ProjectlistVIew(type: widget.type)
-                            ]))
-                          ],
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 0),
+                child: Column(
+                  children: [
+                    const _buildHead(),
+                    Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                                  color: AppTheme.secondaryColor
+                                      .withOpacity(0.5)))),
+                      child: ListTile(
+                        dense: true,
+                        title: const Text(
+                          "Name",
+                          style: AppTheme.listheading,
                         ),
+                        trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              SizedBox(
+                                width: 100,
+                                child: Center(
+                                  child: Text("Status",
+                                      style: AppTheme.listheading),
+                                ),
+                              ),
+                            ]),
                       ),
                     ),
-                  );
-                },
+                    Expanded(
+                      child: Column(
+                        children: [
+                          ProjectlistVIew(type: widget.type),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
               SizedBox(
                 height: MediaQuery.of(context).padding.bottom,
@@ -147,34 +121,37 @@ class _buildHead extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-        decoration: const InputDecoration(
-          contentPadding: EdgeInsets.all(0),
-          hintText: 'Search...',
-          hintStyle: TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontStyle: FontStyle.normal,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.0),
+    return SizedBox(
+      height: 40,
+      width: MediaQuery.of(context).size.width - 40,
+      child: TextFormField(
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.all(0),
+            hintText: 'Search...',
+            hintStyle: AppTheme.body1,
+            focusedBorder: OutlineInputBorder(
+              borderSide:
+                  const BorderSide(color: AppTheme.secondaryColor, width: 1.0),
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(10.0),
+              ),
+            ),
+            prefixIcon: Icon(
+              Icons.search,
             ),
           ),
-          prefixIcon: Icon(
-            Icons.search,
-          ),
-        ),
-        onChanged: (value) {
-          if (value.length > 1) {
-            context.read<ProjectsCubit>().searchProject(value);
-          } else {
-            context.read<ProjectsCubit>().getProjects(1);
-          }
-        },
-        style: const TextStyle(
-          color: AppTheme.secondaryColor,
-        ));
+          onChanged: (value) {
+            if (value.length > 1) {
+              context.read<ProjectsCubit>().searchProject(value);
+            } else {
+              context.read<ProjectsCubit>().getProjects(1);
+            }
+          },
+          style: AppTheme.body2),
+    );
   }
 }
 
@@ -223,8 +200,11 @@ class _buildlist extends StatelessWidget {
         shrinkWrap: true,
         itemCount: projects.length,
         itemBuilder: (context, index) {
-          return Card(
-              child: Container(
+          return Container(
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                        color: AppTheme.secondaryColor.withOpacity(0.2)))),
             child: ListTile(
               onTap: () {
                 switch (type) {
@@ -261,6 +241,8 @@ class _buildlist extends StatelessWidget {
                 child: Text(
                   projects[index].name ?? "",
                   overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                  style: AppTheme.body1,
                 ),
               ),
               trailing: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -268,12 +250,12 @@ class _buildlist extends StatelessWidget {
                   width: 100,
                   child: Center(
                     child: Text((projects[index].status ?? "").toString(),
-                        style: const TextStyle(color: AppTheme.primaryColor)),
+                        style: AppTheme.body1),
                   ),
                 ),
               ]),
             ),
-          ));
+          );
         },
       ),
     );

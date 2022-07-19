@@ -33,6 +33,7 @@ class _ProjectItemScreen extends State<ProjectItemScreen>
       color: AppTheme.background,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: AppTheme.background,
           iconTheme: const IconThemeData(color: Colors.black),
           title: Expanded(
             child: Text(
@@ -62,7 +63,7 @@ class _ProjectItemScreen extends State<ProjectItemScreen>
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     decoration: BoxDecoration(
-                      color: AppTheme.secondaryColor,
+                      color: AppTheme.background,
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                             color:

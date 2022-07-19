@@ -11,19 +11,21 @@ class PurchasesCubit extends Cubit<PurchasesState> {
   Future<void> getPurchases(int employeeId, String status) async {
     if (state.hasReachedMax) return;
     try {
+      if (state.status == PurchasesStatus.PurchasesLoading) {
+        var rs = await repository.getPurchases(
+            employeeId, status, state.purchases.length);
+        emit(PurchasesState.intial(rs, false));
+      }
       var rs = await repository.getPurchases(
           employeeId, status, state.purchases.length);
-      if (state.status == PurchasesStatus.PurchasesLoading) {
-        emit(PurchasesState.success(
-            List.of(state.purchases)..addAll(rs), false));
-      } else {
-        rs.isEmpty
-            ? emit(PurchasesState.success(state.purchases, true))
-            : emit(PurchasesState.success(
-                List.of(state.purchases)..addAll(rs), false));
-      }
+      rs.isEmpty
+          ? emit(PurchasesState.success(state.purchases, true))
+          : emit(PurchasesState.success(
+              List.of(state.purchases)..addAll(rs), false));
     } catch (e) {
       emit(PurchasesState.failure());
+    } catch (e) {
+      return;
     }
   }
 
@@ -33,8 +35,7 @@ class PurchasesCubit extends Cubit<PurchasesState> {
       var rs = await repository.getTechnicalHeadRequests(
           employeeId, status, state.purchases.length);
       if (state.status == PurchasesStatus.PurchasesLoading) {
-        emit(
-            PurchasesState.intial(List.of(state.purchases)..addAll(rs), false));
+        emit(PurchasesState.intial(rs, false));
       } else {
         rs.isEmpty
             ? emit(PurchasesState.success(state.purchases, true))
@@ -79,7 +80,7 @@ class PurchasesCubit extends Cubit<PurchasesState> {
       element.selected = false;
     });
     if (newstate.purchases.isNotEmpty) {
-      emit(PurchasesState.editing(newstate.purchases));
+      emit(PurchasesState.success(newstate.purchases, state.hasReachedMax));
     } else {
       emit(PurchasesState.failure());
     }

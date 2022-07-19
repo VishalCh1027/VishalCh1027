@@ -2,6 +2,7 @@ import 'package:my_application/models/billing_model.dart';
 
 enum BillingStatus {
   BillingLoading,
+  Billinginitial,
   BillingLoadedSuccessfully,
   BillingEditing,
   listIsEmty,
@@ -12,18 +13,25 @@ class BillingState {
   const BillingState._({
     this.status = BillingStatus.BillingLoading,
     this.billing = const <Billing>[],
+    this.hasReachedMax = false,
   });
   final BillingStatus status;
   final List<Billing> billing;
+  final bool hasReachedMax;
 
-  const BillingState.loading() : this._();
+  const BillingState.loading() : this._(status: BillingStatus.BillingLoading);
 
-  const BillingState.success(List<Billing> billing)
+  const BillingState.initial(List<Billing> billing, bool hasReachedMax)
       : this._(
-            status: BillingStatus.BillingLoadedSuccessfully, billing: billing);
+            status: BillingStatus.Billinginitial,
+            billing: billing,
+            hasReachedMax: hasReachedMax);
 
-  const BillingState.editing(List<Billing> billing)
-      : this._(status: BillingStatus.BillingEditing, billing: billing);
+  const BillingState.success(List<Billing> billing, bool hasReachedMax)
+      : this._(
+            status: BillingStatus.BillingLoadedSuccessfully,
+            billing: billing,
+            hasReachedMax: hasReachedMax);
 
   const BillingState.listIsEmty() : this._(status: BillingStatus.listIsEmty);
 
@@ -39,5 +47,5 @@ class BillingState {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [status, billing];
+  List<Object?> get props => [status, billing, hasReachedMax];
 }

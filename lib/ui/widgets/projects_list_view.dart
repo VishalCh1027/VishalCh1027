@@ -271,7 +271,7 @@ class ProjectsView extends StatelessWidget {
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(
-                      top: 0, left: 16, right: 16, bottom: 0),
+                      top: 40, left: 16, right: 16, bottom: 0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -279,7 +279,7 @@ class ProjectsView extends StatelessWidget {
                       Text(
                         projectsListData.name ?? "",
                         maxLines: 5,
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.left,
                         style: const TextStyle(
                           fontFamily: AppTheme.fontName,
                           fontWeight: FontWeight.bold,
@@ -295,18 +295,7 @@ class ProjectsView extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 0,
-            left: 0,
-            child: Container(
-              width: 84,
-              height: 84,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 0,
+            top: 30,
             left: 0,
             child: SizedBox(
               width: 80,

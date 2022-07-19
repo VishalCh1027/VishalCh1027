@@ -7,16 +7,8 @@ import 'package:my_application/bloc/billings/state.dart';
 import 'package:my_application/global/global_function.dart';
 import 'package:my_application/models/billing_model.dart';
 import 'package:my_application/ui/screens/billingScreen.dart';
+import 'package:my_application/ui/widgets/bottom_loader.dart';
 import 'package:my_application/ui/widgets/drawer.dart';
-
-enum Billingtatus {
-  All,
-  Requested,
-  Approved,
-  Rejected,
-  Hold,
-  Closed,
-}
 
 class ProcurementHeadScreen extends StatefulWidget {
   const ProcurementHeadScreen({Key? key}) : super(key: key);
@@ -29,7 +21,8 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
     with TickerProviderStateMixin {
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
-
+  List<String> tabs = ["Requested", "Approved"];
+  String currentStatus = "Requested";
   @override
   void initState() {
     super.initState();
@@ -42,50 +35,62 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.background,
-      child: Scaffold(
-        drawer: NowDrawer(
-          currentPage: "Procurement Approvals",
-        ),
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
-          title: Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Purchase Orders',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20 + 6 - 6 * topBarOpacity,
-                  letterSpacing: 1.2,
-                  color: AppTheme.darkerText,
+    return BlocProvider(
+      create: (_) => BillingCubit(repository: context.read<BillingService>())
+        ..getProcurementApprovals(1, tabs[0]),
+      child: DefaultTabController(
+        length: 2,
+        child: Builder(builder: (BuildContext context) {
+          final TabController tabController = DefaultTabController.of(context)!;
+          tabController.addListener(() {
+            if (!tabController.indexIsChanging) {
+              setState(() {
+                currentStatus = tabs[tabController.index];
+              });
+              context.read<BillingCubit>().PageChange();
+              context
+                  .read<BillingCubit>()
+                  .getProcurementApprovals(1, tabs[tabController.index]);
+            }
+          });
+          return Container(
+            color: AppTheme.background,
+            child: Scaffold(
+              drawer: NowDrawer(
+                currentPage: "Procurement Approvals",
+              ),
+              appBar: AppBar(
+                backgroundColor: AppTheme.background,
+                iconTheme: IconThemeData(color: AppTheme.secondaryColor),
+                bottom: TabBar(indicatorColor: AppTheme.secondaryColor, tabs: [
+                  Tab(
+                    child: Text(tabs[0], style: AppTheme.title),
+                  ),
+                  Tab(
+                    child: Text(tabs[1], style: AppTheme.title),
+                  ),
+                ]),
+                title: Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Purchase Orders',
+                      textAlign: TextAlign.left,
+                      style: AppTheme.headline,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        body: BlocProvider(
-          create: (_) => BillingCubit(
-              repository: context.read<BillingService>())
-            ..getBilling(1, GetEnumValue(Billingtatus.Requested.toString())),
-          child: Stack(
-            children: <Widget>[
-              ListView.builder(
-                padding: EdgeInsets.only(),
-                itemCount: 1,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
+              backgroundColor: Colors.transparent,
+              body: Stack(
+                children: <Widget>[
+                  Container(
                     decoration: BoxDecoration(
-                      color: AppTheme.background,
+                      color: AppTheme.secondaryColor,
                       boxShadow: <BoxShadow>[
                         BoxShadow(
-                            color:
-                                AppTheme.grey.withOpacity(0.4 * topBarOpacity),
+                            color: AppTheme.secondaryColor
+                                .withOpacity(0.4 * topBarOpacity),
                             offset: const Offset(1.1, 1.1),
                             blurRadius: 10.0),
                       ],
@@ -95,52 +100,12 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: AppTheme.secondaryColor,
+                          color: AppTheme.background,
                         ),
                         width: MediaQuery.of(context).size.width - 20,
                         height: MediaQuery.of(context).size.height - 120,
                         child: Column(
                           children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      maximumSize: Size(200, 50),
-                                      minimumSize: Size(200, 50),
-                                      primary: AppTheme.primaryColor,
-                                    ),
-                                    child: Text(
-                                      "Requested",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    onPressed: () {
-                                      context
-                                          .read<BillingCubit>()
-                                          .getBilling(1, "Requested");
-                                    },
-                                  ),
-                                ),
-                                Expanded(
-                                  child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      maximumSize: Size(200, 50),
-                                      minimumSize: Size(200, 50),
-                                      primary: AppTheme.primaryColor,
-                                    ),
-                                    child: Text(
-                                      "Approved",
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    onPressed: () {
-                                      context
-                                          .read<BillingCubit>()
-                                          .getBilling(1, "Approved");
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
                             Container(
                               decoration: BoxDecoration(
                                   border: Border(
@@ -176,54 +141,67 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
                               ),
                             ),
                             Expanded(
-                                child: Column(children: [BillingListVIew()]))
+                                child: Column(children: [
+                              BillingListVIew(
+                                currentStatus: currentStatus,
+                              )
+                            ]))
                           ],
                         ),
                       ),
                     ),
-                  );
-                },
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).padding.bottom,
+                  )
+                ],
               ),
-              SizedBox(
-                height: MediaQuery.of(context).padding.bottom,
-              )
-            ],
-          ),
-        ),
+            ),
+          );
+        }),
       ),
     );
   }
 }
 
-class BillingListVIew extends StatelessWidget {
+class BillingListVIew extends StatefulWidget {
+  const BillingListVIew({Key? key, required this.currentStatus})
+      : super(key: key);
+  final String currentStatus;
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<BillingCubit, BillingState>(
-      buildWhen: (previous, current) => true,
-      builder: (context, state) {
-        if (state.status == BillingStatus.BillingError) {
-          return const Center(child: Text('Oops something went wrong!'));
-        } else if (state.status == BillingStatus.BillingLoadedSuccessfully) {
-          return _buildlist(billing: state.billing);
-        } else if (state.status == BillingStatus.BillingEditing) {
-          return _buildlist(billing: state.billing);
-        } else if (state.status == BillingStatus.listIsEmty) {
-          return const Center(child: Text('List is empty'));
-        } else {
-          return const Center(child: CircularProgressIndicator());
-        }
-      },
-    );
-  }
+  State<BillingListVIew> createState() => _buildlist();
 }
 
-class _buildlist extends StatelessWidget {
-  _buildlist({
-    Key? key,
-    required this.billing,
-  }) : super(key: key);
+class _buildlist extends State<BillingListVIew> {
+  ScrollController _scrollController = ScrollController();
 
-  List<Billing> billing;
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isBottom)
+      context
+          .read<BillingCubit>()
+          .getProcurementApprovals(1, widget.currentStatus);
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll * 0.9);
+  }
 
   Future _openRequest(Billing currentRequest, BuildContext context) async {
     Billing? bill = await Navigator.of(context).push(
@@ -242,48 +220,70 @@ class _buildlist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        itemCount: billing.length,
-        itemBuilder: (context, index) {
-          return Container(
-            decoration: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
-            child: Card(
-              margin: EdgeInsets.zero,
-              elevation: 0,
-              child: ListTile(
-                onTap: () {
-                  _openRequest(billing[index], context);
-                },
-                title: SizedBox(
-                  child: Text(
-                    billing[index].project!.name ?? "NA",
-                    maxLines: 3,
-                  ),
-                ),
-                trailing: Text(
-                  billing[index].amount.toString(),
-                  overflow: TextOverflow.visible,
-                ),
-                subtitle: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Requested by : " +
-                        billing[index].employee!.firstName! +
-                        " " +
-                        billing[index].employee!.lastName!),
-                    Text("Vendor : " + billing[index].vendor!.name),
-                  ],
-                ),
-              ),
+    return BlocBuilder<BillingCubit, BillingState>(
+      buildWhen: (previous, current) => true,
+      builder: (context, state) {
+        if (state.status == BillingStatus.BillingError) {
+          return const Center(child: Text('Oops something went wrong!'));
+        } else if (state.status == BillingStatus.BillingLoadedSuccessfully ||
+            state.status == BillingStatus.BillingEditing ||
+            state.status == BillingStatus.Billinginitial) {
+          return Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              itemCount: state.hasReachedMax ||
+                      state.status == BillingStatus.Billinginitial
+                  ? state.billing.length
+                  : state.billing.length + 1,
+              itemBuilder: (context, index) {
+                return index >= state.billing.length
+                    ? BottomLoader()
+                    : Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(color: Color(0xFFEEEEEE)))),
+                        child: Card(
+                          margin: EdgeInsets.zero,
+                          elevation: 0,
+                          child: ListTile(
+                            onTap: () {
+                              _openRequest(state.billing[index], context);
+                            },
+                            title: SizedBox(
+                              child: Text(
+                                state.billing[index].project!.name ?? "NA",
+                                maxLines: 3,
+                              ),
+                            ),
+                            trailing: Text(
+                              state.billing[index].amount.toString(),
+                              overflow: TextOverflow.visible,
+                            ),
+                            subtitle: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Requested by : " +
+                                    state.billing[index].employee!.firstName! +
+                                    " " +
+                                    state.billing[index].employee!.lastName!),
+                                Text("Vendor : " +
+                                    state.billing[index].vendor!.name),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+              },
             ),
           );
-        },
-      ),
+        } else if (state.status == BillingStatus.listIsEmty) {
+          return const Center(child: Text('List is empty'));
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 }

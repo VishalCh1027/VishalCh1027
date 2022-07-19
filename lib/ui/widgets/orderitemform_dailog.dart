@@ -33,7 +33,6 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
-        backgroundColor: AppTheme.secondaryColor,
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop();
@@ -64,7 +63,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
           padding: EdgeInsets.only(left: 20, right: 20, top: 20),
           child: Container(
             decoration: BoxDecoration(
-              color: AppTheme.secondaryColor,
+              color: AppTheme.secondaryColor.withOpacity(0.1),
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(8.0),
                 bottomRight: Radius.circular(8.0),
@@ -73,7 +72,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(20.0),
               child: Form(
                 key: formKey,
                 child: ListView(
@@ -93,11 +92,11 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                       decoration: const InputDecoration(
                         prefixIcon: Icon(
                           Icons.person,
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.secondaryColor,
                         ),
                         labelText: 'Name',
                         labelStyle: TextStyle(
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.secondaryColor,
                         ),
                       ),
                     ),
@@ -109,11 +108,11 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                       decoration: const InputDecoration(
                         prefixIcon: Icon(
                           Icons.info_outline_rounded,
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.secondaryColor,
                         ),
                         labelText: 'Description',
                         labelStyle: TextStyle(
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.secondaryColor,
                         ),
                       ),
                     ),
@@ -144,11 +143,11 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                         decoration: InputDecoration(
                             prefixIcon: Icon(
                               Icons.linear_scale_rounded,
-                              color: AppTheme.primaryColor,
+                              color: AppTheme.secondaryColor,
                             ),
                             labelText: "Unit",
                             labelStyle:
-                                TextStyle(color: AppTheme.primaryColor))),
+                                TextStyle(color: AppTheme.secondaryColor))),
                     TextFormField(
                       initialValue: _item.quantity != null
                           ? _item.quantity.toString()
@@ -166,16 +165,16 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                       decoration: const InputDecoration(
                         prefixIcon: Icon(
                           Icons.production_quantity_limits_rounded,
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.secondaryColor,
                         ),
                         labelText: 'Quantity',
                         labelStyle: TextStyle(
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.secondaryColor,
                         ),
                       ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(20, 10, 20, 10),
@@ -185,7 +184,7 @@ class _OrderItemUpdatePage extends State<OrderItemUpdatePage> {
                             child: TextButton(
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
-                                    AppTheme.primaryColor),
+                                    AppTheme.secondaryColor),
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(

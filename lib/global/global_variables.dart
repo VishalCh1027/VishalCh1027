@@ -5,7 +5,6 @@ import 'package:my_application/models/office_model.dart';
 
 LoginModel currentLogin = LoginModel();
 List<Claim> claims = [];
-
 Office currentOffice = Office();
 
 getGlobal() async {

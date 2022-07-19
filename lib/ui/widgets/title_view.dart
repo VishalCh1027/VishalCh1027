@@ -26,13 +26,7 @@ class TitleView extends StatelessWidget {
               child: Text(
                 titleTxt,
                 textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18,
-                  letterSpacing: 0.5,
-                  color: AppTheme.lightText,
-                ),
+                style: AppTheme.title,
               ),
             ),
             istrailing
@@ -44,23 +38,14 @@ class TitleView extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 8),
                       child: Row(
                         children: <Widget>[
-                          Text(
-                            subTxt,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 16,
-                              letterSpacing: 0.5,
-                              color: AppTheme.lightText,
-                            ),
-                          ),
+                          Text(subTxt,
+                              textAlign: TextAlign.left, style: AppTheme.body1),
                         ],
                       ),
                     ),
                   )
                 : Container(
-                    height: 38,
+                    height: 18,
                   ),
           ],
         ),

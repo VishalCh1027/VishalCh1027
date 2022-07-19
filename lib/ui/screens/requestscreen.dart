@@ -120,11 +120,14 @@ class _RequestScreen extends State<RequestScreen>
                       orderItems[index].selected
                           ? Icons.check
                           : Icons.check_box_outline_blank_rounded,
-                      color: AppTheme.primaryColor,
+                      color: AppTheme.secondaryColor,
                       size: 20,
                     )
                   : null,
-              title: Text(orderItems[index].name!),
+              title: Text(
+                orderItems[index].name!,
+                style: AppTheme.body1,
+              ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -136,6 +139,7 @@ class _RequestScreen extends State<RequestScreen>
                         child: Text(
                           orderItems[index].quantity.toString(),
                           overflow: TextOverflow.ellipsis,
+                          style: AppTheme.body1,
                         ),
                       ),
                     ),
@@ -147,6 +151,7 @@ class _RequestScreen extends State<RequestScreen>
                       child: Center(
                         child: Text(
                           orderItems[index].unit.toString(),
+                          style: AppTheme.body1,
                         ),
                       ),
                     ),
@@ -217,7 +222,7 @@ class _RequestScreen extends State<RequestScreen>
                   child: InkWell(
                     child: Icon(
                       IconData(0xe1b9, fontFamily: 'MaterialIcons'),
-                      color: AppTheme.primaryColor,
+                      color: AppTheme.secondaryColor,
                       size: 20,
                     ),
                     onTap: () {
@@ -238,7 +243,7 @@ class _RequestScreen extends State<RequestScreen>
                   child: InkWell(
                     child: Icon(
                       Icons.clear_rounded,
-                      color: AppTheme.primaryColor,
+                      color: AppTheme.secondaryColor,
                       size: 20,
                     ),
                     onTap: () {
@@ -255,7 +260,7 @@ class _RequestScreen extends State<RequestScreen>
             leading: InkWell(
               child: Icon(
                 Icons.checklist_rounded,
-                color: AppTheme.primaryColor,
+                color: AppTheme.secondaryColor,
                 size: 20,
               ),
               onTap: () {
@@ -308,19 +313,10 @@ class _RequestScreen extends State<RequestScreen>
         appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.black),
           title: const Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'Request Detail',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 28,
-                  letterSpacing: 1.2,
-                  color: AppTheme.darkerText,
-                ),
-              ),
+            child: Text(
+              'Request Detail',
+              textAlign: TextAlign.left,
+              style: AppTheme.headline,
             ),
           ),
         ),
@@ -331,7 +327,7 @@ class _RequestScreen extends State<RequestScreen>
                     ? null
                     : FloatingActionButton(
                         highlightElevation: 5,
-                        backgroundColor: AppTheme.dark_green,
+                        backgroundColor: AppTheme.secondaryColor,
                         elevation: 50,
                         child: Icon(Icons.add),
                         onPressed: () => {_openDialogAddItem(null)},
@@ -368,7 +364,7 @@ class _RequestScreen extends State<RequestScreen>
                             const EdgeInsets.only(left: 8.0, right: 8, top: 20),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: AppTheme.secondaryColor,
+                            color: AppTheme.secondaryColor.withOpacity(0.1),
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(8.0),
                                 topRight: Radius.circular(8.0)),
@@ -380,157 +376,129 @@ class _RequestScreen extends State<RequestScreen>
                             child: isViewOnly ||
                                     widget.type ==
                                         RequestPageType.technicalrequests
-                                ? Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            IconData(0xe044,
-                                                fontFamily: 'MaterialIcons'),
-                                            color: AppTheme.deactivatedText,
-                                            size: 15,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            "Project",
-                                            style: TextStyle(
-                                                color: AppTheme.deactivatedText,
-                                                fontSize: 15),
-                                          )
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(left: 20),
-                                            child: Flexible(
-                                              child: Text(
-                                                request.project!.name ?? "NA",
-                                                style: TextStyle(
-                                                    color: AppTheme.nearlyBlack,
-                                                    fontSize: 20),
-                                                maxLines: 3,
-                                                overflow: TextOverflow.visible,
-                                              ),
+                                ? Container(
+                                    height: 200,
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            Icon(
+                                              IconData(0xe044,
+                                                  fontFamily: 'MaterialIcons'),
+                                              color: AppTheme.secondaryColor,
+                                              size: 15,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              "Project",
+                                              style: TextStyle(
+                                                  color:
+                                                      AppTheme.deactivatedText,
+                                                  fontSize: 15),
+                                            ),
+                                          ],
+                                        ),
+                                        ListTile(
+                                          title: Padding(
+                                            padding: EdgeInsets.only(left: 0),
+                                            child: Text(
+                                              request.project!.name ?? "NA",
+                                              style: TextStyle(
+                                                  color: AppTheme.nearlyBlack,
+                                                  fontSize: 20),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
-                                          width: 350,
-                                          height: 60,
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Expanded(
-                                                child: SizedBox(
-                                                  height: 50,
-                                                  child: Column(
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Icon(
-                                                            Icons.av_timer,
-                                                            color: AppTheme
-                                                                .deactivatedText,
-                                                            size: 15,
-                                                          ),
-                                                          SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          Text(
-                                                            "Delivery date",
-                                                            style: TextStyle(
-                                                                color: AppTheme
-                                                                    .deactivatedText,
-                                                                fontSize: 15),
-                                                          )
-                                                        ],
+                                        ),
+                                        SizedBox(
+                                          height: 20,
+                                        ),
+                                        Expanded(
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 0),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 30,
+                                                      child: const Icon(
+                                                        Icons.person,
+                                                        color: AppTheme
+                                                            .secondaryColor,
+                                                        size: 16,
                                                       ),
-                                                      Row(
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    left: 20),
-                                                            child: Text(
-                                                              request.deliveryAt
-                                                                  .toString()
-                                                                  .replaceRange(
-                                                                      11,
-                                                                      null,
-                                                                      ""),
-                                                              style: TextStyle(
-                                                                  color: AppTheme
-                                                                      .nearlyBlack,
-                                                                  fontSize: 20),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: SizedBox(
-                                                  height: 50,
-                                                  child: Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 30),
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: const [
-                                                            Icon(
-                                                              Icons.av_timer,
-                                                              color: AppTheme
-                                                                  .deactivatedText,
-                                                              size: 15,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text(
-                                                              "Priority",
-                                                              style: TextStyle(
-                                                                  color: AppTheme
-                                                                      .deactivatedText,
-                                                                  fontSize: 15),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                      left: 20),
-                                                              child: Text(
-                                                                request.priority
-                                                                    .toString(),
-                                                                style: TextStyle(
-                                                                    color: AppTheme
-                                                                        .nearlyBlack,
-                                                                    fontSize:
-                                                                        20),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        )
-                                                      ],
                                                     ),
-                                                  ),
+                                                    SizedBox(
+                                                      width: 115,
+                                                      child: Text(
+                                                        "Delivary Date",
+                                                        style: AppTheme.body2,
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 0),
+                                                      child: Text(
+                                                        request.deliveryAt
+                                                            .toString()
+                                                            .replaceRange(
+                                                                11, null, ""),
+                                                        style: AppTheme.body2,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
-                                            ],
-                                          )),
-                                    ],
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 0),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 30,
+                                                      child: const Icon(
+                                                        Icons.person,
+                                                        color: AppTheme
+                                                            .secondaryColor,
+                                                        size: 16,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 115,
+                                                      child: Text(
+                                                        "Requested By",
+                                                        style: AppTheme.body2,
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 0),
+                                                      child: Text(
+                                                        request.priority
+                                                            .toString(),
+                                                        style: AppTheme.body2,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   )
                                 : Form(
                                     key: formKey,
@@ -633,7 +601,7 @@ class _RequestScreen extends State<RequestScreen>
                       ),
                       Container(
                         decoration: BoxDecoration(
-                          color: AppTheme.secondaryColor,
+                          color: AppTheme.secondaryColor.withOpacity(0.1),
                           borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(8.0),
                               bottomRight: Radius.circular(8.0)),
@@ -644,16 +612,7 @@ class _RequestScreen extends State<RequestScreen>
                       const ListTile(
                         title: Padding(
                           padding: EdgeInsets.only(left: 20),
-                          child: Text(
-                            "Request Items",
-                            style: TextStyle(
-                              fontFamily: AppTheme.fontName,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 18,
-                              letterSpacing: 0.5,
-                              color: AppTheme.lightText,
-                            ),
-                          ),
+                          child: Text("Request Items", style: AppTheme.title),
                         ),
                       ),
                       Container(
@@ -741,7 +700,7 @@ class _RequestScreen extends State<RequestScreen>
               child: TextButton(
                 style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(AppTheme.primaryColor),
+                      MaterialStateProperty.all(AppTheme.secondaryColor),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -770,7 +729,7 @@ class _RequestScreen extends State<RequestScreen>
               child: TextButton(
                 style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(AppTheme.primaryColor),
+                      MaterialStateProperty.all(AppTheme.secondaryColor),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -799,7 +758,7 @@ class _RequestScreen extends State<RequestScreen>
               child: TextButton(
                 style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(AppTheme.primaryColor),
+                      MaterialStateProperty.all(AppTheme.secondaryColor),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
@@ -833,7 +792,7 @@ class _RequestScreen extends State<RequestScreen>
               child: TextButton(
                 style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all(AppTheme.primaryColor),
+                      MaterialStateProperty.all(AppTheme.secondaryColor),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),

@@ -31,9 +31,7 @@ class _AppHomeScreenState extends State<AppHomeScreen>
       tab.isSelected = false;
     });
 
-    tabBody = DashboardScreen(
-      changeIndex: changeIndex,
-    );
+    tabBody = DashboardScreen();
     super.initState();
   }
 
@@ -121,9 +119,7 @@ class _AppHomeScreenState extends State<AppHomeScreen>
               tabIconsList.forEach((TabIconData tab) {
                 tab.isSelected = false;
               });
-              tabBody = DashboardScreen(
-                changeIndex: changeIndex,
-              );
+              tabBody = DashboardScreen();
             });
           },
           changeIndex: changeIndex,

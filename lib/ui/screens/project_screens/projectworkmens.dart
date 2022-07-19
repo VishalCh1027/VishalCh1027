@@ -4,7 +4,6 @@ import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/bloc/workmen_list/bloc.dart';
 import 'package:my_application/bloc/workmen_list/service.dart';
 import 'package:my_application/bloc/workmen_list/state.dart';
-import 'package:my_application/models/workmen_model.dart';
 import 'package:my_application/ui/widgets/bottom_loader.dart';
 
 class ProjectWorkmensPage extends StatefulWidget {
@@ -44,18 +43,12 @@ class _ProjectWorkmensState extends State<ProjectWorkmensPage> {
               child: Text(
                 'Workmen',
                 textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20 + 6,
-                  letterSpacing: 1.2,
-                  color: AppTheme.darkerText,
-                ),
+                style: AppTheme.headline,
               ),
             ),
           ),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppTheme.background,
         body: BlocProvider(
           create: (_) =>
               WorkmenCubit(repository: context.read<WorkmenService>())
@@ -185,11 +178,11 @@ class _buildlist extends State<WorkmenListVIew> {
                             title: SizedBox(
                               width: MediaQuery.of(context).size.width / 1.8,
                               child: Text(
-                                state.workmens[index].firstname +
-                                    " " +
-                                    state.workmens[index].lastname,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                                  state.workmens[index].firstname +
+                                      " " +
+                                      state.workmens[index].lastname,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: AppTheme.body1),
                             ),
                           ),
                         ),

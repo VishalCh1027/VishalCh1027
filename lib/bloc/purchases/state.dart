@@ -20,8 +20,7 @@ class PurchasesState {
   final PurchasesStatus status;
   final List<PurchaseRequest> purchases;
   final bool hasReachedMax;
-  const PurchasesState.loading()
-      : this._(status: PurchasesStatus.Purchaseinitial);
+  const PurchasesState.loading() : this._();
 
   const PurchasesState.intial(
       List<PurchaseRequest> Purchases, bool hasReachedMax)

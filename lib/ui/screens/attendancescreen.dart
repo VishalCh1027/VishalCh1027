@@ -45,22 +45,14 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
               ..getWorkmens(1),
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: AppTheme.primaryColor,
             iconTheme: const IconThemeData(color: Colors.black),
             toolbarHeight: 80,
             title: const Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(top: 8.0, bottom: 8),
-                child: Text(
-                  "Attendance",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: AppTheme.fontName,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20 + 6 + 6,
-                    letterSpacing: 1.2,
-                    color: AppTheme.darkerText,
-                  ),
-                ),
+              child: Text(
+                "Attendance",
+                textAlign: TextAlign.left,
+                style: AppTheme.headline,
               ),
             ),
             actions: [_ActionButtons(context)],
@@ -190,13 +182,7 @@ class _buildHead extends StatelessWidget {
           padding: const EdgeInsets.only(left: 20),
           child: Text(
             project.name,
-            style: const TextStyle(
-              fontFamily: AppTheme.fontName,
-              fontWeight: FontWeight.w700,
-              fontSize: 17,
-              letterSpacing: 1.2,
-              color: AppTheme.secondaryColor,
-            ),
+            style: AppTheme.title,
           ),
         ),
         trailing: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -320,7 +306,7 @@ class _buildlist extends State<AttendanceListVIew> {
                                         icon: const Icon(
                                           Icons.multiple_stop_rounded,
                                           size: 20,
-                                          color: AppTheme.primaryColor,
+                                          color: AppTheme.secondaryColor,
                                         )),
                                     Padding(
                                       padding: const EdgeInsets.all(5),
@@ -328,8 +314,7 @@ class _buildlist extends State<AttendanceListVIew> {
                                         menuMaxHeight: 150,
                                         value:
                                             state.attendance[index].shift ?? 1,
-                                        style: const TextStyle(
-                                            color: Colors.black, fontSize: 15),
+                                        style: AppTheme.body1,
                                         onChanged: (double? value) {
                                           context
                                               .read<AttendanceCubit>()
@@ -377,7 +362,7 @@ class _buildlist extends State<AttendanceListVIew> {
                                       padding: const EdgeInsets.only(
                                           right: 0, left: 20),
                                       child: Checkbox(
-                                        activeColor: AppTheme.primaryColor,
+                                        activeColor: AppTheme.secondaryColor,
                                         onChanged: (value) {
                                           state.attendance[index].selected =
                                               value;

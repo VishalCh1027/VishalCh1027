@@ -37,6 +37,11 @@ class _PurchasesScreen extends State<PurchasesScreen>
     super.initState();
   }
 
+  List<Tab> tabs = <Tab>[
+    Tab(text: 'Requested'),
+    Tab(text: 'Hold'),
+    Tab(text: 'Rejected'),
+  ];
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 50));
     return true;
@@ -44,246 +49,179 @@ class _PurchasesScreen extends State<PurchasesScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.background,
-      child: Scaffold(
-        drawer: NowDrawer(currentPage: "Purchase Requests"),
-        appBar: AppBar(
-          backgroundColor: AppTheme.primaryColor,
-          iconTheme: IconThemeData(color: Colors.black),
-          title: Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Purchase Requests',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: AppTheme.fontName,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20 + 6 - 6 * topBarOpacity,
-                  letterSpacing: 1.2,
-                  color: AppTheme.darkerText,
-                ),
-              ),
-            ),
-          ),
-        ),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 20.0, right: 20),
-          child: FloatingActionButton(
-            backgroundColor: AppTheme.primaryColor,
-            elevation: 50,
-            child: Icon(Icons.add),
-            onPressed: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: ((context) => RequestScreen(
-                        request: PurchaseRequest(),
-                        type: RequestPageType.requests,
-                      )),
-                ),
-              ),
-            },
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-        backgroundColor: Colors.transparent,
-        body: BlocProvider(
-          create: (_) => PurchasesCubit(
-            repository: context.read<PurchasesService>(),
-          )..getPurchases(1, GetEnumValue(status.toString())),
-          child: Stack(
-            children: <Widget>[
-              ListView.builder(
-                padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).padding.bottom,
-                ),
-                itemCount: 1,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color:
-                                AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                            offset: const Offset(1.1, 1.1),
-                            blurRadius: 10.0),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 20, right: 20, top: 20),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppTheme.background,
-                        ),
-                        width: MediaQuery.of(context).size.width - 20,
-                        height: MediaQuery.of(context).size.height - 100,
-                        child: Column(
-                          children: [
-                            Container(
-                              height: MediaQuery.of(context).size.height / 18,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                        maximumSize: Size(200, 50),
-                                        minimumSize: Size(200, 50),
-                                        primary: AppTheme.primaryColor,
-                                        backgroundColor:
-                                            AppTheme.secondaryColor,
-                                      ),
-                                      child: Text(
-                                        "Requested",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          status = PurchaseStatus.Requested;
-                                        });
-                                        context
-                                            .read<PurchasesCubit>()
-                                            .PageChange();
-                                        context
-                                            .read<PurchasesCubit>()
-                                            .getPurchases(
-                                                1,
-                                                GetEnumValue(
-                                                    status.toString()));
-                                      },
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                        maximumSize: Size(200, 50),
-                                        minimumSize: Size(200, 50),
-                                        primary: AppTheme.primaryColor,
-                                        backgroundColor:
-                                            AppTheme.secondaryColor,
-                                      ),
-                                      child: Text(
-                                        "Hold",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          status = PurchaseStatus.Hold;
-                                        });
-                                        context
-                                            .read<PurchasesCubit>()
-                                            .PageChange();
-                                        context
-                                            .read<PurchasesCubit>()
-                                            .getPurchases(
-                                              1,
-                                              GetEnumValue(
-                                                status.toString(),
-                                              ),
-                                            );
-                                      },
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                        maximumSize: Size(200, 50),
-                                        minimumSize: Size(200, 50),
-                                        primary: AppTheme.primaryColor,
-                                        backgroundColor:
-                                            AppTheme.secondaryColor,
-                                      ),
-                                      child: Text(
-                                        "Rejected",
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          status = PurchaseStatus.Rejected;
-                                        });
-                                        context
-                                            .read<PurchasesCubit>()
-                                            .PageChange();
-                                        context
-                                            .read<PurchasesCubit>()
-                                            .getPurchases(
-                                                1,
-                                                GetEnumValue(
-                                                    status.toString()));
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: AppTheme.primaryColor))),
-                              child: Card(
-                                margin: EdgeInsets.zero,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: 0,
-                                child: ListTile(
-                                  dense: true,
-                                  title: Text(
-                                    "Order No",
-                                    style: AppTheme.listheading,
-                                  ),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: const [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 20),
-                                        child: Center(
-                                          child: Text("Priority",
-                                              style: AppTheme.listheading),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 23),
-                                        child: Center(
-                                          child: Text("Delivery",
-                                              style: AppTheme.listheading),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 0),
-                                        child: Center(
-                                          child: Text(
-                                            "Status",
-                                            style: AppTheme.listheading,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                                child: Column(children: [
-                              PurchaseListVIew(
-                                currentStatus: status,
-                              )
-                            ]))
-                          ],
+    return BlocProvider(
+        create: (_) => PurchasesCubit(
+              repository: context.read<PurchasesService>(),
+            )..getPurchases(1, GetEnumValue(status.toString())),
+        child: DefaultTabController(
+            length: 3,
+            child: Builder(builder: (BuildContext context) {
+              final TabController tabController =
+                  DefaultTabController.of(context)!;
+              tabController.addListener(() {
+                if (!tabController.indexIsChanging) {
+                  context.read<PurchasesCubit>().PageChange();
+                  context
+                      .read<PurchasesCubit>()
+                      .getPurchases(1, tabs[tabController.index].text ?? "NA");
+                }
+              });
+              return Container(
+                color: AppTheme.background,
+                child: Scaffold(
+                  drawer: NowDrawer(currentPage: "Purchase Requests"),
+                  appBar: AppBar(
+                    backgroundColor: AppTheme.primaryColor,
+                    iconTheme: IconThemeData(color: Colors.black),
+                    bottom:
+                        TabBar(indicatorColor: AppTheme.secondaryColor, tabs: [
+                      Tab(
+                        child: Text("Requested", style: AppTheme.title),
+                      ),
+                      Tab(
+                        child: Text("Hold", style: AppTheme.title),
+                      ),
+                      Tab(
+                        child: Text("Rejected", style: AppTheme.title),
+                      ),
+                    ]),
+                    title: Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Purchase Requests',
+                          textAlign: TextAlign.left,
+                          style: AppTheme.headline,
                         ),
                       ),
                     ),
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+                  ),
+                  floatingActionButton: Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0, right: 20),
+                    child: FloatingActionButton(
+                      backgroundColor: AppTheme.secondaryColor,
+                      elevation: 50,
+                      child: Icon(Icons.add),
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) => RequestScreen(
+                                  request: PurchaseRequest(),
+                                  type: RequestPageType.requests,
+                                )),
+                          ),
+                        ),
+                      },
+                    ),
+                  ),
+                  floatingActionButtonLocation:
+                      FloatingActionButtonLocation.miniEndFloat,
+                  backgroundColor: Colors.transparent,
+                  body: Stack(
+                    children: <Widget>[
+                      ListView.builder(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).padding.bottom,
+                        ),
+                        itemCount: 1,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(
+                                    color: AppTheme.grey
+                                        .withOpacity(0.4 * topBarOpacity),
+                                    offset: const Offset(1.1, 1.1),
+                                    blurRadius: 10.0),
+                              ],
+                            ),
+                            child: Padding(
+                              padding:
+                                  EdgeInsets.only(left: 20, right: 20, top: 20),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppTheme.background,
+                                ),
+                                width: MediaQuery.of(context).size.width - 20,
+                                height:
+                                    MediaQuery.of(context).size.height - 150,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color:
+                                                      AppTheme.primaryColor))),
+                                      child: Card(
+                                        margin: EdgeInsets.zero,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        elevation: 0,
+                                        child: ListTile(
+                                          dense: true,
+                                          title: Text(
+                                            "Order No",
+                                            style: AppTheme.listheading,
+                                          ),
+                                          trailing: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: const [
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 20),
+                                                child: Center(
+                                                  child: Text("Priority",
+                                                      style:
+                                                          AppTheme.listheading),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 23),
+                                                child: Center(
+                                                  child: Text("Delivery",
+                                                      style:
+                                                          AppTheme.listheading),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(right: 0),
+                                                child: Center(
+                                                  child: Text(
+                                                    "Status",
+                                                    style: AppTheme.listheading,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                        child: Column(children: [
+                                      PurchaseListVIew(
+                                        currentStatus: status,
+                                      )
+                                    ]))
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            })));
   }
 }
 
@@ -353,14 +291,13 @@ class _buildlist extends State<PurchaseListVIew> {
             return const Center(child: Text('Oops something went wrong!'));
           } else if (state.status ==
                   PurchasesStatus.PurchasesLoadedSuccessfully ||
-              state.status == PurchasesStatus.PurchasesEditing ||
               state.status == PurchasesStatus.Purchaseinitial) {
             return Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 itemCount: state.hasReachedMax ||
-                        state.status != PurchasesStatus.Purchaseinitial
+                        state.status == PurchasesStatus.Purchaseinitial
                     ? state.purchases.length
                     : state.purchases.length + 1,
                 controller: _scrollController,
@@ -369,9 +306,10 @@ class _buildlist extends State<PurchaseListVIew> {
                       ? BottomLoader()
                       : Container(
                           decoration: BoxDecoration(
-                              border: Border(
-                                  bottom:
-                                      BorderSide(color: AppTheme.background))),
+                            border: Border(
+                              bottom: BorderSide(color: AppTheme.background),
+                            ),
+                          ),
                           child: Card(
                             margin: EdgeInsets.zero,
                             elevation: 0,
@@ -446,63 +384,65 @@ class _buildlist extends State<PurchaseListVIew> {
                                                   .toString()
                                                   .replaceRange(18, null, ""),
                                               maxLines: 3,
+                                              style: AppTheme.body1,
                                             ),
                                           ),
                                     trailing: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 15),
-                                            child: SizedBox(
-                                              width: 50,
-                                              child: Center(
-                                                child: Text(
-                                                  state.purchases[index]
-                                                      .priority!,
-                                                ),
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 15),
+                                          child: SizedBox(
+                                            width: 50,
+                                            child: Center(
+                                              child: Text(
+                                                state
+                                                    .purchases[index].priority!,
+                                                style: AppTheme.body1,
                                               ),
                                             ),
                                           ),
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 15),
-                                            child: Text(
-                                              DateFormat("dd-MM-yyyy").format(
-                                                  state.purchases[index]
-                                                      .deliveryAt!),
-                                            ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(right: 15),
+                                          child: Text(
+                                            DateFormat("dd-MM-yyyy").format(
+                                                state.purchases[index]
+                                                    .deliveryAt!),
+                                            style: AppTheme.body1,
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10),
-                                            child: state.purchases[index]
-                                                        .status ==
-                                                    "Requested"
-                                                ? Icon(
-                                                    Icons
-                                                        .change_circle_outlined,
-                                                    color: Colors.blue,
-                                                  )
-                                                : state.purchases[index]
-                                                            .status ==
-                                                        "Approved"
-                                                    ? Icon(
-                                                        Icons
-                                                            .thumb_up_off_alt_rounded,
-                                                        color: Colors.green,
-                                                      )
-                                                    : state.purchases[index]
-                                                                .status ==
-                                                            "Rejected"
-                                                        ? Icon(
-                                                            Icons.clear_rounded,
-                                                            color: Colors.red,
-                                                          )
-                                                        : Icon(
-                                                            Icons
-                                                                .back_hand_outlined,
-                                                            color: Colors.grey,
-                                                          ),
-                                          ),
-                                        ]),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: state.purchases[index]
+                                                      .status ==
+                                                  "Requested"
+                                              ? Icon(
+                                                  Icons.change_circle_outlined,
+                                                  color: Colors.blue,
+                                                )
+                                              : state.purchases[index].status ==
+                                                      "Approved"
+                                                  ? Icon(
+                                                      Icons
+                                                          .thumb_up_off_alt_rounded,
+                                                      color: Colors.green,
+                                                    )
+                                                  : state.purchases[index]
+                                                              .status ==
+                                                          "Rejected"
+                                                      ? Icon(
+                                                          Icons.clear_rounded,
+                                                          color: Colors.red,
+                                                        )
+                                                      : Icon(
+                                                          Icons
+                                                              .back_hand_outlined,
+                                                          color: Colors.grey,
+                                                        ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                           ),
                         );
