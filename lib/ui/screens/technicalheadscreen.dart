@@ -5,9 +5,7 @@ import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/bloc/purchases/bloc.dart';
 import 'package:my_application/bloc/purchases/service.dart';
 import 'package:my_application/bloc/purchases/state.dart';
-import 'package:my_application/global/global_function.dart';
 import 'package:my_application/models/purchaserequest_model.dart';
-import 'package:my_application/ui/screens/purchasesscreen.dart';
 import 'package:my_application/ui/screens/requestscreen.dart';
 import 'package:my_application/ui/widgets/bottom_loader.dart';
 import 'package:my_application/ui/widgets/drawer.dart';
@@ -22,8 +20,8 @@ class TechnicalHeadScreen extends StatefulWidget {
 class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
     with TickerProviderStateMixin {
   double topBarOpacity = 0.0;
-  PurchaseStatus status = PurchaseStatus.Requested;
-
+  List<String> tabs = ["Requested", "Approved"];
+  String currentStatus = "Requested";
   @override
   void initState() {
     super.initState();
@@ -36,34 +34,52 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.background,
-      child: Scaffold(
-        drawer: NowDrawer(currentPage: "Technical Approvals"),
-        appBar: AppBar(
-          backgroundColor: AppTheme.background,
-          iconTheme: IconThemeData(color: Colors.black),
-          title: Expanded(
-            child: Text(
-              'Purchase Requests',
-              textAlign: TextAlign.left,
-              style: AppTheme.headline,
-            ),
-          ),
-        ),
-        backgroundColor: Colors.transparent,
-        body: BlocProvider(
-          create: (_) =>
-              PurchasesCubit(repository: context.read<PurchasesService>())
-                ..getTechnicalHeadRequests(1, GetEnumValue(status.toString())),
-          child: Stack(
-            children: <Widget>[
-              ListView.builder(
-                padding: EdgeInsets.only(),
-                itemCount: 1,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
+    return BlocProvider(
+      create: (_) =>
+          PurchasesCubit(repository: context.read<PurchasesService>())
+            ..getTechnicalHeadRequests(1, tabs[0]),
+      child: DefaultTabController(
+        length: 2,
+        child: Builder(builder: (BuildContext context) {
+          final TabController tabController = DefaultTabController.of(context)!;
+          tabController.addListener(() {
+            if (!tabController.indexIsChanging) {
+              setState(() {
+                currentStatus = tabs[tabController.index];
+              });
+              context.read<PurchasesCubit>().PageChange();
+              context
+                  .read<PurchasesCubit>()
+                  .getTechnicalHeadRequests(1, tabs[tabController.index]);
+            }
+          });
+          return Container(
+            color: AppTheme.background,
+            child: Scaffold(
+              drawer: NowDrawer(currentPage: "Technical Approvals"),
+              appBar: AppBar(
+                backgroundColor: AppTheme.background,
+                iconTheme: IconThemeData(color: Colors.black),
+                bottom: TabBar(indicatorColor: AppTheme.secondaryColor, tabs: [
+                  Tab(
+                    child: Text(tabs[0], style: AppTheme.title),
+                  ),
+                  Tab(
+                    child: Text(tabs[1], style: AppTheme.title),
+                  ),
+                ]),
+                title: Expanded(
+                  child: Text(
+                    'Purchase Requests',
+                    textAlign: TextAlign.left,
+                    style: AppTheme.headline,
+                  ),
+                ),
+              ),
+              backgroundColor: Colors.transparent,
+              body: Stack(
+                children: <Widget>[
+                  Container(
                     decoration: BoxDecoration(
                       boxShadow: <BoxShadow>[
                         BoxShadow(
@@ -74,72 +90,12 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
                       ],
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(left: 5, right: 5, top: 20),
+                      padding: EdgeInsets.only(left: 5, right: 5, top: 10),
                       child: Container(
                         width: MediaQuery.of(context).size.width - 20,
                         height: MediaQuery.of(context).size.height - 100,
                         child: Column(
                           children: [
-                            Container(
-                              color: AppTheme.background,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                        maximumSize: Size(200, 50),
-                                        minimumSize: Size(200, 50),
-                                        primary: AppTheme.background,
-                                      ),
-                                      child: Text(
-                                        "Requested",
-                                        style: AppTheme.title,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          status = PurchaseStatus.Approved;
-                                        });
-                                        context
-                                            .read<PurchasesCubit>()
-                                            .PageChange();
-                                        context
-                                            .read<PurchasesCubit>()
-                                            .getTechnicalHeadRequests(
-                                                1, "Requested");
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Expanded(
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                        maximumSize: Size(200, 50),
-                                        minimumSize: Size(200, 50),
-                                        primary: AppTheme.primaryColor,
-                                      ),
-                                      child: Text(
-                                        "Approved",
-                                        style: AppTheme.title,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          status = PurchaseStatus.Approved;
-                                        });
-                                        context
-                                            .read<PurchasesCubit>()
-                                            .PageChange();
-                                        context
-                                            .read<PurchasesCubit>()
-                                            .getTechnicalHeadRequests(
-                                                1, "Approved");
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
                             Container(
                               decoration: BoxDecoration(
                                   border: Border(
@@ -178,7 +134,7 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
                               child: Column(
                                 children: [
                                   PurchaseListVIew(
-                                    currentStatus: status,
+                                    currentStatus: currentStatus,
                                   )
                                 ],
                               ),
@@ -187,22 +143,22 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
                         ),
                       ),
                     ),
-                  );
-                },
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).padding.bottom,
+                  )
+                ],
               ),
-              SizedBox(
-                height: MediaQuery.of(context).padding.bottom,
-              )
-            ],
-          ),
-        ),
+            ),
+          );
+        }),
       ),
     );
   }
 }
 
 class PurchaseListVIew extends StatefulWidget {
-  final PurchaseStatus currentStatus;
+  final String currentStatus;
 
   const PurchaseListVIew({Key? key, required this.currentStatus})
       : super(key: key);
@@ -232,7 +188,7 @@ class _buildlist extends State<PurchaseListVIew> {
     if (_isBottom)
       context
           .read<PurchasesCubit>()
-          .getPurchases(1, GetEnumValue(widget.currentStatus.toString()));
+          .getTechnicalHeadRequests(1, widget.currentStatus);
   }
 
   bool get _isBottom {
@@ -257,6 +213,9 @@ class _buildlist extends State<PurchaseListVIew> {
           },
           fullscreenDialog: true),
     );
+    context
+        .read<PurchasesCubit>()
+        .getTechnicalHeadRequests(1, widget.currentStatus);
   }
 
   @override
@@ -275,7 +234,7 @@ class _buildlist extends State<PurchaseListVIew> {
               padding: EdgeInsets.zero,
               shrinkWrap: true,
               itemCount: state.hasReachedMax ||
-                      state.status != PurchasesStatus.Purchaseinitial
+                      state.status == PurchasesStatus.Purchaseinitial
                   ? state.purchases.length
                   : state.purchases.length + 1,
               controller: _scrollController,

@@ -33,11 +33,7 @@ class _WalletTileView extends State<WalletTileView> {
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.secondaryColor,
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(5.0),
-              bottomLeft: Radius.circular(5.0),
-              bottomRight: Radius.circular(5.0),
-              topRight: Radius.circular(5.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(5)),
           boxShadow: <BoxShadow>[
             BoxShadow(
                 color: AppTheme.grey.withOpacity(0.2),
@@ -55,35 +51,85 @@ class _WalletTileView extends State<WalletTileView> {
           },
           child: Padding(
             padding: const EdgeInsets.all(5.0),
-            child: FutureBuilder(
-                future: RepositoryProvider.of<WalletService>(context)
-                    .getWallet(currentLogin.employee?.id ?? 0),
-                builder:
-                    (BuildContext context, AsyncSnapshot<Wallet> snapshot) {
-                  if (snapshot.hasData) {
-                    return ListTile(
-                      leading: Icon(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 0, left: 16, right: 16),
+              child: Row(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(right: 10, top: 10, bottom: 10),
+                      child: Icon(
                         FontAwesomeIcons.wallet,
                         color: AppTheme.background,
+                      )),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Total Balance",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: AppTheme.primaryColor.withOpacity(0.8),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          FutureBuilder<Wallet>(
+                            builder: (ctx, snapshot) {
+                              // Checking if future is resolved or not
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                // If we got an error
+                                if (snapshot.hasError) {
+                                  return Center(
+                                    child: Text(
+                                      '${snapshot.error} occurred',
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  );
+
+                                  // if we got our data
+                                } else if (snapshot.hasData) {
+                                  // Extracting data from snapshot object
+                                  final Wallet? data = snapshot.data;
+                                  return Text(
+                                      '₹' + (data?.balance.toString() ?? "0"),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20,
+                                        color: AppTheme.primaryColor,
+                                      ));
+                                }
+                              }
+
+                              // Displaying LoadingSpinner to indicate waiting state
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                            future:
+                                RepositoryProvider.of<WalletService>(context)
+                                    .getWallet(currentLogin.employee?.id ?? 0),
+                          ),
+                        ],
                       ),
-                      title: Text(
-                        "Balance",
-                        style: TextStyle(
-                            color: AppTheme.background,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      trailing: Text(
-                        "₹" + snapshot.data!.balance.toString(),
-                        style: TextStyle(
-                            color: AppTheme.background,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    );
-                  } else if (snapshot.hasError) {
-                    return CircularProgressIndicator();
-                  }
-                  return CircularProgressIndicator();
-                }),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 0, top: 10, bottom: 10),
+                    child: Icon(
+                      Icons.chevron_right,
+                      color: AppTheme.background,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

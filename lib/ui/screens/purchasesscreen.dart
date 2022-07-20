@@ -31,17 +31,18 @@ class _PurchasesScreen extends State<PurchasesScreen>
     with TickerProviderStateMixin {
   final ScrollController scrollController = ScrollController();
   double topBarOpacity = 0.0;
-  PurchaseStatus status = PurchaseStatus.Requested;
+  String currentStatus = "Requested";
+  List<String> tabs = [
+    "Requested",
+    "Hold",
+    "Rejected",
+  ];
+
   @override
   void initState() {
     super.initState();
   }
 
-  List<Tab> tabs = <Tab>[
-    Tab(text: 'Requested'),
-    Tab(text: 'Hold'),
-    Tab(text: 'Rejected'),
-  ];
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 50));
     return true;
@@ -50,183 +51,189 @@ class _PurchasesScreen extends State<PurchasesScreen>
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (_) => PurchasesCubit(
-              repository: context.read<PurchasesService>(),
-            )..getPurchases(1, GetEnumValue(status.toString())),
-        child: DefaultTabController(
-            length: 3,
-            child: Builder(builder: (BuildContext context) {
-              final TabController tabController =
-                  DefaultTabController.of(context)!;
-              tabController.addListener(() {
-                if (!tabController.indexIsChanging) {
-                  context.read<PurchasesCubit>().PageChange();
-                  context
-                      .read<PurchasesCubit>()
-                      .getPurchases(1, tabs[tabController.index].text ?? "NA");
-                }
-              });
-              return Container(
-                color: AppTheme.background,
-                child: Scaffold(
-                  drawer: NowDrawer(currentPage: "Purchase Requests"),
-                  appBar: AppBar(
-                    backgroundColor: AppTheme.primaryColor,
-                    iconTheme: IconThemeData(color: Colors.black),
-                    bottom:
-                        TabBar(indicatorColor: AppTheme.secondaryColor, tabs: [
-                      Tab(
-                        child: Text("Requested", style: AppTheme.title),
-                      ),
-                      Tab(
-                        child: Text("Hold", style: AppTheme.title),
-                      ),
-                      Tab(
-                        child: Text("Rejected", style: AppTheme.title),
-                      ),
-                    ]),
-                    title: Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Purchase Requests',
-                          textAlign: TextAlign.left,
-                          style: AppTheme.headline,
-                        ),
+      create: (_) => PurchasesCubit(
+        repository: context.read<PurchasesService>(),
+      )..getPurchases(1, tabs[0]),
+      child: DefaultTabController(
+        length: 3,
+        child: Builder(
+          builder: (BuildContext context) {
+            final TabController tabController =
+                DefaultTabController.of(context)!;
+            tabController.addListener(() {
+              if (!tabController.indexIsChanging) {
+                context.read<PurchasesCubit>().PageChange();
+                context
+                    .read<PurchasesCubit>()
+                    .getPurchases(1, tabs[tabController.index]);
+              }
+            });
+            return Container(
+              color: AppTheme.background,
+              child: Scaffold(
+                drawer: NowDrawer(currentPage: "Purchase Requests"),
+                appBar: AppBar(
+                  backgroundColor: AppTheme.primaryColor,
+                  iconTheme: IconThemeData(color: Colors.black),
+                  bottom:
+                      TabBar(indicatorColor: AppTheme.secondaryColor, tabs: [
+                    Tab(
+                      child: Text(tabs[0], style: AppTheme.title),
+                    ),
+                    Tab(
+                      child: Text(tabs[1], style: AppTheme.title),
+                    ),
+                    Tab(
+                      child: Text(tabs[2], style: AppTheme.title),
+                    ),
+                  ]),
+                  title: Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'Purchase Requests',
+                        textAlign: TextAlign.left,
+                        style: AppTheme.headline,
                       ),
                     ),
                   ),
-                  floatingActionButton: Padding(
-                    padding: const EdgeInsets.only(bottom: 20.0, right: 20),
-                    child: FloatingActionButton(
-                      backgroundColor: AppTheme.secondaryColor,
-                      elevation: 50,
-                      child: Icon(Icons.add),
-                      onPressed: () => {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: ((context) => RequestScreen(
-                                  request: PurchaseRequest(),
-                                  type: RequestPageType.requests,
-                                )),
+                ),
+                floatingActionButton: Padding(
+                  padding: const EdgeInsets.only(bottom: 20.0, right: 20),
+                  child: FloatingActionButton(
+                    backgroundColor: AppTheme.secondaryColor,
+                    elevation: 50,
+                    child: Icon(Icons.add),
+                    onPressed: () => {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => RequestScreen(
+                                request: PurchaseRequest(),
+                                type: RequestPageType.requests,
+                              )),
+                        ),
+                      ),
+                    },
+                  ),
+                ),
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.miniEndFloat,
+                backgroundColor: Colors.transparent,
+                body: Stack(
+                  children: <Widget>[
+                    ListView.builder(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).padding.bottom,
+                      ),
+                      itemCount: 1,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                  color: AppTheme.grey
+                                      .withOpacity(0.4 * topBarOpacity),
+                                  offset: const Offset(1.1, 1.1),
+                                  blurRadius: 10.0),
+                            ],
                           ),
-                        ),
-                      },
-                    ),
-                  ),
-                  floatingActionButtonLocation:
-                      FloatingActionButtonLocation.miniEndFloat,
-                  backgroundColor: Colors.transparent,
-                  body: Stack(
-                    children: <Widget>[
-                      ListView.builder(
-                        padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).padding.bottom,
-                        ),
-                        itemCount: 1,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: AppTheme.grey
-                                        .withOpacity(0.4 * topBarOpacity),
-                                    offset: const Offset(1.1, 1.1),
-                                    blurRadius: 10.0),
-                              ],
-                            ),
-                            child: Padding(
-                              padding:
-                                  EdgeInsets.only(left: 20, right: 20, top: 20),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: AppTheme.background,
-                                ),
-                                width: MediaQuery.of(context).size.width - 20,
-                                height:
-                                    MediaQuery.of(context).size.height - 150,
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          border: Border(
-                                              bottom: BorderSide(
-                                                  color:
-                                                      AppTheme.primaryColor))),
-                                      child: Card(
-                                        margin: EdgeInsets.zero,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(left: 20, right: 20, top: 20),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppTheme.background,
+                              ),
+                              width: MediaQuery.of(context).size.width - 20,
+                              height: MediaQuery.of(context).size.height - 150,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                            color: AppTheme.primaryColor),
+                                      ),
+                                    ),
+                                    child: Card(
+                                      margin: EdgeInsets.zero,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      elevation: 0,
+                                      child: ListTile(
+                                        dense: true,
+                                        title: Text(
+                                          "Order No",
+                                          style: AppTheme.listheading,
                                         ),
-                                        elevation: 0,
-                                        child: ListTile(
-                                          dense: true,
-                                          title: Text(
-                                            "Order No",
-                                            style: AppTheme.listheading,
-                                          ),
-                                          trailing: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: const [
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 20),
-                                                child: Center(
-                                                  child: Text("Priority",
-                                                      style:
-                                                          AppTheme.listheading),
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: const [
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.only(right: 20),
+                                              child: Center(
+                                                child: Text("Priority",
+                                                    style:
+                                                        AppTheme.listheading),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.only(right: 23),
+                                              child: Center(
+                                                child: Text("Delivery",
+                                                    style:
+                                                        AppTheme.listheading),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.only(right: 0),
+                                              child: Center(
+                                                child: Text(
+                                                  "Status",
+                                                  style: AppTheme.listheading,
                                                 ),
                                               ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 23),
-                                                child: Center(
-                                                  child: Text("Delivery",
-                                                      style:
-                                                          AppTheme.listheading),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 0),
-                                                child: Center(
-                                                  child: Text(
-                                                    "Status",
-                                                    style: AppTheme.listheading,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
-                                    Expanded(
-                                        child: Column(children: [
-                                      PurchaseListVIew(
-                                        currentStatus: status,
-                                      )
-                                    ]))
-                                  ],
-                                ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        PurchaseListVIew(
+                                          currentStatus: currentStatus,
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
                               ),
                             ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
-              );
-            })));
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 
 class PurchaseListVIew extends StatefulWidget {
-  final PurchaseStatus currentStatus;
+  final String currentStatus;
 
   const PurchaseListVIew({Key? key, required this.currentStatus})
       : super(key: key);
@@ -253,9 +260,7 @@ class _buildlist extends State<PurchaseListVIew> {
 
   void _onScroll() {
     if (_isBottom)
-      context
-          .read<PurchasesCubit>()
-          .getPurchases(1, GetEnumValue(widget.currentStatus.toString()));
+      context.read<PurchasesCubit>().getPurchases(1, widget.currentStatus);
   }
 
   bool get _isBottom {
@@ -280,6 +285,9 @@ class _buildlist extends State<PurchaseListVIew> {
           },
           fullscreenDialog: true),
     );
+    context
+        .read<PurchasesCubit>()
+        .getPurchases(1, GetEnumValue(widget.currentStatus.toString()));
   }
 
   @override

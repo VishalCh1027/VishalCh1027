@@ -4,7 +4,6 @@ import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/bloc/billings/bloc.dart';
 import 'package:my_application/bloc/billings/service.dart';
 import 'package:my_application/bloc/billings/state.dart';
-import 'package:my_application/global/global_function.dart';
 import 'package:my_application/models/billing_model.dart';
 import 'package:my_application/ui/screens/billingScreen.dart';
 import 'package:my_application/ui/widgets/bottom_loader.dart';
@@ -216,6 +215,9 @@ class _buildlist extends State<BillingListVIew> {
           },
           fullscreenDialog: true),
     );
+    context
+        .read<BillingCubit>()
+        .getProcurementApprovals(1, widget.currentStatus);
   }
 
   @override
@@ -232,6 +234,7 @@ class _buildlist extends State<BillingListVIew> {
             child: ListView.builder(
               padding: EdgeInsets.zero,
               shrinkWrap: true,
+              controller: _scrollController,
               itemCount: state.hasReachedMax ||
                       state.status == BillingStatus.Billinginitial
                   ? state.billing.length

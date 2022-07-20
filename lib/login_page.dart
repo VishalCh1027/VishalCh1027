@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_application/Apptheme/app_theme.dart';
+import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/bloc/login/service.dart';
-import 'package:my_application/main.dart';
 import 'package:my_application/ui/screens/dashboardscreen.dart';
 import 'package:my_application/ui/screens/forgetpasswordscreen.dart';
 import 'package:my_application/ui/widgets/Loading_dailog.dart';
@@ -39,9 +38,9 @@ class _LoginPageState extends State<LoginPage> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: <HexColor>[
-              HexColor("#6899f5"),
-              HexColor("#d173bb"),
+            colors: [
+              AppTheme.secondaryColor,
+              AppTheme.secondaryColor,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -95,11 +94,11 @@ class _LoginPageState extends State<LoginPage> {
                                 contentPadding: EdgeInsets.all(0.0),
                                 prefixIcon: Icon(
                                   Icons.person,
-                                  color: AppTheme.nearlyDarkBlue,
+                                  color: AppTheme.secondaryColor,
                                 ),
                                 labelText: 'Username',
                                 labelStyle:
-                                    TextStyle(color: AppTheme.nearlyDarkBlue)),
+                                    TextStyle(color: AppTheme.secondaryColor)),
                           ),
                           const SizedBox(
                             height: 10,
@@ -133,11 +132,11 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               prefixIcon: Icon(
                                 Icons.lock,
-                                color: AppTheme.nearlyDarkBlue,
+                                color: AppTheme.secondaryColor,
                               ),
                               labelText: 'Password',
                               labelStyle: TextStyle(
-                                color: AppTheme.nearlyDarkBlue,
+                                color: AppTheme.secondaryColor,
                               ),
                             ),
                           ),
@@ -148,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                             alignment: Alignment.centerRight,
                             child: InkWell(
                               onTap: () {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
@@ -158,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                               child: Text(
                                 "Forget Password ?",
                                 style:
-                                    TextStyle(color: AppTheme.nearlyDarkBlue),
+                                    TextStyle(color: AppTheme.secondaryColor),
                               ),
                             ),
                           ),
@@ -185,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildloginbutton() {
     return TextButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(AppTheme.nearlyDarkBlue),
+        backgroundColor: MaterialStateProperty.all(AppTheme.secondaryColor),
         shape: MaterialStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5.0),

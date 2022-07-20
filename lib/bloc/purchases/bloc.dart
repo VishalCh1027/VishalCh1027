@@ -12,16 +12,16 @@ class PurchasesCubit extends Cubit<PurchasesState> {
     if (state.hasReachedMax) return;
     try {
       if (state.status == PurchasesStatus.PurchasesLoading) {
+        var rs = await repository.getPurchases(employeeId, status);
+        emit(PurchasesState.intial(rs, false));
+      } else {
         var rs = await repository.getPurchases(
             employeeId, status, state.purchases.length);
-        emit(PurchasesState.intial(rs, false));
+        rs.isEmpty
+            ? emit(PurchasesState.success(state.purchases, true))
+            : emit(PurchasesState.success(
+                List.of(state.purchases)..addAll(rs), false));
       }
-      var rs = await repository.getPurchases(
-          employeeId, status, state.purchases.length);
-      rs.isEmpty
-          ? emit(PurchasesState.success(state.purchases, true))
-          : emit(PurchasesState.success(
-              List.of(state.purchases)..addAll(rs), false));
     } catch (e) {
       emit(PurchasesState.failure());
     } catch (e) {
@@ -32,11 +32,12 @@ class PurchasesCubit extends Cubit<PurchasesState> {
   Future<void> getTechnicalHeadRequests(int employeeId, String status) async {
     if (state.hasReachedMax) return;
     try {
-      var rs = await repository.getTechnicalHeadRequests(
-          employeeId, status, state.purchases.length);
       if (state.status == PurchasesStatus.PurchasesLoading) {
+        var rs = await repository.getTechnicalHeadRequests(employeeId, status);
         emit(PurchasesState.intial(rs, false));
       } else {
+        var rs = await repository.getTechnicalHeadRequests(
+            employeeId, status, state.purchases.length);
         rs.isEmpty
             ? emit(PurchasesState.success(state.purchases, true))
             : emit(PurchasesState.success(

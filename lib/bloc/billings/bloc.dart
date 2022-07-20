@@ -22,13 +22,14 @@ class BillingCubit extends Cubit<BillingState> {
       if (state.status == BillingStatus.BillingLoading) {
         var rs = await repository.getProcurementApprovals(employeeId, status);
         emit(BillingState.initial(rs, false));
+      } else {
+        var rs = await repository.getProcurementApprovals(
+            employeeId, status, state.billing.length);
+        rs.isEmpty
+            ? emit(BillingState.success(state.billing, true))
+            : emit(BillingState.success(
+                List.of(state.billing)..addAll(rs), false));
       }
-      var rs = await repository.getProcurementApprovals(
-          employeeId, status, state.billing.length);
-      rs.isEmpty
-          ? emit(BillingState.success(state.billing, true))
-          : emit(
-              BillingState.success(List.of(state.billing)..addAll(rs), false));
     } catch (e) {
       emit(BillingState.failure());
     }

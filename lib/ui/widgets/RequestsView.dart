@@ -17,11 +17,7 @@ class RequetsView extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: AppTheme.secondaryColor,
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(5.0),
-                bottomLeft: Radius.circular(5.0),
-                bottomRight: Radius.circular(5.0),
-                topRight: Radius.circular(5.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
             boxShadow: <BoxShadow>[
               BoxShadow(
                   color: AppTheme.grey.withOpacity(0.2),

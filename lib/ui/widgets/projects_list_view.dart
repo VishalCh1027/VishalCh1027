@@ -244,12 +244,7 @@ class ProjectsView extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
-                borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(5.0),
-                  bottomLeft: Radius.circular(5.0),
-                  topLeft: Radius.circular(5.0),
-                  topRight: Radius.circular(5.0),
-                ),
+                borderRadius: const BorderRadius.all(Radius.circular(5)),
               ),
               child: InkWell(
                 borderRadius: const BorderRadius.only(

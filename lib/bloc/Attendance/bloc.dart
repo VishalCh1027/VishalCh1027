@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_application/bloc/attendance/state.dart';
 import 'package:my_application/bloc/workmen_list/service.dart';
@@ -8,6 +7,9 @@ class AttendanceCubit extends Cubit<AttendanceState> {
   final WorkmenService repository;
   AttendanceCubit({required this.repository})
       : super(const AttendanceState.loading());
+
+  bool allSelected = false;
+
 //You should not use Equatable if you want the same state back-to-back to trigger multiple transitions.
   Future<void> getWorkmens(int projectId) async {
     if (state.hasReachedMax) return;
@@ -20,7 +22,10 @@ class AttendanceCubit extends Cubit<AttendanceState> {
               List.of(state.attendance)
                 ..addAll(rs
                     .map((e) => new Attendance(
-                        workmenId: e.id, projectId: projectId, workmen: e))
+                        selected: allSelected,
+                        workmenId: e.id,
+                        projectId: projectId,
+                        workmen: e))
                     .toList()),
               false));
     } catch (e) {
@@ -28,20 +33,14 @@ class AttendanceCubit extends Cubit<AttendanceState> {
     }
   }
 
-  Future<void> editAttendance() async {
-    final attendance = state.attendance;
-    var rs = await repository.editAttendance(attendance);
-    if (rs != null) {
-      emit(AttendanceState.success(attendance, false));
-    } else {
-      emit(AttendanceState.failure());
-    }
-  }
-
-  Future<void> updateInTime(Attendance attendance, TimeOfDay intime) async {
-    attendance.in_ = intime;
-    if (state.attendance != null) {
-      emit(AttendanceState.edited(state.attendance));
+  Future<void> selectAll(bool value) async {
+    allSelected = value;
+    var attendance = state.attendance.map((e) {
+      e.selected = value;
+      return e;
+    }).toList();
+    if (attendance != null) {
+      emit(AttendanceState.edited(attendance));
     } else {
       emit(AttendanceState.failure());
     }

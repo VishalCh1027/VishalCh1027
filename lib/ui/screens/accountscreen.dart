@@ -31,7 +31,7 @@ class _AccountScreenState extends State<AccountScreen> {
         decoration: const BoxDecoration(
             border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 30),
+          padding: const EdgeInsets.only(bottom: 10),
           child: ListTile(
             leading: ShaderMask(
               shaderCallback: (Rect bounds) {
@@ -135,7 +135,13 @@ class _AccountScreenState extends State<AccountScreen> {
         child: Scaffold(
           drawer: NowDrawer(currentPage: "Account"),
           appBar: AppBar(
+            centerTitle: true,
             iconTheme: const IconThemeData(color: Colors.black),
+            title: Image.asset(
+              'assets/alyn logo.png',
+              fit: BoxFit.contain,
+              height: 40,
+            ),
           ),
           backgroundColor: AppTheme.primaryColor,
           body: Stack(
@@ -174,7 +180,7 @@ class OptionsTile extends StatelessWidget {
           child: Icon(
             leadingIcon,
             size: 30,
-            color: AppTheme.primaryColor,
+            color: AppTheme.secondaryColor,
           ),
         ),
         title: Padding(padding: const EdgeInsets.only(left: 10), child: title),
