@@ -87,10 +87,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                 Padding(
                                   padding: EdgeInsets.only(right: 35),
                                   child: Center(
-                                      child: Text(
-                                    "Shift",
-                                    style: AppTheme.listheading,
-                                  )),
+                                    child: Text(
+                                      "Shift",
+                                      style: AppTheme.listheading,
+                                    ),
+                                  ),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(right: 0),
@@ -115,7 +116,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             },
                           ),
                         ),
+                      ),
+                      SizedBox(
+                        height: 10,
                       )
+
                     ],
                   ),
                 ),

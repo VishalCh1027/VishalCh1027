@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:my_application/global/global_variables.dart';
+import 'package:my_application/models/business_model.dart';
 import 'package:my_application/models/employee_model.dart';
 import 'package:my_application/models/loginmodel.dart';
 import '../../helpers/local_helper.dart';
@@ -22,12 +21,15 @@ class LoginService {
           email: "vishal@gmail.com",
           password: "1234567",
           employee: Employee(
-            id: 1,
-            firstName: "Vishal",
-            lastName: "chinta",
-            mobile: "8355952505",
-            email: "vishal@gmail.com",
-          ));
+              id: 1,
+              firstName: "Vishal",
+              lastName: "chinta",
+              mobile: "8355952505",
+              email: "vishal@gmail.com",
+              business: Business(
+                  email: "demobusiness@gmail.com",
+                  id: 1,
+                  name: "Demo Business")));
       //var rs = await HttpHelper.post(Uri.parse(LOGIN_ENDPOINT), accountInput);
 
       var result = username == account.email && password == account.password;

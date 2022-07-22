@@ -121,36 +121,42 @@ class _buildHead extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 40,
-      width: MediaQuery.of(context).size.width - 40,
-      child: TextFormField(
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(0),
-            hintText: 'Search...',
-            hintStyle: AppTheme.body1,
-            focusedBorder: OutlineInputBorder(
-              borderSide:
-                  const BorderSide(color: AppTheme.secondaryColor, width: 1.0),
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10.0),
-              ),
-            ),
-            prefixIcon: Icon(
-              Icons.search,
-            ),
-          ),
-          onChanged: (value) {
-            if (value.length > 1) {
-              context.read<ProjectsCubit>().searchProject(value);
-            } else {
-              context.read<ProjectsCubit>().getProjects(1);
-            }
-          },
-          style: AppTheme.body2),
+    return Container(
+      child: SizedBox(
+        height: 40,
+        width: MediaQuery.of(context).size.width - 40,
+        child: TextFormField(
+            cursorColor: AppTheme.secondaryColor,
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: AppTheme.secondaryColor.withOpacity(0.2),
+                contentPadding: EdgeInsets.all(0),
+                hintText: 'Search...',
+                hintStyle: AppTheme.body1,
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(
+                      color: AppTheme.secondaryColor, width: 1.0),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                ),
+                prefixIcon: IconTheme(
+                    data: IconThemeData(color: AppTheme.secondaryColor),
+                    child: Icon(
+                      Icons.search,
+                    ))),
+            onChanged: (value) {
+              if (value.length > 1) {
+                context.read<ProjectsCubit>().searchProject(value);
+              } else {
+                context.read<ProjectsCubit>().getProjects(1);
+              }
+            },
+            style: AppTheme.body2),
+      ),
     );
   }
 }

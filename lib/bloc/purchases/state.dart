@@ -1,11 +1,8 @@
-import 'package:equatable/equatable.dart';
 import 'package:my_application/models/purchaserequest_model.dart';
-
-import '../../models/loginmodel.dart';
 
 enum PurchasesStatus {
   PurchasesLoading,
-  Purchaseinitial,
+  PurchaseInitial,
   PurchasesLoadedSuccessfully,
   PurchasesEditing,
   listIsEmty,
@@ -25,7 +22,7 @@ class PurchasesState {
   const PurchasesState.intial(
       List<PurchaseRequest> Purchases, bool hasReachedMax)
       : this._(
-            status: PurchasesStatus.Purchaseinitial,
+            status: PurchasesStatus.PurchaseInitial,
             purchases: Purchases,
             hasReachedMax: hasReachedMax);
 

@@ -84,7 +84,7 @@ class _ProjectItemScreen extends State<ProjectItemScreen>
                               decoration: const BoxDecoration(
                                   border: Border(
                                       bottom: const BorderSide(
-                                          color: Color(0xFFEEEEEE)))),
+                                          color: AppTheme.secondaryColor))),
                               child: Card(
                                 margin: EdgeInsets.zero,
                                 shape: RoundedRectangleBorder(
@@ -94,7 +94,7 @@ class _ProjectItemScreen extends State<ProjectItemScreen>
                                 child: ListTile(
                                   dense: true,
                                   title: const Text(
-                                    "Description",
+                                    "Details",
                                     style: AppTheme.listheading,
                                   ),
                                   trailing: Row(
@@ -176,33 +176,45 @@ class _buildlist extends StatelessWidget {
               elevation: 0,
               child: ListTile(
                 onTap: () {},
+                subtitle: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      (items[index].description ?? ""),
+                      style: AppTheme.caption,
+                    ),
+                    Text(
+                        "Quantity : " +
+                            (items[index].quantity != null
+                                ? items[index].quantity.toString() +
+                                    " " +
+                                    items[index].unit.toString()
+                                : "NA"),
+                        style: AppTheme.caption),
+                    Text(
+                        "Price : " +
+                            (items[index].itemPrice?.toString() ?? "NA"),
+                        style: AppTheme.caption),
+                  ],
+                ),
                 title: SizedBox(
                   child: Text(
                     items[index].name ?? "NA",
                     maxLines: 3,
                   ),
                 ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 0),
-                      child: Center(
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 3,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              items[index].itemTotalPrice?.toString() ?? "NA",
-                              overflow: TextOverflow.visible,
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                        ),
-                      ),
+                trailing: Container(
+                  width: 110,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      items[index].itemTotalPrice?.toString() ?? "NA",
+                      overflow: TextOverflow.visible,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w500),
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

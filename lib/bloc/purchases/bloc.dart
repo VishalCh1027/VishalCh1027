@@ -8,11 +8,15 @@ class PurchasesCubit extends Cubit<PurchasesState> {
   PurchasesCubit({required this.repository})
       : super(const PurchasesState.loading());
 
-  Future<void> getPurchases(int employeeId, String status) async {
+  Future<void> getPurchases(int employeeId, String status,
+      [bool change = false]) async {
+    if (change) emit(PurchasesState.loading());
     if (state.hasReachedMax) return;
+
     try {
       if (state.status == PurchasesStatus.PurchasesLoading) {
         var rs = await repository.getPurchases(employeeId, status);
+        await Future.delayed(Duration(seconds: 3));
         emit(PurchasesState.intial(rs, false));
       } else {
         var rs = await repository.getPurchases(

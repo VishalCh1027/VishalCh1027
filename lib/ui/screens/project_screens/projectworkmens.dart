@@ -61,12 +61,6 @@ class _ProjectWorkmensState extends State<ProjectWorkmensPage> {
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context, int index) {
                   return Column(children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 18.0),
-                      child: Divider(
-                        color: Color.fromRGBO(97, 99, 119, 1),
-                      ),
-                    ),
                     Column(
                       children: [
                         Container(
@@ -74,10 +68,14 @@ class _ProjectWorkmensState extends State<ProjectWorkmensPage> {
                             width: MediaQuery.of(context).size.width - 40,
                             child: Column(children: [
                               Container(
-                                decoration: const BoxDecoration(
-                                    border: Border(
-                                        bottom: BorderSide(
-                                            color: AppTheme.primaryColor))),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: AppTheme.secondaryColor
+                                          .withOpacity(0.5),
+                                    ),
+                                  ),
+                                ),
                                 child: Card(
                                   margin: EdgeInsets.zero,
                                   shape: RoundedRectangleBorder(
@@ -166,10 +164,13 @@ class _buildlist extends State<WorkmenListVIew> {
                 return index >= state.workmens.length
                     ? BottomLoader()
                     : Container(
-                        decoration: const BoxDecoration(
-                            border: Border(
-                                bottom:
-                                    BorderSide(color: AppTheme.primaryColor))),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: AppTheme.secondaryColor.withOpacity(0.2),
+                            ),
+                          ),
+                        ),
                         child: Card(
                           margin: EdgeInsets.zero,
                           elevation: 0,

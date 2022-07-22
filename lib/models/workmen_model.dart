@@ -5,6 +5,8 @@ class Workmen {
 
   late String lastname;
 
+  late int departmentId;
+
   // late String? mobile;
 
   Workmen({required this.id, required this.firstname, required this.lastname});
@@ -13,6 +15,8 @@ class Workmen {
     id = json['id'];
     firstname = json['firstName'];
     lastname = json['lastName'];
+    departmentId = json['departmentId'];
+
     // mobile = json['mobile'];
   }
 
@@ -21,6 +25,8 @@ class Workmen {
     workmen['workmenId'] = id;
     workmen['firstname'] = firstname;
     workmen['lastname'] = lastname;
+    workmen['departmentId'] = departmentId;
+
     //  workmen['mobile'] = mobile;
     return workmen;
   }

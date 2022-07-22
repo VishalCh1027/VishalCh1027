@@ -76,9 +76,12 @@ class _ProjectExpenseScreen extends State<ProjectExpenseScreen>
                           children: [
                             Container(
                               decoration: const BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                          color: Color(0xFFEEEEEE)))),
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: AppTheme.secondaryColor,
+                                  ),
+                                ),
+                              ),
                               child: Card(
                                 margin: EdgeInsets.zero,
                                 shape: RoundedRectangleBorder(
@@ -164,8 +167,12 @@ class _buildlist extends StatelessWidget {
         itemBuilder: (context, index) {
           return Container(
             decoration: const BoxDecoration(
-                border:
-                    const Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
+              border: Border(
+                bottom: BorderSide(
+                  color: Color(0xFFEEEEEE),
+                ),
+              ),
+            ),
             child: Card(
               margin: EdgeInsets.zero,
               elevation: 0,
@@ -176,30 +183,35 @@ class _buildlist extends StatelessWidget {
                     expenses[index].employee!.firstName! +
                         " " +
                         expenses[index].employee!.lastName!,
-                    maxLines: 3,
+                    maxLines: 2,
                     style: AppTheme.body1,
                   ),
                 ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
+                subtitle: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 0),
-                      child: Center(
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width / 3,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              expenses[index].amount?.toString() ?? "NA",
-                              overflow: TextOverflow.visible,
-                              style: AppTheme.body1,
-                            ),
-                          ),
-                        ),
-                      ),
+                    Text(
+                      "Reference No.:" +
+                          (expenses[index].referenceNumber ?? "NA"),
+                      style: AppTheme.caption,
+                    ),
+                    Text(
+                      "invoice No.: " + (expenses[index].invoiceNumber ?? "NA"),
+                      style: AppTheme.caption,
                     ),
                   ],
+                ),
+                trailing: Container(
+                  width: 120,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      expenses[index].amount?.toString() ?? "NA",
+                      overflow: TextOverflow.visible,
+                      style: AppTheme.body1,
+                    ),
+                  ),
                 ),
               ),
             ),

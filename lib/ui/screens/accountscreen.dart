@@ -5,7 +5,6 @@ import 'package:my_application/bloc/login/service.dart';
 import 'package:my_application/common/roles.dart';
 import 'package:my_application/global/global_variables.dart';
 import 'package:my_application/login_page.dart';
-import 'package:my_application/main.dart';
 import 'package:my_application/ui/widgets/drawer.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -18,6 +17,7 @@ class AccountScreen extends StatefulWidget {
 class _AccountScreenState extends State<AccountScreen> {
   List<Widget> listViews = <Widget>[];
 
+  var user = currentLogin.employee;
   @override
   void initState() {
     addAllListData();
@@ -27,87 +27,253 @@ class _AccountScreenState extends State<AccountScreen> {
 
   void addAllListData() {
     listViews.add(
-      Container(
-        decoration: const BoxDecoration(
-            border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 10),
-          child: ListTile(
-            leading: ShaderMask(
-              shaderCallback: (Rect bounds) {
-                return RadialGradient(
-                  center: Alignment.topLeft,
-                  radius: 1.5,
-                  colors: <Color>[
-                    AppTheme.primaryColor,
-                    HexColor('#6A88E5'),
-                  ],
-                  tileMode: TileMode.repeated,
-                ).createShader(bounds);
-              },
-              child: const Icon(
-                Icons.account_circle_rounded,
-                size: 50,
-                color: AppTheme.secondaryColor,
-              ),
+      Padding(
+        padding:
+            const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 10),
+        child: InkWell(
+          onTap: () {},
+          child: Container(
+            decoration: BoxDecoration(
+              color: AppTheme.logoColor,
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(15.0),
+                  bottomLeft: Radius.circular(15.0),
+                  bottomRight: Radius.circular(15.0),
+                  topRight: Radius.circular(15.0)),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                    color: AppTheme.grey.withOpacity(0.2),
+                    offset: const Offset(1.1, 1.1),
+                    blurRadius: 10.0),
+              ],
             ),
-            title: Text(
-              currentLogin.employee!.firstName! +
-                  " " +
-                  currentLogin.employee!.lastName!,
-              style: AppTheme.headline,
-            ),
-            trailing: const Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 10,
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 6, left: 16, right: 16, bottom: 16),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(top: 10, left: 20, right: 20),
+                        child: Container(
+                          child: Icon(
+                            Icons.account_circle,
+                            color: AppTheme.secondaryColor,
+                            size: 70,
+                          ),
+                        ),
+                      ),
+                      Container(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Column(
+                            children: [
+                              Text(
+                                user!.firstName! + " " + user!.lastName!,
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24,
+                                  letterSpacing: 0.27,
+                                  color: AppTheme.secondaryColor,
+                                ),
+                              ),
+                              Text(
+                                user!.email ?? "",
+                                style: TextStyle(
+                                  fontFamily: AppTheme.fontName,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  letterSpacing: 0.27,
+                                  color: AppTheme.secondaryColor,
+                                ),
+                              ),
+                            ],
+                          ))
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 20.0, right: 20, bottom: 20),
+                  child: Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: AppTheme.dark_grey.withOpacity(0.07),
+                            offset: const Offset(0, 0.5),
+                            spreadRadius: 3,
+                            blurRadius: 10)
+                      ],
+                      color: AppTheme.background,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(54),
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Text(
+                            "Project Supervisor at",
+                            style: AppTheme.title,
+                          ),
+                        ),
+                        Center(
+                            child: Text(
+                          user?.business?.name ?? "",
+                          style: AppTheme.title,
+                        )),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
       ),
     );
     listViews.add(
-      const OptionsTile(
-        title: Text(
-          "Select Office",
-          style: AppTheme.title,
-        ),
-        leadingIcon: Icons.store,
-        trailing: Icon(
-          Icons.arrow_forward_ios_rounded,
-          size: 10,
+      Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppTheme.background,
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                bottomLeft: Radius.circular(15.0),
+                bottomRight: Radius.circular(15.0),
+                topRight: Radius.circular(15.0)),
+          ),
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            color: AppTheme.secondaryColor.withOpacity(0.2)))),
+                child: const OptionsTile(
+                  title: Text(
+                    "Select Office",
+                    style: AppTheme.title,
+                  ),
+                  leadingIcon: Icon(
+                    Icons.store,
+                    size: 30,
+                    color: AppTheme.secondaryColor,
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 20,
+                    color: AppTheme.secondaryColor,
+                  ),
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            color: AppTheme.secondaryColor.withOpacity(0.1)))),
+                child: const OptionsTile(
+                  title: Text(
+                    "Settings",
+                    style: AppTheme.title,
+                  ),
+                  leadingIcon: Icon(
+                    Icons.settings,
+                    size: 30,
+                    color: AppTheme.secondaryColor,
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 20,
+                    color: AppTheme.secondaryColor,
+                  ),
+                ),
+              ),
+              OptionsTile(
+                title: const Text(
+                  "Logout",
+                  style: AppTheme.title,
+                ),
+                leadingIcon: Icon(
+                  Icons.logout,
+                  size: 30,
+                  color: AppTheme.secondaryColor,
+                ),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 20,
+                  color: AppTheme.secondaryColor,
+                ),
+                onTap: () {
+                  context.read<LoginService>().logOut();
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (b) => LoginPage()));
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
     listViews.add(
-      const OptionsTile(
-        title: Text(
-          "Settings",
-          style: AppTheme.title,
+      Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 20),
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppTheme.background,
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                bottomLeft: Radius.circular(15.0),
+                bottomRight: Radius.circular(15.0),
+                topRight: Radius.circular(15.0)),
+          ),
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                            color: AppTheme.secondaryColor.withOpacity(0.1)))),
+                child: const OptionsTile(
+                  title: Text(
+                    "About Us",
+                    style: AppTheme.title,
+                  ),
+                  leadingIcon: Icon(
+                    Icons.info,
+                    size: 30,
+                    color: AppTheme.secondaryColor,
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 20,
+                    color: AppTheme.secondaryColor,
+                  ),
+                ),
+              ),
+              const OptionsTile(
+                title: Text(
+                  "More",
+                  style: AppTheme.title,
+                ),
+                leadingIcon: Icon(
+                  Icons.file_open_rounded,
+                  size: 30,
+                  color: AppTheme.secondaryColor,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 20,
+                  color: AppTheme.secondaryColor,
+                ),
+              ),
+            ],
+          ),
         ),
-        leadingIcon: Icons.settings,
-        trailing: Icon(
-          Icons.arrow_forward_ios_rounded,
-          size: 10,
-        ),
-      ),
-    );
-
-    listViews.add(
-      OptionsTile(
-        title: const Text(
-          "Logout",
-          style: AppTheme.title,
-        ),
-        leadingIcon: Icons.logout,
-        trailing: const Icon(
-          Icons.arrow_forward_ios_rounded,
-          size: 10,
-        ),
-        onTap: () {
-          context.read<LoginService>().logOut();
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (b) => LoginPage()));
-        },
       ),
     );
 
@@ -131,7 +297,7 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: AppTheme.background,
+        color: Color(0xFFf0f0f0),
         child: Scaffold(
           drawer: NowDrawer(currentPage: "Account"),
           appBar: AppBar(
@@ -143,7 +309,7 @@ class _AccountScreenState extends State<AccountScreen> {
               height: 40,
             ),
           ),
-          backgroundColor: AppTheme.primaryColor,
+          backgroundColor: Color(0xFFf0f0f0),
           body: Stack(
             children: <Widget>[
               getMainListViewUI(),
@@ -171,19 +337,13 @@ class OptionsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
+    return Card(
+      margin: EdgeInsets.zero,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      elevation: 0,
       child: ListTile(
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: Icon(
-            leadingIcon,
-            size: 30,
-            color: AppTheme.secondaryColor,
-          ),
-        ),
-        title: Padding(padding: const EdgeInsets.only(left: 10), child: title),
+        leading: leadingIcon,
+        title: Padding(padding: const EdgeInsets.only(left: 8.0), child: title),
         trailing: trailing,
         onTap: onTap,
       ),

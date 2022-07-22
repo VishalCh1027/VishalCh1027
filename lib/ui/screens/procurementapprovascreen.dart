@@ -267,12 +267,19 @@ class _buildlist extends State<BillingListVIew> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Requested by : " +
-                                    state.billing[index].employee!.firstName! +
-                                    " " +
-                                    state.billing[index].employee!.lastName!),
-                                Text("Vendor : " +
-                                    state.billing[index].vendor!.name),
+                                Text(
+                                  "Requested by : " +
+                                      state
+                                          .billing[index].employee!.firstName! +
+                                      " " +
+                                      state.billing[index].employee!.lastName!,
+                                  style: AppTheme.caption,
+                                ),
+                                Text(
+                                  "Vendor : " +
+                                      state.billing[index].vendor!.name,
+                                  style: AppTheme.caption,
+                                ),
                               ],
                             ),
                           ),

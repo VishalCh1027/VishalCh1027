@@ -7,7 +7,6 @@ class WalletCubit extends Cubit<WalletState> {
   WalletCubit({required this.repository}) : super(const WalletState.loading());
 
   Future<void> getTransactions(int employeeId) async {
-    await Future.delayed(Duration(seconds: 5));
     if (state.hasReachedMax) return;
     try {
       var rs = await repository.getTransactions(

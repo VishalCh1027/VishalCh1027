@@ -196,7 +196,7 @@ class _ProjectListView extends State<ProjectListView>
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 216,
+        height: 190,
         width: double.infinity,
         child: BlocProvider(
           create: (_) =>
@@ -233,7 +233,7 @@ class ProjectsView extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding:
-                const EdgeInsets.only(top: 32, left: 8, right: 8, bottom: 16),
+                const EdgeInsets.only(top: 15, left: 8, right: 8, bottom: 16),
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -290,7 +290,7 @@ class ProjectsView extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 30,
+            top: 15,
             left: 0,
             child: SizedBox(
               width: 80,

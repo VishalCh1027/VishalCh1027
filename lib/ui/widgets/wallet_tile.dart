@@ -29,20 +29,14 @@ class _WalletTileView extends State<WalletTileView> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 18),
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppTheme.secondaryColor,
-          borderRadius: const BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: AppTheme.grey.withOpacity(0.2),
-                offset: const Offset(1.1, 1.1),
-                blurRadius: 10.0),
-          ],
+      padding: const EdgeInsets.only(left: 22, right: 22, top: 16, bottom: 18),
+      child: Card(
+        color: AppTheme.secondaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
         ),
         child: InkWell(
-          splashColor: Colors.white,
+          borderRadius: BorderRadius.circular(5.0),
           onTap: () {
             Navigator.push(
               context,

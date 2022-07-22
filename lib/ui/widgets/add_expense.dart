@@ -39,7 +39,6 @@ class _AddExpensePage extends State<AddExpensePage> {
       backgroundColor: AppTheme.background,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        toolbarHeight: 80,
         backgroundColor: AppTheme.background,
         leading: IconButton(
           onPressed: () {
@@ -71,7 +70,7 @@ class _AddExpensePage extends State<AddExpensePage> {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  left: 25, right: 25, top: 25, bottom: 0),
+                  left: 25, right: 25, top: 10, bottom: 0),
               child: Form(
                 key: formKey,
                 child: Column(
@@ -149,11 +148,11 @@ class _AddExpensePage extends State<AddExpensePage> {
                       decoration: const InputDecoration(
                         icon: Icon(
                           Icons.info_outline_rounded,
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.secondaryColor,
                         ),
                         labelText: 'Description',
                         labelStyle: TextStyle(
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.secondaryColor,
                         ),
                       ),
                     ),
@@ -188,40 +187,41 @@ class _AddExpensePage extends State<AddExpensePage> {
                             labelStyle:
                                 TextStyle(color: AppTheme.secondaryColor))),
                     DropdownButtonFormField(
-                        elevation: 2,
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select category';
-                          }
-                          return null;
-                        },
-                        items: const [
-                          DropdownMenuItem<String>(
-                            value: "Material",
-                            child: Text(
-                              "Material",
-                            ),
+                      elevation: 2,
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please select category';
+                        }
+                        return null;
+                      },
+                      items: const [
+                        DropdownMenuItem<String>(
+                          value: "Material",
+                          child: Text(
+                            "Material",
                           ),
-                          DropdownMenuItem<String>(
-                            value: "Labour",
-                            child: Text(
-                              "Labour",
-                            ),
-                          )
-                        ],
-                        onChanged: (value) {
-                          setState(() {
-                            _item.category = value.toString();
-                          });
-                        },
-                        decoration: InputDecoration(
-                            icon: Icon(
-                              Icons.linear_scale_rounded,
-                              color: AppTheme.primaryColor,
-                            ),
-                            labelText: "Category",
-                            labelStyle:
-                                TextStyle(color: AppTheme.primaryColor))),
+                        ),
+                        DropdownMenuItem<String>(
+                          value: "Labour",
+                          child: Text(
+                            "Labour",
+                          ),
+                        )
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          _item.category = value.toString();
+                        });
+                      },
+                      decoration: InputDecoration(
+                        icon: Icon(
+                          Icons.linear_scale_rounded,
+                          color: AppTheme.secondaryColor,
+                        ),
+                        labelText: "Category",
+                        labelStyle: TextStyle(color: AppTheme.secondaryColor),
+                      ),
+                    ),
                     if (_item.projectId != null && _item.category == "Labour")
                       DropdownSearch<Workmen>(
                         mode: Mode.BOTTOM_SHEET,

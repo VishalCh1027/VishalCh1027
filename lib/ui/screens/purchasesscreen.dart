@@ -5,7 +5,6 @@ import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/bloc/purchases/bloc.dart';
 import 'package:my_application/bloc/purchases/service.dart';
 import 'package:my_application/bloc/purchases/state.dart';
-import 'package:my_application/global/global_function.dart';
 import 'package:my_application/models/purchaserequest_model.dart';
 import 'package:my_application/ui/screens/requestscreen.dart';
 import 'package:my_application/ui/widgets/bottom_loader.dart';
@@ -62,10 +61,9 @@ class _PurchasesScreen extends State<PurchasesScreen>
                 DefaultTabController.of(context)!;
             tabController.addListener(() {
               if (!tabController.indexIsChanging) {
-                context.read<PurchasesCubit>().PageChange();
                 context
                     .read<PurchasesCubit>()
-                    .getPurchases(1, tabs[tabController.index]);
+                    .getPurchases(1, tabs[tabController.index], true);
               }
             });
             return Container(
@@ -141,7 +139,7 @@ class _PurchasesScreen extends State<PurchasesScreen>
                           ),
                           child: Padding(
                             padding:
-                                EdgeInsets.only(left: 20, right: 20, top: 20),
+                                EdgeInsets.only(left: 20, right: 20, top: 10),
                             child: Container(
                               decoration: BoxDecoration(
                                 color: AppTheme.background,
@@ -154,7 +152,7 @@ class _PurchasesScreen extends State<PurchasesScreen>
                                     decoration: BoxDecoration(
                                       border: Border(
                                         bottom: BorderSide(
-                                            color: AppTheme.primaryColor),
+                                            color: AppTheme.secondaryColor),
                                       ),
                                     ),
                                     child: Card(
@@ -285,9 +283,6 @@ class _buildlist extends State<PurchaseListVIew> {
           },
           fullscreenDialog: true),
     );
-    context
-        .read<PurchasesCubit>()
-        .getPurchases(1, GetEnumValue(widget.currentStatus.toString()));
   }
 
   @override
@@ -299,13 +294,14 @@ class _buildlist extends State<PurchaseListVIew> {
             return const Center(child: Text('Oops something went wrong!'));
           } else if (state.status ==
                   PurchasesStatus.PurchasesLoadedSuccessfully ||
-              state.status == PurchasesStatus.Purchaseinitial) {
+              state.status == PurchasesStatus.PurchaseInitial ||
+              state.status == PurchasesStatus.PurchasesEditing) {
             return Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 itemCount: state.hasReachedMax ||
-                        state.status == PurchasesStatus.Purchaseinitial
+                        state.status == PurchasesStatus.PurchaseInitial
                     ? state.purchases.length
                     : state.purchases.length + 1,
                 controller: _scrollController,
@@ -337,7 +333,7 @@ class _buildlist extends State<PurchaseListVIew> {
                                           child: TextButton(
                                             child: Icon(
                                               Icons.create_rounded,
-                                              color: AppTheme.primaryColor,
+                                              color: AppTheme.secondaryColor,
                                               size: 20,
                                             ),
                                             onPressed: () {
@@ -353,7 +349,7 @@ class _buildlist extends State<PurchaseListVIew> {
                                             child: TextButton(
                                               child: Icon(
                                                 Icons.delete_forever_rounded,
-                                                color: AppTheme.primaryColor,
+                                                color: AppTheme.secondaryColor,
                                                 size: 20,
                                               ),
                                               onPressed: () {
@@ -367,89 +363,102 @@ class _buildlist extends State<PurchaseListVIew> {
                                         ),
                                       ],
                                     ))
-                                : ListTile(
-                                    onTap: () {
-                                      if (state.purchases.any((element) =>
-                                          element.selected == true)) {
+                                : Container(
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: AppTheme.secondaryColor
+                                              .withOpacity(0.2),
+                                        ),
+                                      ),
+                                    ),
+                                    child: ListTile(
+                                      onTap: () {
+                                        if (state.purchases.any((element) =>
+                                            element.selected == true)) {
+                                          context
+                                              .read<PurchasesCubit>()
+                                              .unSelectAll();
+                                        } else {
+                                          _openRequest(
+                                              state.purchases[index], context);
+                                        }
+                                      },
+                                      onLongPress: () {
                                         context
                                             .read<PurchasesCubit>()
-                                            .unSelectAll();
-                                      } else {
-                                        _openRequest(
-                                            state.purchases[index], context);
-                                      }
-                                    },
-                                    onLongPress: () {
-                                      context
-                                          .read<PurchasesCubit>()
-                                          .editPurchase(state.purchases[index]);
-                                    },
-                                    title: state.purchases[index].selected
-                                        ? null
-                                        : SizedBox(
-                                            child: Text(
-                                              state.purchases[index].orderNo
-                                                  .toString()
-                                                  .replaceRange(18, null, ""),
-                                              maxLines: 3,
-                                              style: AppTheme.body1,
-                                            ),
-                                          ),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 15),
-                                          child: SizedBox(
-                                            width: 50,
-                                            child: Center(
+                                            .editPurchase(
+                                                state.purchases[index]);
+                                      },
+                                      title: state.purchases[index].selected
+                                          ? null
+                                          : SizedBox(
                                               child: Text(
-                                                state
-                                                    .purchases[index].priority!,
+                                                state.purchases[index].orderNo
+                                                    .toString()
+                                                    .replaceRange(18, null, ""),
+                                                maxLines: 3,
                                                 style: AppTheme.body1,
                                               ),
                                             ),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 15),
+                                            child: SizedBox(
+                                              width: 50,
+                                              child: Center(
+                                                child: Text(
+                                                  state.purchases[index]
+                                                      .priority!,
+                                                  style: AppTheme.body1,
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: 15),
-                                          child: Text(
-                                            DateFormat("dd-MM-yyyy").format(
-                                                state.purchases[index]
-                                                    .deliveryAt!),
-                                            style: AppTheme.body1,
+                                          Padding(
+                                            padding: EdgeInsets.only(right: 15),
+                                            child: Text(
+                                              DateFormat("dd-MM-yyyy").format(
+                                                  state.purchases[index]
+                                                      .deliveryAt!),
+                                              style: AppTheme.body1,
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: state.purchases[index]
-                                                      .status ==
-                                                  "Requested"
-                                              ? Icon(
-                                                  Icons.change_circle_outlined,
-                                                  color: Colors.blue,
-                                                )
-                                              : state.purchases[index].status ==
-                                                      "Approved"
-                                                  ? Icon(
-                                                      Icons
-                                                          .thumb_up_off_alt_rounded,
-                                                      color: Colors.green,
-                                                    )
-                                                  : state.purchases[index]
-                                                              .status ==
-                                                          "Rejected"
-                                                      ? Icon(
-                                                          Icons.clear_rounded,
-                                                          color: Colors.red,
-                                                        )
-                                                      : Icon(
-                                                          Icons
-                                                              .back_hand_outlined,
-                                                          color: Colors.grey,
-                                                        ),
-                                        ),
-                                      ],
+                                          Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: state.purchases[index]
+                                                        .status ==
+                                                    "Requested"
+                                                ? Icon(
+                                                    Icons
+                                                        .change_circle_outlined,
+                                                    color: Colors.blue,
+                                                  )
+                                                : state.purchases[index]
+                                                            .status ==
+                                                        "Approved"
+                                                    ? Icon(
+                                                        Icons
+                                                            .thumb_up_off_alt_rounded,
+                                                        color: Colors.green,
+                                                      )
+                                                    : state.purchases[index]
+                                                                .status ==
+                                                            "Rejected"
+                                                        ? Icon(
+                                                            Icons.clear_rounded,
+                                                            color: Colors.red,
+                                                          )
+                                                        : Icon(
+                                                            Icons
+                                                                .back_hand_outlined,
+                                                            color: Colors.grey,
+                                                          ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                           ),

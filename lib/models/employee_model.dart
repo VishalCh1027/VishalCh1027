@@ -1,3 +1,4 @@
+import 'package:my_application/models/business_model.dart';
 import 'package:my_application/models/employeepermissions.dart';
 
 class Employee {
@@ -9,6 +10,7 @@ class Employee {
   final String? mobile;
   final String? dOB;
   final int? businessId;
+  final Business? business;
 
   final List<EmployeePermissions>? permissions;
 
@@ -21,7 +23,8 @@ class Employee {
       this.dOB,
       this.businessId,
       this.usedId,
-      this.permissions});
+      this.permissions,
+      this.business});
 
   factory Employee.fromJson(Map<String, dynamic> json) {
     return Employee(
@@ -32,6 +35,9 @@ class Employee {
         mobile: json['mobile'],
         dOB: json['dOB'],
         businessId: json['businessId'],
+        business: json["business"] != null
+            ? Business.fromJson(json["business"])
+            : null,
         permissions: List<EmployeePermissions>.from(
             json['permissions']?.map((e) => EmployeeRoles.fromJson(e)) ?? []));
   }

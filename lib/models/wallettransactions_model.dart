@@ -79,4 +79,16 @@ class WalletTransaction {
 
 enum PaymentType {
   Cash,
+
+  OnlineTransfer,
+
+  CreditCard,
+
+  DebitCard,
+
+  Cheque,
+
+  NetBanking,
+
+  UPI
 }

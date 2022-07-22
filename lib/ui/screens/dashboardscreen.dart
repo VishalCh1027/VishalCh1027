@@ -84,6 +84,15 @@ class _DashboardScreen extends State<DashboardScreen>
       ),
     );
     listViews.add(
+      const TitleView(
+        titleTxt: 'Attendance',
+        istrailing: false,
+      ),
+    );
+    listViews.add(
+      AttendanceTileView(),
+    );
+    listViews.add(
       TitleView(
         titleTxt: 'Projects',
         subTxt: 'View All',
@@ -99,15 +108,6 @@ class _DashboardScreen extends State<DashboardScreen>
     );
     listViews.add(
       const ProjectListView(),
-    );
-    listViews.add(
-      const TitleView(
-        titleTxt: 'Attendance',
-        istrailing: false,
-      ),
-    );
-    listViews.add(
-      AttendanceTileView(),
     );
   }
 

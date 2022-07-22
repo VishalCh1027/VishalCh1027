@@ -213,9 +213,6 @@ class _buildlist extends State<PurchaseListVIew> {
           },
           fullscreenDialog: true),
     );
-    context
-        .read<PurchasesCubit>()
-        .getTechnicalHeadRequests(1, widget.currentStatus);
   }
 
   @override
@@ -228,13 +225,13 @@ class _buildlist extends State<PurchaseListVIew> {
         } else if (state.status ==
                 PurchasesStatus.PurchasesLoadedSuccessfully ||
             state.status == PurchasesStatus.PurchasesEditing ||
-            state.status == PurchasesStatus.Purchaseinitial) {
+            state.status == PurchasesStatus.PurchaseInitial) {
           return Expanded(
             child: ListView.builder(
               padding: EdgeInsets.zero,
               shrinkWrap: true,
               itemCount: state.hasReachedMax ||
-                      state.status == PurchasesStatus.Purchaseinitial
+                      state.status == PurchasesStatus.PurchaseInitial
                   ? state.purchases.length
                   : state.purchases.length + 1,
               controller: _scrollController,
@@ -301,11 +298,17 @@ class _buildlist extends State<PurchaseListVIew> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("Delivery Date : " +
-                                    DateFormat("dd-MM-yyyy").format(
-                                        state.purchases[index].deliveryAt!)),
-                                Text("Priority : " +
-                                    state.purchases[index].priority!),
+                                Text(
+                                  "Delivery Date : " +
+                                      DateFormat("dd-MM-yyyy").format(
+                                          state.purchases[index].deliveryAt!),
+                                  style: AppTheme.caption,
+                                ),
+                                Text(
+                                  "Priority : " +
+                                      state.purchases[index].priority!,
+                                  style: AppTheme.caption,
+                                ),
                               ],
                             ),
                           ),

@@ -55,7 +55,9 @@ class _LoginPageState extends State<LoginPage> {
               children: <Widget>[
                 Container(
                   decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(40)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(40),
+                    ),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(30),

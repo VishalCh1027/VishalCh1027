@@ -59,14 +59,15 @@ class MyApp extends StatelessWidget {
             title: "CPMS UI",
             themeMode: ThemeMode.system,
             theme: ThemeData(
-                focusColor: AppTheme.secondaryColor,
-                visualDensity: VisualDensity.adaptivePlatformDensity,
-                textTheme: AppTheme.textTheme,
-                scaffoldBackgroundColor: AppTheme.background,
-                appBarTheme: AppBarTheme(
-                  elevation: 0.0,
-                  color: AppTheme.background,
-                )),
+              focusColor: AppTheme.secondaryColor,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              textTheme: AppTheme.textTheme,
+              scaffoldBackgroundColor: AppTheme.background,
+              appBarTheme: AppBarTheme(
+                elevation: 0.0,
+                color: AppTheme.background,
+              ),
+            ),
             home: LoadingScreen(),
           ),
         );
