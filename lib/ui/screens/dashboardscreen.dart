@@ -63,7 +63,6 @@ class _DashboardScreen extends State<DashboardScreen>
     listViews.add(
       TitleView(
         titleTxt: 'Purchase Requests',
-        subTxt: 'View All',
       ),
     );
     listViews.add(

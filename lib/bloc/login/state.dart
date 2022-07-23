@@ -1,8 +1,6 @@
-import 'package:equatable/equatable.dart';
-
 import '../../models/loginmodel.dart';
 
-class LoginState extends Equatable {
+class LoginState {
   @override
   // TODO: implement props
   List<Object> get props => [];

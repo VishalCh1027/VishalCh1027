@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:my_application/models/workmen_model.dart';
 
 enum WorkmenStatus {

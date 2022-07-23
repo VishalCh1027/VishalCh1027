@@ -41,10 +41,9 @@ class _AddExpensePage extends State<AddExpensePage> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: AppTheme.background,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: AppTheme.background,
+        backgroundColor: AppTheme.appbarColor,
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).pop();
@@ -75,180 +74,42 @@ class _AddExpensePage extends State<AddExpensePage> {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  left: 25, right: 25, top: 10, bottom: 0),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    DropdownSearch<Project>(
-                      popupSafeArea: PopupSafeAreaProps(top: false),
-                      mode: Mode.BOTTOM_SHEET,
-                      showSearchBox: true,
-                      isFilteredOnline: true,
-                      onFind: (String? filter) {
-                        var projects =
-                            RepositoryProvider.of<ProjectsService>(context)
-                                .searchproject(filter);
-                        return projects;
-                      },
-                      itemAsString: (Project? u) {
-                        return u?.name ?? "";
-                      },
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Please select project';
-                        }
-                        return null;
-                      },
-                      onChanged: (value) {
-                        _item.projectId = value?.id;
-                      },
-                      dropdownSearchDecoration: const InputDecoration(
-                        icon: Icon(
-                          Icons.person,
-                          color: AppTheme.secondaryColor,
-                        ),
-                        labelText: 'Select Project',
-                        labelStyle: TextStyle(
-                          color: AppTheme.secondaryColor,
-                        ),
-                      ),
+                  left: 25, right: 25, top: 20, bottom: 0),
+              child: Container(
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppTheme.primaryColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 5,
+                      blurRadius: 5,
+                      offset: Offset(0, 5), // changes position of shadow
                     ),
-                    TextFormField(
-                      initialValue: _item.paymentType != null
-                          ? _item.paymentType.toString()
-                          : null,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter Amount';
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.number,
-                      onChanged: (value) {
-                        _item.amount = double.tryParse(value);
-                      },
-                      decoration: const InputDecoration(
-                        icon: Icon(
-                          Icons.production_quantity_limits_rounded,
-                          color: AppTheme.secondaryColor,
-                        ),
-                        labelText: 'Amount',
-                        labelStyle: TextStyle(
-                          color: AppTheme.secondaryColor,
-                        ),
-                      ),
-                    ),
-                    TextFormField(
-                      initialValue: _item.description,
-                      onChanged: (value) {
-                        _item.description = value;
-                      },
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Please enter description';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        icon: Icon(
-                          Icons.info_outline_rounded,
-                          color: AppTheme.secondaryColor,
-                        ),
-                        labelText: 'Description',
-                        labelStyle: TextStyle(
-                          color: AppTheme.secondaryColor,
-                        ),
-                      ),
-                    ),
-                    DropdownButtonFormField(
-                        elevation: 2,
-                        value: _item.paymentType,
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select payment type';
-                          }
-                          return null;
-                        },
-                        items: PaymentType.values.map((item) {
-                          return new DropdownMenuItem<String>(
-                            value: item.name.toString(),
-                            child: new Text(
-                              item.name.toString(),
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            _item.paymentType = value.toString();
-                          });
-                        },
-                        decoration: InputDecoration(
-                            icon: Icon(
-                              Icons.linear_scale_rounded,
-                              color: AppTheme.secondaryColor,
-                            ),
-                            labelText: "Payment Type",
-                            labelStyle:
-                                TextStyle(color: AppTheme.secondaryColor))),
-                    DropdownButtonFormField(
-                      elevation: 2,
-                      validator: (value) {
-                        if (value == null) {
-                          return 'Please select category';
-                        }
-                        return null;
-                      },
-                      items: const [
-                        DropdownMenuItem<String>(
-                          value: "Material",
-                          child: Text(
-                            "Material",
-                          ),
-                        ),
-                        DropdownMenuItem<String>(
-                          value: "Labour",
-                          child: Text(
-                            "Labour",
-                          ),
-                        )
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          _item.category = value.toString();
-                        });
-                      },
-                      decoration: InputDecoration(
-                        icon: Icon(
-                          Icons.linear_scale_rounded,
-                          color: AppTheme.secondaryColor,
-                        ),
-                        labelText: "Category",
-                        labelStyle: TextStyle(color: AppTheme.secondaryColor),
-                      ),
-                    ),
-                    if (_item.projectId != null && _item.category == "Labour")
-                      DropdownSearch<Workmen>(
+                  ],
+                  borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                ),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      DropdownSearch<Project>(
+                        popupSafeArea: PopupSafeAreaProps(top: false),
                         mode: Mode.BOTTOM_SHEET,
                         showSearchBox: true,
                         isFilteredOnline: true,
                         onFind: (String? filter) {
                           var projects =
-                              RepositoryProvider.of<WorkmenService>(context)
-                                  .searchWorkmen(filter);
+                              RepositoryProvider.of<ProjectsService>(context)
+                                  .searchproject(filter);
                           return projects;
                         },
-                        itemAsString: (Workmen? u) {
-                          return u == null
-                              ? ""
-                              : (u.firstname + " " + u.lastname);
+                        itemAsString: (Project? u) {
+                          return u?.name ?? "";
                         },
                         validator: (value) {
-                          if (_item.projectId != null &&
-                              _item.category == "Labour") {
-                            if (value == null) {
-                              return 'Please select Workmen';
-                            }
+                          if (value == null) {
+                            return 'Please select project';
                           }
                           return null;
                         },
@@ -260,17 +121,170 @@ class _AddExpensePage extends State<AddExpensePage> {
                             Icons.person,
                             color: AppTheme.secondaryColor,
                           ),
-                          labelText: 'Select Workmen',
+                          labelText: 'Select Project',
                           labelStyle: TextStyle(
                             color: AppTheme.secondaryColor,
                           ),
                         ),
                       ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _buildSavebutton(context)
-                  ],
+                      TextFormField(
+                        initialValue: _item.paymentType != null
+                            ? _item.paymentType.toString()
+                            : null,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter Amount';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.number,
+                        onChanged: (value) {
+                          _item.amount = double.tryParse(value);
+                        },
+                        decoration: const InputDecoration(
+                          icon: Icon(
+                            Icons.production_quantity_limits_rounded,
+                            color: AppTheme.secondaryColor,
+                          ),
+                          labelText: 'Amount',
+                          labelStyle: TextStyle(
+                            color: AppTheme.secondaryColor,
+                          ),
+                        ),
+                      ),
+                      TextFormField(
+                        initialValue: _item.description,
+                        onChanged: (value) {
+                          _item.description = value;
+                        },
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter description';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          icon: Icon(
+                            Icons.info_outline_rounded,
+                            color: AppTheme.secondaryColor,
+                          ),
+                          labelText: 'Description',
+                          labelStyle: TextStyle(
+                            color: AppTheme.secondaryColor,
+                          ),
+                        ),
+                      ),
+                      DropdownButtonFormField(
+                          elevation: 2,
+                          value: _item.paymentType,
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select payment type';
+                            }
+                            return null;
+                          },
+                          items: PaymentType.values.map((item) {
+                            return new DropdownMenuItem<String>(
+                              value: item.name.toString(),
+                              child: new Text(
+                                item.name.toString(),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _item.paymentType = value.toString();
+                            });
+                          },
+                          decoration: InputDecoration(
+                              icon: Icon(
+                                Icons.linear_scale_rounded,
+                                color: AppTheme.secondaryColor,
+                              ),
+                              labelText: "Payment Type",
+                              labelStyle:
+                                  TextStyle(color: AppTheme.secondaryColor))),
+                      DropdownButtonFormField(
+                        elevation: 2,
+                        validator: (value) {
+                          if (value == null) {
+                            return 'Please select category';
+                          }
+                          return null;
+                        },
+                        items: const [
+                          DropdownMenuItem<String>(
+                            value: "Material",
+                            child: Text(
+                              "Material",
+                            ),
+                          ),
+                          DropdownMenuItem<String>(
+                            value: "Labour",
+                            child: Text(
+                              "Labour",
+                            ),
+                          )
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            _item.category = value.toString();
+                          });
+                        },
+                        decoration: InputDecoration(
+                          icon: Icon(
+                            Icons.linear_scale_rounded,
+                            color: AppTheme.secondaryColor,
+                          ),
+                          labelText: "Category",
+                          labelStyle: TextStyle(color: AppTheme.secondaryColor),
+                        ),
+                      ),
+                      if (_item.projectId != null && _item.category == "Labour")
+                        DropdownSearch<Workmen>(
+                          mode: Mode.BOTTOM_SHEET,
+                          showSearchBox: true,
+                          isFilteredOnline: true,
+                          onFind: (String? filter) {
+                            var projects =
+                                RepositoryProvider.of<WorkmenService>(context)
+                                    .searchWorkmen(filter);
+                            return projects;
+                          },
+                          itemAsString: (Workmen? u) {
+                            return u == null
+                                ? ""
+                                : (u.firstname + " " + u.lastname);
+                          },
+                          validator: (value) {
+                            if (_item.projectId != null &&
+                                _item.category == "Labour") {
+                              if (value == null) {
+                                return 'Please select Workmen';
+                              }
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
+                            _item.projectId = value?.id;
+                          },
+                          dropdownSearchDecoration: const InputDecoration(
+                            icon: Icon(
+                              Icons.person,
+                              color: AppTheme.secondaryColor,
+                            ),
+                            labelText: 'Select Workmen',
+                            labelStyle: TextStyle(
+                              color: AppTheme.secondaryColor,
+                            ),
+                          ),
+                        ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      _buildSavebutton(context)
+                    ],
+                  ),
                 ),
               ),
             ),
