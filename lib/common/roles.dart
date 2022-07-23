@@ -10,7 +10,7 @@ class BusinessClaims {
       workmenTransactionHistory = "b.workmen.transaction.history",
       workmenAttendanceView = "b.workmen.attendance.view",
       //Finance
-      Finance = "b.finance",
+      finance = "b.finance",
       accounts = "b.accounts",
       manageBill = "b.manage.bill",
       managePaymentRquest = "b.manage.payment.request",

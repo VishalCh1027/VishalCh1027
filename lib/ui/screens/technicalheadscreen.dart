@@ -27,9 +27,9 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
     super.initState();
   }
 
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
-    return true;
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -53,33 +53,31 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
                   .getTechnicalHeadRequests(1, tabs[tabController.index]);
             }
           });
-          return Container(
-            color: AppTheme.background,
-            child: Scaffold(
-              drawer: NowDrawer(currentPage: "Technical Approvals"),
-              appBar: AppBar(
-                backgroundColor: AppTheme.background,
-                iconTheme: IconThemeData(color: Colors.black),
-                bottom: TabBar(indicatorColor: AppTheme.secondaryColor, tabs: [
-                  Tab(
-                    child: Text(tabs[0], style: AppTheme.title),
-                  ),
-                  Tab(
-                    child: Text(tabs[1], style: AppTheme.title),
-                  ),
-                ]),
-                title: Expanded(
-                  child: Text(
-                    'Purchase Requests',
-                    textAlign: TextAlign.left,
-                    style: AppTheme.headline,
-                  ),
+          return Scaffold(
+            drawer: NowDrawer(currentPage: "Technical Approvals"),
+            appBar: AppBar(
+              backgroundColor: AppTheme.appbarColor,
+              iconTheme: IconThemeData(color: Colors.black),
+              bottom: TabBar(indicatorColor: AppTheme.secondaryColor, tabs: [
+                Tab(
+                  child: Text(tabs[0], style: AppTheme.title),
+                ),
+                Tab(
+                  child: Text(tabs[1], style: AppTheme.title),
+                ),
+              ]),
+              title: Expanded(
+                child: Text(
+                  'Purchase Requests',
+                  textAlign: TextAlign.left,
+                  style: AppTheme.headline,
                 ),
               ),
-              backgroundColor: Colors.transparent,
-              body: Stack(
-                children: <Widget>[
-                  Container(
+            ),
+            body: Column(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
                     decoration: BoxDecoration(
                       boxShadow: <BoxShadow>[
                         BoxShadow(
@@ -90,7 +88,8 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
                       ],
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(left: 5, right: 5, top: 10),
+                      padding: EdgeInsets.only(
+                          left: 15, right: 15, top: 10, bottom: 10),
                       child: Container(
                         width: MediaQuery.of(context).size.width - 20,
                         height: MediaQuery.of(context).size.height - 100,
@@ -144,11 +143,8 @@ class _TechnicalHeadScreen extends State<TechnicalHeadScreen>
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).padding.bottom,
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
           );
         }),
@@ -320,7 +316,7 @@ class _buildlist extends State<PurchaseListVIew> {
         } else if (state.status == PurchasesStatus.listIsEmty) {
           return const Center(child: Text('List is empty'));
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: LinearProgressIndicator());
         }
       },
     );

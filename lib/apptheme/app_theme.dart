@@ -4,21 +4,20 @@ class AppTheme {
   AppTheme._();
   static const Color nearlyWhite = Color(0xFFFAFAFA);
   static const Color secondaryColor = Color(0xFF37454F);
-  static const Color background = Color(0xFFFFFFFF);
+  static const Color background = Color(0xFFE2E2E2);
   static const Color nearlyDarkBlue = Color(0xFF2633C5);
-  static const Color primaryColor = Color(0xFFFFFBFB);
+  static const Color primaryColor = Color(0xFFFFFFFF);
   static const Color logoColor = Color(0xFFFFd126);
+  static const Color appbarColor = Color(0xFFFFFFFF);
 
   static const Color nearlyBlue = Color(0xFF00B6F0);
   static const Color nearlyBlack = Color(0xFF213333);
   static const Color grey = Color(0xFF3A5160);
-  static const Color dark_grey = Color(0xFF313A44);
-  static const Color dark_green = Color(0xFF5E8683);
 
   static const Color darkText = Color(0xFF37454F);
   static const Color darkerText = Color(0xFF17262A);
-  static const Color lightText = Color(0xFFF37454F);
-  static const Color deactivatedText = Color.fromARGB(255, 86, 107, 122);
+  static const Color lightText = Color(0xFFFAFAFA);
+  static const Color deactivatedText = Color(0xFF566B7A);
   static const Color dismissibleBackground = Color(0xFF364A54);
   static const Color spacer = Color(0xFFF2F2F2);
   static const String fontName = 'Roboto';

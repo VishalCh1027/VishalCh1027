@@ -22,109 +22,74 @@ class _ProjectItemScreen extends State<ProjectItemScreen>
     super.initState();
   }
 
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
-    return true;
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.background,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppTheme.background,
-          iconTheme: const IconThemeData(color: Colors.black),
-          title: Expanded(
-            child: Text(
-              'Items',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontFamily: AppTheme.fontName,
-                fontWeight: FontWeight.w700,
-                fontSize: 20 + 6 - 6 * topBarOpacity,
-                letterSpacing: 1.2,
-                color: AppTheme.darkerText,
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppTheme.appbarColor,
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: Expanded(
+          child: Text(
+            'Items',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontFamily: AppTheme.fontName,
+              fontWeight: FontWeight.w700,
+              fontSize: 20 + 6 - 6 * topBarOpacity,
+              letterSpacing: 1.2,
+              color: AppTheme.darkerText,
             ),
           ),
         ),
-        backgroundColor: Colors.transparent,
-        body: BlocProvider(
-          create: (_) =>
-              ProjectsCubit(repository: context.read<ProjectsService>())
-                ..getItems(1),
-          child: Stack(
-            children: <Widget>[
-              ListView.builder(
-                padding: const EdgeInsets.only(),
-                itemCount: 1,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: AppTheme.background,
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color:
-                                AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                            offset: const Offset(1.1, 1.1),
-                            blurRadius: 10.0),
+      ),
+      body: BlocProvider(
+        create: (_) =>
+            ProjectsCubit(repository: context.read<ProjectsService>())
+              ..getItems(1),
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                    border: Border(
+                        bottom:
+                            const BorderSide(color: AppTheme.secondaryColor))),
+                child: Card(
+                  margin: EdgeInsets.zero,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  elevation: 0,
+                  child: ListTile(
+                    dense: true,
+                    title: const Text(
+                      "Details",
+                      style: AppTheme.listheading,
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.only(right: 5),
+                          child: Center(
+                            child: Text(
+                              "Total Amount",
+                              style: AppTheme.listheading,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, right: 15, top: 10),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width - 20,
-                        height: MediaQuery.of(context).size.height - 100,
-                        child: Column(
-                          children: [
-                            Container(
-                              decoration: const BoxDecoration(
-                                  border: Border(
-                                      bottom: const BorderSide(
-                                          color: AppTheme.secondaryColor))),
-                              child: Card(
-                                margin: EdgeInsets.zero,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: 0,
-                                child: ListTile(
-                                  dense: true,
-                                  title: const Text(
-                                    "Details",
-                                    style: AppTheme.listheading,
-                                  ),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: const [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 5),
-                                        child: Center(
-                                          child: Text(
-                                            "Total Amount",
-                                            style: AppTheme.listheading,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(child: Column(children: [ItemListView()]))
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
+                  ),
+                ),
               ),
-              SizedBox(
-                height: MediaQuery.of(context).padding.bottom,
-              )
+              Expanded(child: ItemListView())
             ],
           ),
         ),
@@ -161,66 +126,63 @@ class _buildlist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return Container(
-            decoration: const BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(color: const Color(0xFFEEEEEE)))),
-            child: Card(
-              margin: EdgeInsets.zero,
-              elevation: 0,
-              child: ListTile(
-                onTap: () {},
-                subtitle: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      (items[index].description ?? ""),
-                      style: AppTheme.caption,
-                    ),
-                    Text(
-                        "Quantity : " +
-                            (items[index].quantity != null
-                                ? items[index].quantity.toString() +
-                                    " " +
-                                    items[index].unit.toString()
-                                : "NA"),
-                        style: AppTheme.caption),
-                    Text(
-                        "Price : " +
-                            (items[index].itemPrice?.toString() ?? "NA"),
-                        style: AppTheme.caption),
-                  ],
-                ),
-                title: SizedBox(
-                  child: Text(
-                    items[index].name ?? "NA",
-                    maxLines: 3,
+    return ListView.builder(
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return Container(
+          decoration: const BoxDecoration(
+              border:
+                  Border(bottom: BorderSide(color: const Color(0xFFEEEEEE)))),
+          child: Card(
+            margin: EdgeInsets.zero,
+            elevation: 0,
+            child: ListTile(
+              onTap: () {},
+              subtitle: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    (items[index].description ?? ""),
+                    style: AppTheme.caption,
                   ),
+                  Text(
+                      "Quantity : " +
+                          (items[index].quantity != null
+                              ? items[index].quantity.toString() +
+                                  " " +
+                                  items[index].unit.toString()
+                              : "NA"),
+                      style: AppTheme.caption),
+                  Text(
+                      "Price : " + (items[index].itemPrice?.toString() ?? "NA"),
+                      style: AppTheme.caption),
+                ],
+              ),
+              title: SizedBox(
+                child: Text(
+                  items[index].name ?? "NA",
+                  maxLines: 3,
                 ),
-                trailing: Container(
-                  width: 110,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      items[index].itemTotalPrice?.toString() ?? "NA",
-                      overflow: TextOverflow.visible,
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
+              ),
+              trailing: Container(
+                width: 110,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    items[index].itemTotalPrice?.toString() ?? "NA",
+                    overflow: TextOverflow.visible,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

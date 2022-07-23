@@ -28,14 +28,14 @@ class _WalletScreen extends State<WalletScreen> with TickerProviderStateMixin {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   Future<double?> getWallet() async {
     wallet = await context.read<WalletService>().getWallet(1);
     return wallet?.balance;
-  }
-
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
-    return true;
   }
 
   @override
@@ -43,7 +43,7 @@ class _WalletScreen extends State<WalletScreen> with TickerProviderStateMixin {
     return Scaffold(
       drawer: NowDrawer(currentPage: "Wallet"),
       appBar: AppBar(
-        backgroundColor: AppTheme.background,
+        backgroundColor: AppTheme.appbarColor,
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
           'Wallet',
@@ -52,165 +52,144 @@ class _WalletScreen extends State<WalletScreen> with TickerProviderStateMixin {
         ),
       ),
       backgroundColor: AppTheme.primaryColor,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 24, right: 24, top: 16, bottom: 10),
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: AppTheme.secondaryColor,
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(15.0),
-                        bottomLeft: Radius.circular(15.0),
-                        bottomRight: Radius.circular(15.0),
-                        topRight: Radius.circular(15.0)),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: AppTheme.grey.withOpacity(0.2),
-                          offset: const Offset(1.1, 1.1),
-                          blurRadius: 10.0),
-                    ],
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(top: 16, left: 16, right: 16),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 10),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 24,
-                                    ),
-                                    Text(
-                                      "Total Balance",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 16,
-                                        color: AppTheme.primaryColor
-                                            .withOpacity(0.8),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    FutureBuilder(
-                                      builder: (ctx, snapshot) {
-                                        // Checking if future is resolved or not
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.done) {
-                                          // If we got an error
-                                          if (snapshot.hasError) {
-                                            return Center(
-                                              child: Text(
-                                                '${snapshot.error} occurred',
-                                                style: TextStyle(fontSize: 18),
-                                              ),
-                                            );
-
-                                            // if we got our data
-                                          } else if (snapshot.hasData) {
-                                            // Extracting data from snapshot object
-                                            final data = snapshot.data;
-                                            return Text(
-                                                '₹' + (data?.toString() ?? "0"),
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 20,
-                                                  color: AppTheme.primaryColor
-                                                      .withOpacity(0.8),
-                                                ));
-                                          }
-                                        }
-
-                                        // Displaying LoadingSpinner to indicate waiting state
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppTheme.secondaryColor,
+                borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: AppTheme.grey.withOpacity(0.2),
+                      offset: const Offset(1.1, 1.1),
+                      blurRadius: 10.0),
+                ],
+              ),
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 16, left: 16, right: 16),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 24,
+                                ),
+                                Text(
+                                  "Total Balance",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16,
+                                    color:
+                                        AppTheme.primaryColor.withOpacity(0.8),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                FutureBuilder(
+                                  builder: (ctx, snapshot) {
+                                    // Checking if future is resolved or not
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.done) {
+                                      // If we got an error
+                                      if (snapshot.hasError) {
                                         return Center(
-                                          child: CircularProgressIndicator(),
+                                          child: Text(
+                                            '${snapshot.error} occurred',
+                                            style: TextStyle(fontSize: 18),
+                                          ),
                                         );
-                                      },
-                                      future: getWallet(),
-                                    ),
-                                  ],
+
+                                        // if we got our data
+                                      } else if (snapshot.hasData) {
+                                        // Extracting data from snapshot object
+                                        final data = snapshot.data;
+                                        return Text(
+                                            '₹' + (data?.toString() ?? "0"),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 20,
+                                              color: AppTheme.primaryColor
+                                                  .withOpacity(0.8),
+                                            ));
+                                      }
+                                    }
+
+                                    return Center(
+                                      child: LinearProgressIndicator(),
+                                    );
+                                  },
+                                  future: getWallet(),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10, bottom: 10),
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: ElevatedButton(
-                            style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              backgroundColor: AppTheme.primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              ),
-                            ),
-                            child: Text(
-                              "Add Expense",
-                              style: TextStyle(color: AppTheme.secondaryColor),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: ((context) => AddExpensePage(
-                                        expense: WalletTransaction(),
-                                      )),
-                                ),
-                              );
-                            },
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ),
-            ),
-            BlocProvider(
-              create: (_) =>
-                  WalletCubit(repository: context.read<WalletService>())
-                    ..getTransactions(1),
-              child: Expanded(
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 5, right: 5, top: 8, bottom: 18),
-                      child: TitleView(
-                        titleTxt: "Payment Transactions",
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10, bottom: 10),
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: ElevatedButton(
+                        style: TextButton.styleFrom(
+                          primary: Colors.white,
+                          backgroundColor: AppTheme.primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
+                        child: Text(
+                          "Add Expense",
+                          style: TextStyle(color: AppTheme.secondaryColor),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: ((context) => AddExpensePage(
+                                    expense: WalletTransaction(),
+                                  )),
+                            ),
+                          );
+                        },
                       ),
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        child: WalletListVIew(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).padding.bottom,
-                    )
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 5, right: 5, top: 8, bottom: 18),
+            child: TitleView(
+              titleTxt: "Payment Transactions",
+            ),
+          ),
+          BlocProvider(
+            create: (_) =>
+                WalletCubit(repository: context.read<WalletService>())
+                  ..getTransactions(1),
+            child: Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                child: WalletListVIew(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

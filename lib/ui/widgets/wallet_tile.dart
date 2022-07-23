@@ -53,7 +53,7 @@ class _WalletTileView extends State<WalletTileView> {
                       padding: EdgeInsets.only(right: 10, top: 10, bottom: 10),
                       child: Icon(
                         FontAwesomeIcons.wallet,
-                        color: AppTheme.background,
+                        color: AppTheme.logoColor,
                       )),
                   Expanded(
                     child: Padding(

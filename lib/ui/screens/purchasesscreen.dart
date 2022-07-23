@@ -20,7 +20,9 @@ enum PurchaseStatus {
 }
 
 class PurchasesScreen extends StatefulWidget {
-  const PurchasesScreen({Key? key}) : super(key: key);
+  const PurchasesScreen({Key? key, required this.state}) : super(key: key);
+
+  final int state;
 
   @override
   _PurchasesScreen createState() => _PurchasesScreen();
@@ -42,9 +44,9 @@ class _PurchasesScreen extends State<PurchasesScreen>
     super.initState();
   }
 
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
-    return true;
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -52,9 +54,10 @@ class _PurchasesScreen extends State<PurchasesScreen>
     return BlocProvider(
       create: (_) => PurchasesCubit(
         repository: context.read<PurchasesService>(),
-      )..getPurchases(1, tabs[0]),
+      )..getPurchases(1, tabs[widget.state]),
       child: DefaultTabController(
         length: 3,
+        initialIndex: widget.state,
         child: Builder(
           builder: (BuildContext context) {
             final TabController tabController =
@@ -71,7 +74,7 @@ class _PurchasesScreen extends State<PurchasesScreen>
               child: Scaffold(
                 drawer: NowDrawer(currentPage: "Purchase Requests"),
                 appBar: AppBar(
-                  backgroundColor: AppTheme.primaryColor,
+                  backgroundColor: AppTheme.appbarColor,
                   iconTheme: IconThemeData(color: Colors.black),
                   bottom:
                       TabBar(indicatorColor: AppTheme.secondaryColor, tabs: [
@@ -253,6 +256,7 @@ class _buildlist extends State<PurchaseListVIew> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
+
     super.dispose();
   }
 
@@ -301,7 +305,8 @@ class _buildlist extends State<PurchaseListVIew> {
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
                 itemCount: state.hasReachedMax ||
-                        state.status == PurchasesStatus.PurchaseInitial
+                        state.status !=
+                            PurchasesStatus.PurchasesLoadedSuccessfully
                     ? state.purchases.length
                     : state.purchases.length + 1,
                 controller: _scrollController,
@@ -469,7 +474,10 @@ class _buildlist extends State<PurchaseListVIew> {
           } else if (state.status == PurchasesStatus.listIsEmty) {
             return const Center(child: Text('List is empty'));
           } else {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child: LinearProgressIndicator(
+              minHeight: 2,
+            ));
           }
         });
   }

@@ -27,9 +27,9 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
     super.initState();
   }
 
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
-    return true;
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -52,40 +52,37 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
                   .getProcurementApprovals(1, tabs[tabController.index]);
             }
           });
-          return Container(
-            color: AppTheme.background,
-            child: Scaffold(
-              drawer: NowDrawer(
-                currentPage: "Procurement Approvals",
-              ),
-              appBar: AppBar(
-                backgroundColor: AppTheme.background,
-                iconTheme: IconThemeData(color: AppTheme.secondaryColor),
-                bottom: TabBar(indicatorColor: AppTheme.secondaryColor, tabs: [
-                  Tab(
-                    child: Text(tabs[0], style: AppTheme.title),
-                  ),
-                  Tab(
-                    child: Text(tabs[1], style: AppTheme.title),
-                  ),
-                ]),
-                title: Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      'Purchase Orders',
-                      textAlign: TextAlign.left,
-                      style: AppTheme.headline,
-                    ),
+          return Scaffold(
+            drawer: NowDrawer(
+              currentPage: "Procurement Approvals",
+            ),
+            appBar: AppBar(
+              backgroundColor: AppTheme.appbarColor,
+              iconTheme: IconThemeData(color: AppTheme.secondaryColor),
+              bottom: TabBar(indicatorColor: AppTheme.secondaryColor, tabs: [
+                Tab(
+                  child: Text(tabs[0], style: AppTheme.title),
+                ),
+                Tab(
+                  child: Text(tabs[1], style: AppTheme.title),
+                ),
+              ]),
+              title: Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Purchase Orders',
+                    textAlign: TextAlign.left,
+                    style: AppTheme.headline,
                   ),
                 ),
               ),
-              backgroundColor: Colors.transparent,
-              body: Stack(
-                children: <Widget>[
-                  Container(
+            ),
+            body: Column(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
                     decoration: BoxDecoration(
-                      color: AppTheme.secondaryColor,
                       boxShadow: <BoxShadow>[
                         BoxShadow(
                             color: AppTheme.secondaryColor
@@ -95,14 +92,12 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
                       ],
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(10),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           color: AppTheme.background,
                         ),
-                        width: MediaQuery.of(context).size.width - 20,
-                        height: MediaQuery.of(context).size.height - 120,
                         child: Column(
                           children: [
                             Container(
@@ -140,21 +135,17 @@ class _ProcurementHeadScreen extends State<ProcurementHeadScreen>
                               ),
                             ),
                             Expanded(
-                                child: Column(children: [
-                              BillingListVIew(
+                              child: BillingListVIew(
                                 currentStatus: currentStatus,
-                              )
-                            ]))
+                              ),
+                            )
                           ],
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).padding.bottom,
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
           );
         }),
@@ -230,68 +221,64 @@ class _buildlist extends State<BillingListVIew> {
         } else if (state.status == BillingStatus.BillingLoadedSuccessfully ||
             state.status == BillingStatus.BillingEditing ||
             state.status == BillingStatus.Billinginitial) {
-          return Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              controller: _scrollController,
-              itemCount: state.hasReachedMax ||
-                      state.status == BillingStatus.Billinginitial
-                  ? state.billing.length
-                  : state.billing.length + 1,
-              itemBuilder: (context, index) {
-                return index >= state.billing.length
-                    ? BottomLoader()
-                    : Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(color: Color(0xFFEEEEEE)))),
-                        child: Card(
-                          margin: EdgeInsets.zero,
-                          elevation: 0,
-                          child: ListTile(
-                            onTap: () {
-                              _openRequest(state.billing[index], context);
-                            },
-                            title: SizedBox(
-                              child: Text(
-                                state.billing[index].project!.name ?? "NA",
-                                maxLines: 3,
-                              ),
-                            ),
-                            trailing: Text(
-                              state.billing[index].amount.toString(),
-                              overflow: TextOverflow.visible,
-                            ),
-                            subtitle: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Requested by : " +
-                                      state
-                                          .billing[index].employee!.firstName! +
-                                      " " +
-                                      state.billing[index].employee!.lastName!,
-                                  style: AppTheme.caption,
-                                ),
-                                Text(
-                                  "Vendor : " +
-                                      state.billing[index].vendor!.name,
-                                  style: AppTheme.caption,
-                                ),
-                              ],
+          return ListView.builder(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            controller: _scrollController,
+            itemCount: state.hasReachedMax ||
+                    state.status == BillingStatus.Billinginitial
+                ? state.billing.length
+                : state.billing.length + 1,
+            itemBuilder: (context, index) {
+              return index >= state.billing.length
+                  ? BottomLoader()
+                  : Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(color: Color(0xFFEEEEEE)))),
+                      child: Card(
+                        margin: EdgeInsets.zero,
+                        elevation: 0,
+                        child: ListTile(
+                          onTap: () {
+                            _openRequest(state.billing[index], context);
+                          },
+                          title: SizedBox(
+                            child: Text(
+                              state.billing[index].project!.name ?? "NA",
+                              maxLines: 3,
                             ),
                           ),
+                          trailing: Text(
+                            state.billing[index].amount.toString(),
+                            overflow: TextOverflow.visible,
+                          ),
+                          subtitle: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Requested by : " +
+                                    state.billing[index].employee!.firstName! +
+                                    " " +
+                                    state.billing[index].employee!.lastName!,
+                                style: AppTheme.caption,
+                              ),
+                              Text(
+                                "Vendor : " + state.billing[index].vendor!.name,
+                                style: AppTheme.caption,
+                              ),
+                            ],
+                          ),
                         ),
-                      );
-              },
-            ),
+                      ),
+                    );
+            },
           );
         } else if (state.status == BillingStatus.listIsEmty) {
           return const Center(child: Text('List is empty'));
         } else {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: LinearProgressIndicator());
         }
       },
     );

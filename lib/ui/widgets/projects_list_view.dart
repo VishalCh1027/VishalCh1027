@@ -4,7 +4,6 @@ import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/bloc/project_list/bloc.dart';
 import 'package:my_application/bloc/project_list/service.dart';
 import 'package:my_application/global/global_variables.dart';
-import 'package:my_application/main.dart';
 import 'package:my_application/models/project_model.dart';
 import 'package:my_application/ui/screens/project_screens/projectscreen.dart';
 
@@ -183,11 +182,6 @@ class _ProjectListView extends State<ProjectListView>
     super.initState();
   }
 
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
-    return true;
-  }
-
   @override
   void dispose() {
     super.dispose();
@@ -236,23 +230,17 @@ class ProjectsView extends StatelessWidget {
                 const EdgeInsets.only(top: 15, left: 8, right: 8, bottom: 16),
             child: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppTheme.secondaryColor,
-                    AppTheme.secondaryColor,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                      color: AppTheme.grey.withOpacity(0.2),
+                      offset: const Offset(1.1, 1.1),
+                      blurRadius: 5),
+                ],
+                color: AppTheme.primaryColor,
                 borderRadius: const BorderRadius.all(Radius.circular(5)),
               ),
               child: InkWell(
-                borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(8.0),
-                  bottomLeft: Radius.circular(8.0),
-                  topLeft: Radius.circular(8.0),
-                  topRight: Radius.circular(54.0),
-                ),
+                borderRadius: const BorderRadius.all(Radius.circular(8.0)),
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute<Project>(
@@ -280,7 +268,7 @@ class ProjectsView extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
                           letterSpacing: 0.2,
-                          color: AppTheme.primaryColor,
+                          color: AppTheme.secondaryColor,
                         ),
                       ),
                     ],
@@ -295,23 +283,10 @@ class ProjectsView extends StatelessWidget {
             child: SizedBox(
               width: 80,
               height: 80,
-              child: ShaderMask(
-                shaderCallback: (Rect bounds) {
-                  return const RadialGradient(
-                    center: Alignment.topLeft,
-                    radius: 0.5,
-                    colors: <Color>[
-                      Color.fromARGB(255, 255, 68, 68),
-                      Color.fromARGB(255, 226, 240, 105),
-                    ],
-                    tileMode: TileMode.repeated,
-                  ).createShader(bounds);
-                },
-                child: Icon(
-                  IconData(0xea17, fontFamily: 'MaterialIcons'),
-                  size: 40,
-                  color: HexColor("#FFB295"),
-                ),
+              child: Icon(
+                IconData(0xea17, fontFamily: 'MaterialIcons'),
+                size: 40,
+                color: AppTheme.logoColor,
               ),
             ),
           )

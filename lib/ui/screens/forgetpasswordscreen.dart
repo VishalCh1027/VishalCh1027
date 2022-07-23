@@ -20,7 +20,7 @@ class _ForgetPasswordPage extends State<ForgetPasswordPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.appbarColor,
         toolbarHeight: 100,
         title: const Padding(
             padding: EdgeInsets.only(left: 20),

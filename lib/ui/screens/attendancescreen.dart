@@ -39,97 +39,79 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppTheme.background,
-      child: BlocProvider(
-        create: (_) =>
-            AttendanceCubit(repository: context.read<WorkmenService>())
-              ..getWorkmens(1),
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: AppTheme.primaryColor,
-            iconTheme: const IconThemeData(color: Colors.black),
-            title: const Expanded(
-              child: Text(
-                "Attendance",
-                textAlign: TextAlign.left,
-                style: AppTheme.headline,
-              ),
+    return BlocProvider(
+      create: (_) => AttendanceCubit(repository: context.read<WorkmenService>())
+        ..getWorkmens(1),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppTheme.appbarColor,
+          iconTheme: const IconThemeData(color: Colors.black),
+          title: const Expanded(
+            child: Text(
+              "Attendance",
+              textAlign: TextAlign.left,
+              style: AppTheme.headline,
             ),
-            actions: [_ActionButtons(context)],
           ),
-          backgroundColor: Colors.transparent,
-          body: Container(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: <Widget>[
-                Builder(builder: (context) {
-                  return _buildHead(context);
-                }),
-                Expanded(
-                  child: Column(
-                    children: [
+          actions: [_ActionButtons(context)],
+        ),
+        body: Column(
+          children: <Widget>[
+            Builder(builder: (context) {
+              return _buildHead(context);
+            }),
+            Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Card(
+                margin: EdgeInsets.only(bottom: 1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: ListTile(
+                  dense: true,
+                  title: const Text(
+                    "Name",
+                    style: AppTheme.listheading,
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
                       Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
-                        child: Card(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: ListTile(
-                            dense: true,
-                            title: const Text(
-                              "Name",
-                              style: AppTheme.listheading,
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: const [
-                                Padding(
-                                  padding: EdgeInsets.only(right: 35),
-                                  child: Center(
-                                    child: Text(
-                                      "Shift",
-                                      style: AppTheme.listheading,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(right: 0),
-                                  child: Center(
-                                    child: Text("Present",
-                                        style: AppTheme.listheading),
-                                  ),
-                                ),
-                              ],
-                            ),
+                        padding: EdgeInsets.only(right: 35),
+                        child: Center(
+                          child: Text(
+                            "Shift",
+                            style: AppTheme.listheading,
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 15.0, right: 15),
-                          child: AttendanceListVIew(
-                            onchange: (value) {
-                              setState(() {
-                                selectAll = value;
-                              });
-                            },
-                          ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 0),
+                        child: Center(
+                          child: Text("Present", style: AppTheme.listheading),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      )
-
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                )
-              ],
+              ),
             ),
-          ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: AttendanceListVIew(
+                  onchange: (value) {
+                    setState(() {
+                      selectAll = value;
+                    });
+                  },
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            )
+          ],
         ),
       ),
     );
@@ -137,14 +119,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
   Widget _buildHead(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 10, bottom: 10),
       width: MediaQuery.of(context).size.width - 40,
       decoration: BoxDecoration(
         color: AppTheme.secondaryColor,
-        borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(15.0),
-            bottomLeft: Radius.circular(15.0),
-            bottomRight: Radius.circular(15.0),
-            topRight: Radius.circular(15.0)),
+        borderRadius: const BorderRadius.all(Radius.circular(15.0)),
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: AppTheme.grey.withOpacity(0.2),
@@ -358,7 +337,6 @@ class _buildlist extends State<AttendanceListVIew> {
           } else if (state.status == AttendanceStatus.AttendanceLoaded ||
               state.status == AttendanceStatus.AttendanceEdited) {
             return ListView.builder(
-              padding: EdgeInsets.zero,
               shrinkWrap: true,
               itemCount: state.hasReachedMax
                   ? state.attendance.length
@@ -368,103 +346,101 @@ class _buildlist extends State<AttendanceListVIew> {
                 return index >= state.attendance.length
                     ? BottomLoader()
                     : Card(
-                        child: Container(
-                          child: ListTile(
-                            onTap: () {},
-                            title: SizedBox(
-                              width: MediaQuery.of(context).size.width / 1.8,
-                              child: Text(
-                                state.attendance[index].workmen!.firstname,
-                                maxLines: 2,
-                                overflow: TextOverflow.visible,
+                        margin: EdgeInsets.only(bottom: 1),
+                        child: ListTile(
+                          onTap: () {},
+                          title: SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.8,
+                            child: Text(
+                              state.attendance[index].workmen!.firstname,
+                              maxLines: 2,
+                              overflow: TextOverflow.visible,
+                            ),
+                          ),
+                          trailing:
+                              Row(mainAxisSize: MainAxisSize.min, children: [
+                            IconButton(
+                                onPressed: () {
+                                  _transferWorkmen(
+                                      state.attendance[index], context);
+                                },
+                                icon: const Icon(
+                                  Icons.multiple_stop_rounded,
+                                  size: 20,
+                                  color: AppTheme.secondaryColor,
+                                )),
+                            Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: DropdownButton(
+                                menuMaxHeight: 150,
+                                value: state.attendance[index].shift ?? 1,
+                                style: AppTheme.body1,
+                                onChanged: (double? value) {
+                                  context.read<AttendanceCubit>().updateShift(
+                                      state.attendance[index], value);
+                                },
+                                items: const [
+                                  DropdownMenuItem(
+                                    child: Text("0"),
+                                    value: 0.0,
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("0.25"),
+                                    value: 0.25,
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("0.5"),
+                                    value: 0.5,
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("1"),
+                                    value: 1.0,
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("1.5"),
+                                    value: 1.5,
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("2"),
+                                    value: 2.0,
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("2.5"),
+                                    value: 2.5,
+                                  ),
+                                  DropdownMenuItem(
+                                    child: Text("3"),
+                                    value: 3.0,
+                                  )
+                                ],
                               ),
                             ),
-                            trailing:
-                                Row(mainAxisSize: MainAxisSize.min, children: [
-                              IconButton(
-                                  onPressed: () {
-                                    _transferWorkmen(
-                                        state.attendance[index], context);
-                                  },
-                                  icon: const Icon(
-                                    Icons.multiple_stop_rounded,
-                                    size: 20,
-                                    color: AppTheme.secondaryColor,
-                                  )),
-                              Padding(
-                                padding: const EdgeInsets.all(5),
-                                child: DropdownButton(
-                                  menuMaxHeight: 150,
-                                  value: state.attendance[index].shift ?? 1,
-                                  style: AppTheme.body1,
-                                  onChanged: (double? value) {
-                                    context.read<AttendanceCubit>().updateShift(
-                                        state.attendance[index], value);
-                                  },
-                                  items: const [
-                                    DropdownMenuItem(
-                                      child: Text("0"),
-                                      value: 0.0,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text("0.25"),
-                                      value: 0.25,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text("0.5"),
-                                      value: 0.5,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text("1"),
-                                      value: 1.0,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text("1.5"),
-                                      value: 1.5,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text("2"),
-                                      value: 2.0,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text("2.5"),
-                                      value: 2.5,
-                                    ),
-                                    DropdownMenuItem(
-                                      child: Text("3"),
-                                      value: 3.0,
-                                    )
-                                  ],
-                                ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 0, left: 20),
+                              child: SwitchControl(
+                                activeColor: AppTheme.secondaryColor,
+                                width: 45,
+                                height: 25,
+                                onChanged: (value) {
+                                  state.attendance[index].selected = value;
+                                  context
+                                      .read<AttendanceCubit>()
+                                      .updateList(state.attendance);
+                                  widget.onchange(!state.attendance.any(
+                                      (element) => element.selected == false));
+                                },
+                                value:
+                                    state.attendance[index].selected ?? false,
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 0, left: 20),
-                                child: SwitchControl(
-                                  activeColor: AppTheme.secondaryColor,
-                                  width: 45,
-                                  height: 25,
-                                  onChanged: (value) {
-                                    state.attendance[index].selected = value;
-                                    context
-                                        .read<AttendanceCubit>()
-                                        .updateList(state.attendance);
-                                    widget.onchange(!state.attendance.any(
-                                        (element) =>
-                                            element.selected == false));
-                                  },
-                                  value:
-                                      state.attendance[index].selected ?? false,
-                                ),
-                              ),
-                            ]),
-                          ),
+                            ),
+                          ]),
                         ),
                       );
               },
             );
           } else {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: LinearProgressIndicator());
           }
         });
   }

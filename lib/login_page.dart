@@ -34,46 +34,65 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              AppTheme.secondaryColor,
-              AppTheme.secondaryColor,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        width: MediaQuery.of(context).size.width,
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: CustomPaint(
-            painter: CurvedPainter(),
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  decoration: const BoxDecoration(
+      backgroundColor: AppTheme.primaryColor,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 50,
+            ),
+            SizedBox(
+              height: 180,
+              width: 180,
+              child: Image.asset(
+                'assets/Alyn_Logo.jpg',
+                fit: BoxFit.contain,
+              ),
+            ),
+            SizedBox(
+              height: 70,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(40),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Container(
+                  margin: EdgeInsets.only(top: 0),
+                  decoration: BoxDecoration(
+                    boxShadow: <BoxShadow>[
+                      BoxShadow(
+                          color: AppTheme.grey.withOpacity(0.5),
+                          offset: const Offset(1.1, 1.1),
+                          blurRadius: 8.0),
+                    ],
+                    color: AppTheme.primaryColor,
                     borderRadius: BorderRadius.all(
-                      Radius.circular(40),
+                      Radius.circular(20),
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(30),
+                    padding: const EdgeInsets.all(20),
                     child: Form(
                       key: formKey,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           const SizedBox(
-                            height: 70,
+                            height: 10,
                           ),
                           Text(
                             'Login',
                             textAlign: TextAlign.left,
-                            style: GoogleFonts.fredokaOne(
-                              fontSize: 31,
+                            style: TextStyle(
+                              fontFamily: AppTheme.fontName,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                              letterSpacing: 0.27,
+                              color: AppTheme.secondaryColor,
                             ),
                           ),
                           const SizedBox(
@@ -167,17 +186,14 @@ class _LoginPageState extends State<LoginPage> {
                             height: 23,
                           ),
                           _buildloginbutton(),
-                          SizedBox(
-                            height: padding,
-                          ),
                         ],
                       ),
                     ),
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -201,8 +217,7 @@ class _LoginPageState extends State<LoginPage> {
 
           LoadingDialog.hideLoadingDialog(context);
           if (account != null) {
-            //refreshLogin(context);
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => DashboardScreen(),
@@ -232,7 +247,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Center(
           child: Text(
             'Login',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: AppTheme.logoColor, fontSize: 17),
           ),
         ),
       ),
@@ -244,7 +259,7 @@ class CurvedPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
-      ..color = Colors.white
+      ..color = AppTheme.secondaryColor
       ..strokeWidth = 15;
 
     var path = Path();

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/models/billing_model.dart';
-import 'package:my_application/ui/widgets/drawer.dart';
 
 enum billingPageType { payment, proqurementApproval, viewOnly }
 
@@ -66,14 +65,14 @@ class _BillingScreen extends State<BillingScreen>
 
   Widget _buildorderitemlist() {
     var orderItems = billing?.orderItems ?? [];
-    return Expanded(
-        child: ListView.builder(
+    return ListView.builder(
       scrollDirection: Axis.vertical,
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       itemCount: orderItems.length,
       itemBuilder: (context, index) {
         return Container(
+          padding: EdgeInsets.only(left: 20, right: 20),
           decoration: const BoxDecoration(
               border: Border(bottom: BorderSide(color: Color(0xFFEEEEEE)))),
           child: Card(
@@ -122,342 +121,248 @@ class _BillingScreen extends State<BillingScreen>
           ),
         );
       },
-    ));
-  }
-
-  Widget _buildedittile() {
-    return Container(
-        width: 450,
-        child: Card(
-          margin: EdgeInsets.zero,
-          color: Color.fromARGB(255, 222, 222, 224),
-          child: ListTile(
-            dense: true,
-            trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Center(
-                  child: InkWell(
-                    child: Icon(
-                      IconData(0xe1b9, fontFamily: 'MaterialIcons'),
-                      color: AppTheme.primaryColor,
-                      size: 20,
-                    ),
-                    onTap: () {},
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 1),
-                child: Center(
-                  child: InkWell(
-                    child: Icon(
-                      Icons.clear_rounded,
-                      color: AppTheme.primaryColor,
-                      size: 20,
-                    ),
-                    onTap: () {},
-                  ),
-                ),
-              ),
-            ]),
-            leading: InkWell(
-              child: Icon(
-                Icons.checklist_rounded,
-                color: AppTheme.primaryColor,
-                size: 20,
-              ),
-              onTap: () {},
-            ),
-          ),
-        ));
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      color: AppTheme.background,
-      child: Scaffold(
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.black),
-          title: const Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'Request Detail',
-                textAlign: TextAlign.left,
-                style: AppTheme.headline,
-              ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppTheme.appbarColor,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: const Expanded(
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              'Request Detail',
+              textAlign: TextAlign.left,
+              style: AppTheme.headline,
             ),
           ),
         ),
-        backgroundColor: Colors.transparent,
-        body: Container(
-          height: MediaQuery.of(context).size.height,
-          child: ListView(
-            children: <Widget>[
-              Container(
+      ),
+      body: Column(
+        children: [
+          Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(20, 20, 20, 0),
+              child: Container(
+                height: 300,
                 decoration: BoxDecoration(
-                  color: AppTheme.background,
-                  boxShadow: <BoxShadow>[
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(8.0),
+                  ),
+                  color: AppTheme.primaryColor,
+                  boxShadow: [
                     BoxShadow(
-                        color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                        offset: const Offset(1.1, 1.1),
-                        blurRadius: 10.0),
+                      color: Colors.grey.withOpacity(0.2),
+                      spreadRadius: 5,
+                      blurRadius: 5,
+                      offset: Offset(0, 5), // changes position of shadow
+                    ),
                   ],
                 ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                          color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                          offset: const Offset(1.1, 1.1),
-                          blurRadius: 10.0),
-                    ],
-                  ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     children: [
-                      Padding(
-                          padding:
-                              EdgeInsetsDirectional.fromSTEB(30, 10, 30, 0),
-                          child: Container(
-                            height: 200,
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Icon(
-                                      IconData(0xe044,
-                                          fontFamily: 'MaterialIcons'),
-                                      color: AppTheme.secondaryColor,
-                                      size: 15,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      "Project",
-                                      style: TextStyle(
-                                          color: AppTheme.deactivatedText,
-                                          fontSize: 15),
-                                    ),
-                                  ],
-                                ),
-                                ListTile(
-                                  title: Padding(
-                                    padding: EdgeInsets.only(left: 0),
-                                    child: Text(
-                                      billing?.project?.name ?? "NA",
-                                      style: TextStyle(
-                                          color: AppTheme.nearlyBlack,
-                                          fontSize: 20),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 0),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 30,
-                                              child: const Icon(
-                                                Icons.person,
-                                                color: AppTheme.secondaryColor,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 115,
-                                              child: Text(
-                                                "Vendor",
-                                                style: AppTheme.body2,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(left: 0),
-                                              child: Text(
-                                                billing?.vendor?.name
-                                                        .toString() ??
-                                                    "NA",
-                                                style: AppTheme.body2,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 0),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 30,
-                                              child: const Icon(
-                                                Icons.person,
-                                                color: AppTheme.secondaryColor,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 115,
-                                              child: Text(
-                                                "Requested By",
-                                                style: AppTheme.body2,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(left: 0),
-                                              child: Text(
-                                                (billing!.employee?.firstName ??
-                                                        "NA")
-                                                    .toString(),
-                                                style: AppTheme.body2,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 0),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            SizedBox(
-                                              width: 30,
-                                              child: const Icon(
-                                                FontAwesomeIcons.moneyBill,
-                                                color: AppTheme.secondaryColor,
-                                                size: 16,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 115,
-                                              child: Text(
-                                                "Total Amount",
-                                                style: AppTheme.body2,
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(left: 0),
-                                              child: Text(
-                                                "₹" +
-                                                    billing!.amount.toString(),
-                                                style: AppTheme.body2,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(30, 10, 30, 0),
-                        child: _buildbuttons(context),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Icon(
+                            IconData(0xe044, fontFamily: 'MaterialIcons'),
+                            color: AppTheme.secondaryColor,
+                            size: 15,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "Project",
+                            style: TextStyle(
+                                color: AppTheme.deactivatedText, fontSize: 15),
+                          ),
+                        ],
                       ),
-                      const ListTile(
+                      ListTile(
                         title: Padding(
-                          padding: EdgeInsets.only(left: 20),
+                          padding: EdgeInsets.only(left: 0),
                           child: Text(
-                            "billing Items",
-                            style: AppTheme.title,
+                            billing?.project?.name ?? "NA",
+                            style: TextStyle(
+                                color: AppTheme.nearlyBlack, fontSize: 20),
                           ),
                         ),
                       ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 1.8,
-                        width: MediaQuery.of(context).size.width - 40,
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Expanded(
                         child: Column(
                           children: [
-                            Stack(
+                            Row(
                               children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    border: Border(
-                                      bottom: BorderSide(
-                                        color: Color(0xFFEEEEEE),
-                                      ),
-                                    ),
-                                  ),
-                                  child: Card(
-                                    margin: EdgeInsets.zero,
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: ListTile(
-                                      dense: true,
-                                      title: const Text(
-                                        "Name",
-                                        style: AppTheme.listheading,
-                                      ),
-                                      trailing: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: const [
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 40),
-                                            child: Center(
-                                              child: Text(
-                                                "Quantity",
-                                                style: AppTheme.listheading,
-                                              ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.only(right: 10),
-                                            child: Center(
-                                              child: Text("Unit",
-                                                  style: AppTheme.listheading),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                SizedBox(
+                                  width: 30,
+                                  child: const Icon(
+                                    Icons.person,
+                                    color: AppTheme.secondaryColor,
+                                    size: 16,
                                   ),
                                 ),
-                                Visibility(
-                                  child: _buildedittile(),
-                                  visible: isdelete,
+                                SizedBox(
+                                  width: 115,
+                                  child: Text(
+                                    "Vendor",
+                                    style: AppTheme.body2,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 0),
+                                  child: Text(
+                                    billing?.vendor?.name.toString() ?? "NA",
+                                    style: AppTheme.body2,
+                                  ),
                                 ),
                               ],
                             ),
-                            _buildorderitemlist(),
                           ],
                         ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 30,
+                                  child: const Icon(
+                                    Icons.person,
+                                    color: AppTheme.secondaryColor,
+                                    size: 16,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 115,
+                                  child: Text(
+                                    "Requested By",
+                                    style: AppTheme.body2,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 0),
+                                  child: Text(
+                                    (billing!.employee?.firstName ?? "NA")
+                                        .toString(),
+                                    style: AppTheme.body2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 0),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 30,
+                                    child: const Icon(
+                                      FontAwesomeIcons.moneyBill,
+                                      color: AppTheme.secondaryColor,
+                                      size: 16,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 115,
+                                    child: Text(
+                                      "Total Amount",
+                                      style: AppTheme.body2,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 0),
+                                    child: Text(
+                                      "₹" + billing!.amount.toString(),
+                                      style: AppTheme.body2,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
+                        child: _buildbuttons(context),
                       ),
                     ],
                   ),
                 ),
+              )),
+          const ListTile(
+            title: Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Text(
+                "billing Items",
+                style: AppTheme.title,
               ),
-              SizedBox(
-                height: MediaQuery.of(context).padding.bottom,
-              )
-            ],
+            ),
           ),
-        ),
+          Container(
+            padding: EdgeInsets.only(left: 20, right: 20),
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Color(0xFFEEEEEE),
+                ),
+              ),
+            ),
+            child: Card(
+              margin: EdgeInsets.zero,
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: ListTile(
+                dense: true,
+                title: const Text(
+                  "Name",
+                  style: AppTheme.listheading,
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.only(right: 40),
+                      child: Center(
+                        child: Text(
+                          "Quantity",
+                          style: AppTheme.listheading,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: Center(
+                        child: Text("Unit", style: AppTheme.listheading),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: _buildorderitemlist(),
+          ),
+        ],
       ),
     );
   }

@@ -15,23 +15,15 @@ class AttendanceTileView extends StatefulWidget {
 
 class _AttendanceTileView extends State<AttendanceTileView> {
   _AttendanceTileView();
-  late Timer timer;
   bool heading = true;
   @override
   void initState() {
     super.initState();
-
-    timer = Timer.periodic(const Duration(milliseconds: 500), (timer) {
-      setState(() {
-        heading = !heading;
-      });
-    });
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    timer.cancel();
     super.dispose();
   }
 
@@ -41,7 +33,7 @@ class _AttendanceTileView extends State<AttendanceTileView> {
       padding: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 18),
       child: Container(
         decoration: BoxDecoration(
-          color: AppTheme.secondaryColor,
+          color: AppTheme.primaryColor,
           borderRadius: BorderRadius.all(Radius.circular(5)),
           boxShadow: <BoxShadow>[
             BoxShadow(
@@ -59,20 +51,7 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(left: 4, bottom: 8, top: 16),
-                    child: Text(
-                      'Have you marked your workers attendance today',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: AppTheme.fontName,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                          letterSpacing: -0.1,
-                          color: heading ? AppTheme.primaryColor : Colors.red),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 4, bottom: 8, top: 16),
+                    padding: EdgeInsets.only(left: 4, bottom: 0, top: 16),
                     child: Text(
                       'Date',
                       textAlign: TextAlign.center,
@@ -81,7 +60,7 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
                           letterSpacing: -0.1,
-                          color: AppTheme.primaryColor.withOpacity(0.5)),
+                          color: AppTheme.secondaryColor.withOpacity(0.5)),
                     ),
                   ),
                   Row(
@@ -103,7 +82,7 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                                 fontFamily: AppTheme.fontName,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 22,
-                                color: AppTheme.primaryColor,
+                                color: AppTheme.secondaryColor,
                               ),
                             ),
                           ),
@@ -117,7 +96,7 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18,
                                 letterSpacing: -0.2,
-                                color: AppTheme.primaryColor,
+                                color: AppTheme.secondaryColor,
                               ),
                             ),
                           ),
@@ -132,7 +111,7 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                             children: <Widget>[
                               Icon(
                                 Icons.access_time,
-                                color: AppTheme.primaryColor.withOpacity(0.5),
+                                color: AppTheme.secondaryColor.withOpacity(0.5),
                                 size: 16,
                               ),
                               Padding(
@@ -145,8 +124,8 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                     letterSpacing: 0.0,
-                                    color:
-                                        AppTheme.primaryColor.withOpacity(0.5),
+                                    color: AppTheme.secondaryColor
+                                        .withOpacity(0.5),
                                   ),
                                 ),
                               ),
@@ -175,7 +154,7 @@ class _AttendanceTileView extends State<AttendanceTileView> {
                                   fontWeight: FontWeight.w500,
                                   fontSize: 12,
                                   letterSpacing: 0.0,
-                                  color: AppTheme.primaryColor,
+                                  color: AppTheme.secondaryColor,
                                 ),
                               ),
                             ),

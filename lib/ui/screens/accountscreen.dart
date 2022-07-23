@@ -25,6 +25,11 @@ class _AccountScreenState extends State<AccountScreen> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   void addAllListData() {
     listViews.add(
       Padding(
@@ -36,15 +41,17 @@ class _AccountScreenState extends State<AccountScreen> {
             decoration: BoxDecoration(
               color: AppTheme.logoColor,
               borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15.0),
-                  bottomLeft: Radius.circular(15.0),
-                  bottomRight: Radius.circular(15.0),
-                  topRight: Radius.circular(15.0)),
+                topLeft: Radius.circular(15.0),
+                bottomLeft: Radius.circular(15.0),
+                bottomRight: Radius.circular(15.0),
+                topRight: Radius.circular(15.0),
+              ),
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                    color: AppTheme.grey.withOpacity(0.2),
-                    offset: const Offset(1.1, 1.1),
-                    blurRadius: 10.0),
+                  color: AppTheme.grey.withOpacity(0.2),
+                  offset: const Offset(1.1, 1.1),
+                  blurRadius: 10.0,
+                ),
               ],
             ),
             child: Column(
@@ -102,12 +109,12 @@ class _AccountScreenState extends State<AccountScreen> {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                            color: AppTheme.dark_grey.withOpacity(0.07),
+                            color: AppTheme.grey.withOpacity(0.07),
                             offset: const Offset(0, 0.5),
                             spreadRadius: 3,
                             blurRadius: 10)
                       ],
-                      color: AppTheme.background,
+                      color: AppTheme.primaryColor,
                       borderRadius: const BorderRadius.all(
                         Radius.circular(54),
                       ),
@@ -296,29 +303,27 @@ class _AccountScreenState extends State<AccountScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Color(0xFFf0f0f0),
-        child: Scaffold(
-          drawer: NowDrawer(currentPage: "Account"),
-          appBar: AppBar(
-            centerTitle: true,
-            iconTheme: const IconThemeData(color: Colors.black),
-            title: Image.asset(
-              'assets/alyn logo.png',
-              fit: BoxFit.contain,
-              height: 40,
-            ),
-          ),
-          backgroundColor: Color(0xFFf0f0f0),
-          body: Stack(
-            children: <Widget>[
-              getMainListViewUI(),
-              SizedBox(
-                height: MediaQuery.of(context).padding.bottom,
-              )
-            ],
-          ),
-        ));
+    return Scaffold(
+      drawer: NowDrawer(currentPage: "Account"),
+      appBar: AppBar(
+        backgroundColor: AppTheme.appbarColor,
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: Image.asset(
+          'assets/alyn logo.png',
+          fit: BoxFit.contain,
+          height: 40,
+        ),
+      ),
+      body: Stack(
+        children: <Widget>[
+          getMainListViewUI(),
+          SizedBox(
+            height: MediaQuery.of(context).padding.bottom,
+          )
+        ],
+      ),
+    );
   }
 }
 

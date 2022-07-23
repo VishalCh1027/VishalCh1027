@@ -22,9 +22,9 @@ class _ProjectExpenseScreen extends State<ProjectExpenseScreen>
     super.initState();
   }
 
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
-    return true;
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -33,7 +33,7 @@ class _ProjectExpenseScreen extends State<ProjectExpenseScreen>
       color: AppTheme.background,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: AppTheme.background,
+          backgroundColor: AppTheme.appbarColor,
           iconTheme: const IconThemeData(color: Colors.black),
           title: Expanded(
             child: Text(
@@ -48,82 +48,50 @@ class _ProjectExpenseScreen extends State<ProjectExpenseScreen>
           create: (_) =>
               ProjectsCubit(repository: context.read<ProjectsService>())
                 ..getExpense(1),
-          child: Stack(
-            children: <Widget>[
-              ListView.builder(
-                padding: const EdgeInsets.only(),
-                itemCount: 1,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: AppTheme.primaryColor,
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color:
-                                AppTheme.grey.withOpacity(0.4 * topBarOpacity),
-                            offset: const Offset(1.1, 1.1),
-                            blurRadius: 10.0),
-                      ],
-                    ),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(left: 15, right: 15, top: 10),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width - 20,
-                        height: MediaQuery.of(context).size.height - 100,
-                        child: Column(
-                          children: [
-                            Container(
-                              decoration: const BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: AppTheme.secondaryColor,
-                                  ),
-                                ),
-                              ),
-                              child: Card(
-                                margin: EdgeInsets.zero,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                elevation: 0,
-                                child: ListTile(
-                                  dense: true,
-                                  title: const Text(
-                                    "Employee",
-                                    style: AppTheme.listheading,
-                                  ),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: const [
-                                      Padding(
-                                        padding: EdgeInsets.only(right: 5),
-                                        child: Center(
-                                          child: Text(
-                                            "Amount",
-                                            style: AppTheme.listheading,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                                child: Column(children: [ExpenseListView()]))
-                          ],
-                        ),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: AppTheme.secondaryColor,
                       ),
                     ),
-                  );
-                },
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).padding.bottom,
-              )
-            ],
+                  ),
+                  child: Card(
+                    margin: EdgeInsets.zero,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    elevation: 0,
+                    child: ListTile(
+                      dense: true,
+                      title: const Text(
+                        "Employee",
+                        style: AppTheme.listheading,
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.only(right: 5),
+                            child: Center(
+                              child: Text(
+                                "Amount",
+                                style: AppTheme.listheading,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(child: ExpenseListView()),
+              ],
+            ),
           ),
         ),
       ),
@@ -159,65 +127,63 @@ class _buildlist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        itemCount: expenses.length,
-        itemBuilder: (context, index) {
-          return Container(
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Color(0xFFEEEEEE),
-                ),
+    return ListView.builder(
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
+      itemCount: expenses.length,
+      itemBuilder: (context, index) {
+        return Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(
+                color: Color(0xFFEEEEEE),
               ),
             ),
-            child: Card(
-              margin: EdgeInsets.zero,
-              elevation: 0,
-              child: ListTile(
-                onTap: () {},
-                title: SizedBox(
+          ),
+          child: Card(
+            margin: EdgeInsets.zero,
+            elevation: 0,
+            child: ListTile(
+              onTap: () {},
+              title: SizedBox(
+                child: Text(
+                  expenses[index].employee!.firstName! +
+                      " " +
+                      expenses[index].employee!.lastName!,
+                  maxLines: 2,
+                  style: AppTheme.body1,
+                ),
+              ),
+              subtitle: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Reference No.:" +
+                        (expenses[index].referenceNumber ?? "NA"),
+                    style: AppTheme.caption,
+                  ),
+                  Text(
+                    "invoice No.: " + (expenses[index].invoiceNumber ?? "NA"),
+                    style: AppTheme.caption,
+                  ),
+                ],
+              ),
+              trailing: Container(
+                width: 120,
+                child: Align(
+                  alignment: Alignment.centerRight,
                   child: Text(
-                    expenses[index].employee!.firstName! +
-                        " " +
-                        expenses[index].employee!.lastName!,
-                    maxLines: 2,
+                    expenses[index].amount?.toString() ?? "NA",
+                    overflow: TextOverflow.visible,
                     style: AppTheme.body1,
                   ),
                 ),
-                subtitle: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Reference No.:" +
-                          (expenses[index].referenceNumber ?? "NA"),
-                      style: AppTheme.caption,
-                    ),
-                    Text(
-                      "invoice No.: " + (expenses[index].invoiceNumber ?? "NA"),
-                      style: AppTheme.caption,
-                    ),
-                  ],
-                ),
-                trailing: Container(
-                  width: 120,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      expenses[index].amount?.toString() ?? "NA",
-                      overflow: TextOverflow.visible,
-                      style: AppTheme.body1,
-                    ),
-                  ),
-                ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

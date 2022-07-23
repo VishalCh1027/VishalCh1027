@@ -26,13 +26,13 @@ class DrawerTile extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                   color: isSelected
-                      ? AppTheme.dark_grey.withOpacity(0.07)
+                      ? AppTheme.grey.withOpacity(0.07)
                       : Colors.transparent,
                   offset: const Offset(0, 0.5),
                   spreadRadius: 3,
                   blurRadius: 10)
             ],
-            color: isSelected ? AppTheme.secondaryColor : AppTheme.background,
+            color: isSelected ? AppTheme.secondaryColor : AppTheme.primaryColor,
             borderRadius: const BorderRadius.all(
               Radius.circular(54),
             ),
@@ -42,7 +42,7 @@ class DrawerTile extends StatelessWidget {
               Icon(icon,
                   size: 18,
                   color: isSelected
-                      ? AppTheme.background
+                      ? AppTheme.primaryColor
                       : AppTheme.secondaryColor.withOpacity(0.6)),
               Padding(
                 padding: const EdgeInsets.only(left: 8.0),
@@ -52,7 +52,7 @@ class DrawerTile extends StatelessWidget {
                         fontSize: 15,
                         fontWeight: FontWeight.w200,
                         color: isSelected
-                            ? AppTheme.background
+                            ? AppTheme.primaryColor
                             : AppTheme.secondaryColor.withOpacity(0.8))),
               )
             ],

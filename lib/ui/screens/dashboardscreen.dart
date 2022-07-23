@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_application/apptheme/app_theme.dart';
 import 'package:my_application/ui/screens/project_screens/projectlistscreen.dart';
-import 'package:my_application/ui/screens/purchasesscreen.dart';
 import 'package:my_application/ui/widgets/RequestsView.dart';
 import 'package:my_application/ui/widgets/attendance_tile.dart';
 import 'package:my_application/ui/widgets/drawer.dart';
@@ -63,24 +62,13 @@ class _DashboardScreen extends State<DashboardScreen>
     );
     listViews.add(
       TitleView(
-        titleTxt: 'Requests',
+        titleTxt: 'Purchase Requests',
         subTxt: 'View All',
-        trailingAction: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => PurchasesScreen()),
-          );
-        },
       ),
     );
     listViews.add(
       RequetsView(
-        Action: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => PurchasesScreen()),
-          );
-        },
+        Action: () {},
       ),
     );
     listViews.add(
@@ -111,9 +99,9 @@ class _DashboardScreen extends State<DashboardScreen>
     );
   }
 
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 50));
-    return true;
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -123,7 +111,7 @@ class _DashboardScreen extends State<DashboardScreen>
       child: Scaffold(
         drawer: NowDrawer(currentPage: "Dashboard"),
         appBar: AppBar(
-          backgroundColor: AppTheme.nearlyWhite,
+          backgroundColor: AppTheme.appbarColor,
           centerTitle: true,
           iconTheme: IconThemeData(color: Colors.black),
           title: Image.asset(
@@ -146,25 +134,16 @@ class _DashboardScreen extends State<DashboardScreen>
   }
 
   Widget getMainListViewUI() {
-    return FutureBuilder<bool>(
-      future: getData(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (!snapshot.hasData) {
-          return const SizedBox();
-        } else {
-          return ListView.builder(
-            controller: scrollController,
-            padding: EdgeInsets.only(
-              top: 20,
-              bottom: MediaQuery.of(context).padding.bottom,
-            ),
-            itemCount: listViews.length,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, int index) {
-              return listViews[index];
-            },
-          );
-        }
+    return ListView.builder(
+      controller: scrollController,
+      padding: EdgeInsets.only(
+        top: 20,
+        bottom: MediaQuery.of(context).padding.bottom,
+      ),
+      itemCount: listViews.length,
+      scrollDirection: Axis.vertical,
+      itemBuilder: (BuildContext context, int index) {
+        return listViews[index];
       },
     );
   }

@@ -182,7 +182,7 @@ class _ProjectScreen extends State<ProjectScreen>
       color: AppTheme.background,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: AppTheme.background,
+          backgroundColor: AppTheme.appbarColor,
           iconTheme: const IconThemeData(color: Colors.black),
           title: const Expanded(
             child: Text(
@@ -200,7 +200,7 @@ class _ProjectScreen extends State<ProjectScreen>
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: AppTheme.secondaryColor.withOpacity(0.1),
+                  color: AppTheme.primaryColor,
                   boxShadow: <BoxShadow>[
                     BoxShadow(
                         color: AppTheme.grey.withOpacity(0.4 * topBarOpacity),

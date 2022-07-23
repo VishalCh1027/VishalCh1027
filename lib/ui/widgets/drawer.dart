@@ -19,7 +19,7 @@ class NowDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
         child: Container(
-      color: AppTheme.background,
+      color: AppTheme.primaryColor,
       child: Column(children: [
         //Header Section
         Container(
@@ -101,7 +101,10 @@ class NowDrawer extends StatelessWidget {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const PurchasesScreen()),
+                          builder: (context) => const PurchasesScreen(
+                            state: 1,
+                          ),
+                        ),
                       );
                     }
                   },
